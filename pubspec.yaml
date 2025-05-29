@@ -1,0 +1,35 @@
+name: math_guru
+description: A smart mobile app for learning and practicing mathematics.
+publish_to: 'none' # This is a private project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.1.0
+  flutter_riverpod: ^2.6.1 # State management (recommended modern provider)
+  go_router: ^13.2.0
+  firebase_core: ^3.13.1 # For Firebase initialization
+  firebase_auth: ^5.5.4
+  google_sign_in: ^6.3.0
+  flutter_animate: ^4.3.0
+  shared_preferences: ^2.5.3
+  cupertino_icons: ^1.0.8
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  flutter_native_splash: ^2.4.6
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/

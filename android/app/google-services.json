@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "217703973724",
+    "project_id": "math-guru-f8ba2",
+    "storage_bucket": "math-guru-f8ba2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217703973724:android:15066748812fbc366db799",
+        "android_client_info": {
+          "package_name": "com.example.math_guru"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzJJ_kJiDxA9WDglbVpNgeH3ePQnhwyuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
