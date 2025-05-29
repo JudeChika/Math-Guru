@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/provider/onboarding_provider.dart';
 
@@ -90,10 +91,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             /// Show Proceed button on last page
             if (_currentIndex == _pages.length - 1)
               ElevatedButton(
-                onPressed: () {
-                  ref
+                onPressed: () async {
+                  await ref
                       .read(onboardingSeenNotifierProvider.notifier)
-                      .complete(context);
+                      .complete();
+                  if (mounted) {
+                    context.go('/auth');
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   padding:

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
@@ -21,6 +22,9 @@ class AuthController {
   }) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      // Mark that user has just signed up
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('just_signed_up', true);
       return null; // success
     } on FirebaseAuthException catch (e) {
       return e.message;

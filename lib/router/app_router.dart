@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/provider/auth_state_provider.dart';
 import '../core/provider/onboarding_provider.dart';
@@ -16,7 +17,7 @@ import '../features/onboarding/onboarding_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
-  final onboardingSeen = ref.watch(onboardingSeenProvider);
+  final onboardingSeen = ref.watch(onboardingSeenNotifierProvider);
 
   return GoRouter(
     initialLocation: '/onboarding',
@@ -31,33 +32,53 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/sign-in', builder: (_, __) => const SignInScreen()),
       GoRoute(path: '/home', builder: (_, __) => const MyHomePage()),
     ],
-    redirect: (context, state) {
+    redirect: (context, state) async {
+      if (onboardingSeen == null) return null;
+
       final user = authState.asData?.value;
-      final hasSeenOnboarding = onboardingSeen.asData?.value ?? false;
       final location = state.uri.toString();
 
       final isAuthRoute = location == '/sign-in' ||
           location == '/sign-up' ||
-          location == '/auth' ||
-          location == '/success';
+          location == '/auth';
 
-      if (!hasSeenOnboarding && location != '/onboarding') {
+      // Onboarding not seen
+      if (!onboardingSeen && location != '/onboarding') {
         return '/onboarding';
       }
 
-      if (user == null) {
+      // Check just_signed_up flag
+      final prefs = await SharedPreferences.getInstance();
+      final justSignedUp = prefs.getBool('just_signed_up') ?? false;
+
+      // Only redirect to /success if NOT already there
+      if (justSignedUp && location != '/success') {
+        return '/success';
+      }
+
+      // If on /success and unauthenticated, go to sign-in (never /auth)
+      if (onboardingSeen && user == null && location == '/success') {
+        return '/sign-in';
+      }
+
+      // Not authenticated
+      if (onboardingSeen && user == null) {
+        if (location == '/onboarding') return '/auth'; // Only onboarding goes to auth
+        // Don't redirect from sign-in, sign-up, auth, or onboarding
         return isAuthRoute || location == '/onboarding' ? null : '/sign-in';
       }
 
-      if ((isAuthRoute || location == '/onboarding')) {
-        return '/home';
+      // Authenticated
+      if (onboardingSeen && user != null) {
+        if (location == '/onboarding' || isAuthRoute) {
+          return '/home';
+        }
       }
 
       return null;
     },
   );
 });
-
 
 // Helper to notify GoRouter when auth changes
 class GoRouterRefreshStream extends ChangeNotifier {
