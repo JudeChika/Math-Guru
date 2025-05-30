@@ -12,6 +12,7 @@ import '../features/auth/auth_screen.dart';
 import '../features/auth/sign_in_screen.dart';
 import '../features/auth/sign_up_screen.dart';
 import '../features/auth/success_screen.dart';
+import '../features/auth/email_verification_screen.dart';
 import '../features/home/home_page.dart';
 import '../features/onboarding/onboarding_screen.dart';
 
@@ -28,6 +29,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/onboarding', builder: (_, __) => const OnboardingScreen()),
       GoRoute(path: '/auth', builder: (_, __) => const AuthScreen()),
       GoRoute(path: '/sign-up', builder: (_, __) => const SignUpScreen()),
+      GoRoute(path: '/verify-email', builder: (_, __) => const EmailVerificationScreen()),
       GoRoute(path: '/success', builder: (_, __) => const SuccessScreen()),
       GoRoute(path: '/sign-in', builder: (_, __) => const SignInScreen()),
       GoRoute(path: '/home', builder: (_, __) => const MyHomePage()),
@@ -47,32 +49,43 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         return '/onboarding';
       }
 
-      // Check just_signed_up flag
-      final prefs = await SharedPreferences.getInstance();
-      final justSignedUp = prefs.getBool('just_signed_up') ?? false;
-
-      // Only redirect to /success if NOT already there
-      if (justSignedUp && location != '/success') {
+      // Email verification step for signed-in, unverified users
+      if (user != null && !user.emailVerified && location != '/verify-email') {
+        return '/verify-email';
+      }
+      if (user != null && user.emailVerified && location == '/verify-email') {
         return '/success';
       }
 
-      // If on /success and unauthenticated, go to sign-in (never /auth)
-      if (onboardingSeen && user == null && location == '/success') {
+      // Show success screen for unauthenticated users if flag is set
+      final prefs = await SharedPreferences.getInstance();
+      final showSuccessScreen = prefs.getBool('show_success_screen') ?? false;
+      if (showSuccessScreen) {
+        // Only redirect to /success if not already there
+        if (location != '/success') {
+          return '/success';
+        }
+        // If already on /success, do NOT redirect further!
+        return null;
+      }
+      // If on /success but flag not set, go to sign-in (prevents direct access)
+      if (location == '/success' && !showSuccessScreen) {
         return '/sign-in';
       }
 
       // Not authenticated
       if (onboardingSeen && user == null) {
-        if (location == '/onboarding') return '/auth'; // Only onboarding goes to auth
-        // Don't redirect from sign-in, sign-up, auth, or onboarding
-        return isAuthRoute || location == '/onboarding' ? null : '/sign-in';
+        if (location == '/onboarding') return '/auth';
+        if (isAuthRoute || location == '/onboarding') return null;
+        return '/sign-in';
       }
 
-      // Authenticated
-      if (onboardingSeen && user != null) {
+      // Authenticated & verified
+      if (onboardingSeen && user != null && user.emailVerified) {
         if (location == '/onboarding' || isAuthRoute) {
           return '/home';
         }
+        return null;
       }
 
       return null;

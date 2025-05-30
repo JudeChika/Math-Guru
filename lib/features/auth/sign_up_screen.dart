@@ -48,7 +48,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
-                    onPressed: () => context.go('/Auth'),
+                    onPressed: () => context.go('/auth'),
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
                   const SizedBox(height: 30),
@@ -155,7 +155,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         if (error != null) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
                         } else {
-                          context.go('/success');
+                          context.go('/verify-email');
                         }
                       },
                       width: 200,
@@ -170,7 +170,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
   }
 }
-
 
 class _CustomTextField extends StatelessWidget {
   final String hintText;
@@ -203,4 +202,3 @@ class _CustomTextField extends StatelessWidget {
     );
   }
 }
-

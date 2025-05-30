@@ -21,10 +21,14 @@ class AuthController {
     required String password,
   }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      // Mark that user has just signed up
+      final userCred = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      if (!userCred.user!.emailVerified) {
+        await userCred.user!.sendEmailVerification();
+      }
+      // Mark that user just registered and should verify email
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('just_signed_up', true);
+      await prefs.setBool('email_verification_pending', true);
       return null; // success
     } on FirebaseAuthException catch (e) {
       return e.message;
@@ -38,7 +42,13 @@ class AuthController {
     required String password,
   }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final userCred = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (!userCred.user!.emailVerified) {
+        // Don't allow sign-in if not verified
+        await _auth.signOut();
+        return "Please verify your email address before signing in.";
+      }
       return null; // success
     } on FirebaseAuthException catch (e) {
       return e.message;

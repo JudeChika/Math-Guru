@@ -19,12 +19,10 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
   Future<void> _handleSuccess() async {
     await Future.delayed(const Duration(seconds: 3));
-    // Remove the flag first!
+    // Remove the flag so user can't revisit success screen
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('just_signed_up');
-    // Sign out
-    await FirebaseAuth.instance.signOut();
-    // Now navigate
+    await prefs.remove('show_success_screen');
+    await FirebaseAuth.instance.signOut(); // just in case
     if (mounted) {
       context.go('/sign-in');
     }
@@ -37,12 +35,27 @@ class _SuccessScreenState extends State<SuccessScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center, // <-- centralise content horizontally
           children: [
             Image.asset('assets/images/success.gif', height: 250),
             const SizedBox(height: 20),
-            const Text("Account created successfully!", style: TextStyle(fontSize: 18, fontFamily: "Poppins")),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: Text(
+                "Account created and verified successfully!",
+                style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                textAlign: TextAlign.center, // <-- centralise text
+              ),
+            ),
             const SizedBox(height: 12),
-            const Text("Redirecting to sign in...", style: TextStyle(fontSize: 14, color: Colors.grey)),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: Text(
+                "Redirecting to sign in...",
+                style: TextStyle(fontSize: 14, color: Colors.grey, fontFamily: "Poppins"),
+                textAlign: TextAlign.center, // <-- centralise text
+              ),
+            ),
           ],
         ),
       ),
