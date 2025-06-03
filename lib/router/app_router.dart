@@ -32,7 +32,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/verify-email', builder: (_, __) => const EmailVerificationScreen()),
       GoRoute(path: '/success', builder: (_, __) => const SuccessScreen()),
       GoRoute(path: '/sign-in', builder: (_, __) => const SignInScreen()),
-      GoRoute(path: '/home', builder: (_, __) => const MyHomePage()),
+      GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
     ],
     redirect: (context, state) async {
       if (onboardingSeen == null) return null;
