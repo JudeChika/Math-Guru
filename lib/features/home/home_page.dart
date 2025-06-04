@@ -90,7 +90,6 @@ class _HomeSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
       child: Column(
