@@ -7,7 +7,7 @@ import 'senior_section.dart';
 import 'profile_section.dart';
 
 // Dummy data for user (replace with your own user provider or model)
-const String userFullName = "Jude Chika";
+const String userFullName = "Jude Chika Onwumere";
 const String profileImageAsset = 'assets/images/JAY_2589_transcpr_1.jpg'; // Place a default image asset here
 
 /// Provider to manage the current home tab index
@@ -97,39 +97,53 @@ class _HomeSection extends ConsumerWidget {
         children: [
           const _HomeAppBar(),
           const SizedBox(height: 18),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 54,
-                height: 54,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    profileImageAsset,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // To prevent overflow, use Flexible and add max width
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Welcome", style: textTheme.bodySmall?.copyWith(color: Colors.white70)),
-                  Text(
-                    userFullName,
-                    style: textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    width: 54,
+                    height: 54,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
                       color: Colors.white,
-                      fontSize: 24,
+                    ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        profileImageAsset,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Prevent overflow by using Flexible and ellipsis
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Welcome",
+                          style: textTheme.bodySmall?.copyWith(
+                              color: Colors.white70, fontSize: 13),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          userFullName,
+                          style: textTheme.displayLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                   ),
                 ],
-              ),
-            ],
+              );
+            },
           ),
           const SizedBox(height: 70),
           Text(
@@ -236,25 +250,30 @@ class _CategoryCard extends StatelessWidget {
                 child: Icon(icon, color: iconColor, size: 36),
               ),
               const SizedBox(width: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
-                      fontSize: 22,
+              // Prevent overflow by using Flexible and ellipsis
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                        fontSize: 22,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.purple,
-                      fontSize: 15,
+                    Text(
+                      subtitle,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.purple,
+                        fontSize: 15,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
@@ -264,6 +283,22 @@ class _CategoryCard extends StatelessWidget {
   }
 }
 
+// Dummy CircleContainer for background
+class CircleContainer extends StatelessWidget {
+  final Color color;
+  final double size;
+  const CircleContainer({required this.color, required this.size, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration:
+      BoxDecoration(shape: BoxShape.circle, color: color.withOpacity(0.7)),
+    );
+  }
+}
 
 // Background Layer
 class BackgroundWaves extends StatelessWidget {

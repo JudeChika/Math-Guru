@@ -15,6 +15,10 @@ class AppThemes {
         fontSize: 16,
         color: Colors.black87,
       ),
+      bodySmall: GoogleFonts.poppins(
+        fontSize: 10,
+        color: Colors.black87,
+      ),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -40,6 +44,10 @@ class AppThemes {
       bodyMedium: GoogleFonts.poppins(
         fontSize: 16,
         color: Colors.white,
+      ),
+      bodySmall: GoogleFonts.poppins(
+        fontSize: 10,
+        color: Colors.black87,
       ),
     ),
     appBarTheme: AppBarTheme(
