@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../auth/auth_screen.dart';
 import 'junior_section.dart';
 import 'senior_section.dart';
 import 'profile_section.dart';
 
-// Dummy data for user (replace with your own user provider or model)
-const String userFullName = "Jude Chika Onwumere";
-const String profileImageAsset = 'assets/images/JAY_2589_transcpr_1.jpg'; // Place a default image asset here
-
-/// Provider to manage the current home tab index
+// Riverpod provider to manage the current home tab index
 final homeTabIndexProvider = StateProvider<int>((ref) => 0);
 
 class HomeScreen extends ConsumerWidget {
@@ -90,6 +87,9 @@ class _HomeSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
+    final user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
       child: Column(
@@ -97,54 +97,110 @@ class _HomeSection extends ConsumerWidget {
         children: [
           const _HomeAppBar(),
           const SizedBox(height: 18),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              // To prevent overflow, use Flexible and add max width
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 54,
-                    height: 54,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: ClipOval(
-                      child: Image.asset(
-                        profileImageAsset,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  // Prevent overflow by using Flexible and ellipsis
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          if (uid != null)
+            FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
+              builder: (context, snapshot) {
+                final data = snapshot.data?.data() as Map<String, dynamic>? ?? {};
+                final String? profileImageUrl = data['profileImageUrl'];
+                final String fullName = data['name'] ?? "User";
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Welcome",
-                          style: textTheme.bodySmall?.copyWith(
-                              color: Colors.white70, fontSize: 13),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          userFullName,
-                          style: textTheme.displayLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          width: 54,
+                          height: 54,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
                             color: Colors.white,
-                            fontSize: 24,
                           ),
-                          overflow: TextOverflow.ellipsis,
+                          child: ClipOval(
+                            child: profileImageUrl != null && profileImageUrl.isNotEmpty
+                                ? Image.network(profileImageUrl, fit: BoxFit.cover)
+                                : Image.asset(
+                              'assets/images/profile_icon.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Welcome",
+                                style: textTheme.bodySmall?.copyWith(
+                                    color: Colors.white70, fontSize: 13),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                fullName,
+                                style: textTheme.displayLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
+                    );
+                  },
+                );
+              },
+            )
+          else
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 54,
+                      height: 54,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/JAY_2589_transcpr_1.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
-          ),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome",
+                            style: textTheme.bodySmall?.copyWith(
+                                color: Colors.white70, fontSize: 13),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            "User",
+                            style: textTheme.displayLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           const SizedBox(height: 70),
           Text(
             "Categories",
@@ -250,7 +306,6 @@ class _CategoryCard extends StatelessWidget {
                 child: Icon(icon, color: iconColor, size: 36),
               ),
               const SizedBox(width: 18),
-              // Prevent overflow by using Flexible and ellipsis
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
