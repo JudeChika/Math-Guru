@@ -14,6 +14,8 @@ import '../features/auth/sign_up_screen.dart';
 import '../features/auth/success_screen.dart';
 import '../features/auth/email_verification_screen.dart';
 import '../features/home/home_page.dart';
+import '../features/jss1/jss1_topic_detail_screen.dart';
+import '../features/jss1/jss1_topics_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -33,6 +35,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/success', builder: (_, __) => const SuccessScreen()),
       GoRoute(path: '/sign-in', builder: (_, __) => const SignInScreen()),
       GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
+      GoRoute(
+        path: '/jss1',
+        builder: (_, __) => const Jss1TopicsScreen(),
+      ),
+      GoRoute(
+        path: '/jss1-topic/:topic/:topicNumber',
+        builder: (context, state) {
+          final topic = Uri.decodeComponent(state.pathParameters['topic']!);
+          final topicNumber = int.tryParse(state.pathParameters['topicNumber'] ?? '1') ?? 1;
+          return Jss1TopicDetailScreen(topic: topic, topicNumber: topicNumber);
+        },
+      ),
     ],
     redirect: (context, state) async {
       if (onboardingSeen == null) return null;

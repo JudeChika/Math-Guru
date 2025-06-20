@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'home_page.dart';
 
 class JuniorSection extends ConsumerWidget {
@@ -33,7 +34,9 @@ class JuniorSection extends ConsumerWidget {
                     iconColor: Colors.purple,
                     title: "JSS 1",
                     subtitle: "Mathematics topics",
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/jss1');
+                    },
                   ),
                   const SizedBox(height: 18),
                   _CategoryCard(
