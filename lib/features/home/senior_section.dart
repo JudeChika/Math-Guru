@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'home_page.dart';
 
@@ -34,7 +35,9 @@ class SeniorSection extends ConsumerWidget {
                     iconColor: Colors.purple,
                     title: "SSS 1",
                     subtitle: "Mathematics topics",
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/sss1');
+                    },
                   ),
                   const SizedBox(height: 18),
                   _CategoryCard(
@@ -42,7 +45,9 @@ class SeniorSection extends ConsumerWidget {
                     iconColor: Colors.purple,
                     title: "SSS 2",
                     subtitle: "Mathematics topics",
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/sss2');
+                    },
                   ),
                   const SizedBox(height: 18),
                   _CategoryCard(
@@ -50,7 +55,9 @@ class SeniorSection extends ConsumerWidget {
                     iconColor: Colors.purple,
                     title: "SSS 3",
                     subtitle: "Mathematics topics",
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/sss3');
+                    },
                   ),
                 ],
               ),

@@ -44,7 +44,9 @@ class JuniorSection extends ConsumerWidget {
                     iconColor: Colors.purple,
                     title: "JSS 2",
                     subtitle: "Mathematics topics",
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/jss2');
+                    },
                   ),
                   const SizedBox(height: 18),
                   _CategoryCard(
@@ -52,7 +54,9 @@ class JuniorSection extends ConsumerWidget {
                     iconColor: Colors.purple,
                     title: "JSS 3",
                     subtitle: "Mathematics topics",
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/jss3');
+                    },
                   ),
                 ],
               ),

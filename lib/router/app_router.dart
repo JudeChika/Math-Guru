@@ -14,9 +14,19 @@ import '../features/auth/sign_up_screen.dart';
 import '../features/auth/success_screen.dart';
 import '../features/auth/email_verification_screen.dart';
 import '../features/home/home_page.dart';
-import '../features/jss1/jss1_topic_detail_screen.dart';
-import '../features/jss1/jss1_topics_screen.dart';
+import '../features/junior secondary/jss1/jss1_topic_detail_screen.dart';
+import '../features/junior secondary/jss1/jss1_topics_screen.dart';
+import '../features/junior secondary/jss2/jss2_topic_detail_screen.dart';
+import '../features/junior secondary/jss2/jss2_topics_screen.dart';
+import '../features/junior secondary/jss3/jss3_topic_detail_screen.dart';
+import '../features/junior secondary/jss3/jss3_topics_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
+import '../features/senior secondary/sss1/sss1_topic_detail_screen.dart';
+import '../features/senior secondary/sss1/sss1_topics_screen.dart';
+import '../features/senior secondary/sss2/sss2_topic_detail_screen.dart';
+import '../features/senior secondary/sss2/sss2_topics_screen.dart';
+import '../features/senior secondary/sss3/sss3_topic_detail_screen.dart';
+import '../features/senior secondary/sss3/sss3_topics_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
@@ -35,18 +45,42 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/success', builder: (_, __) => const SuccessScreen()),
       GoRoute(path: '/sign-in', builder: (_, __) => const SignInScreen()),
       GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
-      GoRoute(
-        path: '/jss1',
-        builder: (_, __) => const Jss1TopicsScreen(),
-      ),
-      GoRoute(
-        path: '/jss1-topic/:topic/:topicNumber',
-        builder: (context, state) {
+      GoRoute(path: '/jss1', builder: (_, __) => const Jss1TopicsScreen()),
+      GoRoute(path: '/jss2', builder: (_, __) => const Jss2TopicsScreen()),
+      GoRoute(path: '/jss3', builder: (_, __) => const Jss3TopicsScreen()),
+      GoRoute(path: '/sss1', builder: (_, __) => const Sss1TopicsScreen()),
+      GoRoute(path: '/sss2', builder: (_, __) => const Sss2TopicsScreen()),
+      GoRoute(path: '/sss3', builder: (_, __) => const Sss3TopicsScreen()),
+      GoRoute(path: '/jss1-topic/:topic/:subtopic', builder: (context, state) {
           final topic = Uri.decodeComponent(state.pathParameters['topic']!);
-          final topicNumber = int.tryParse(state.pathParameters['topicNumber'] ?? '1') ?? 1;
-          return Jss1TopicDetailScreen(topic: topic, topicNumber: topicNumber);
-        },
-      ),
+          final subtopic = Uri.decodeComponent(state.pathParameters['subtopic']!);
+          return Jss1TopicDetailScreen(topic: topic, subtopic: subtopic);
+        }),
+      GoRoute(path: '/jss2-topic/:topic/:subtopic', builder: (context, state) {
+          final topic = Uri.decodeComponent(state.pathParameters['topic']!);
+          final subtopic = Uri.decodeComponent(state.pathParameters['subtopic']!);
+          return Jss2TopicDetailScreen(topic: topic, subtopic: subtopic);
+        }),
+      GoRoute(path: '/jss3-topic/:topic/:subtopic', builder: (context, state) {
+          final topic = Uri.decodeComponent(state.pathParameters['topic']!);
+          final subtopic = Uri.decodeComponent(state.pathParameters['subtopic']!);
+          return Jss3TopicDetailScreen(topic: topic, subtopic: subtopic);
+        }),
+      GoRoute(path: '/sss1-topic/:topic/:subtopic', builder: (context, state) {
+          final topic = Uri.decodeComponent(state.pathParameters['topic']!);
+          final subtopic = Uri.decodeComponent(state.pathParameters['subtopic']!);
+          return Sss1TopicDetailScreen(topic: topic, subtopic: subtopic);
+        }),
+      GoRoute(path: '/sss2-topic/:topic/:subtopic', builder: (context, state) {
+          final topic = Uri.decodeComponent(state.pathParameters['topic']!);
+          final subtopic = Uri.decodeComponent(state.pathParameters['subtopic']!);
+          return Sss2TopicDetailScreen(topic: topic, subtopic: subtopic);
+        }),
+      GoRoute(path: '/sss3-topic/:topic/:subtopic', builder: (context, state) {
+          final topic = Uri.decodeComponent(state.pathParameters['topic']!);
+          final subtopic = Uri.decodeComponent(state.pathParameters['subtopic']!);
+          return Sss3TopicDetailScreen(topic: topic, subtopic: subtopic);
+        }),
     ],
     redirect: (context, state) async {
       if (onboardingSeen == null) return null;

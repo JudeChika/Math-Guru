@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Jss1TopicDetailScreen extends StatelessWidget {
+class Sss2TopicDetailScreen extends StatelessWidget {
   final String topic;
-  final int topicNumber;
-  const Jss1TopicDetailScreen({
+  final String subtopic;
+  const Sss2TopicDetailScreen({
     super.key,
     required this.topic,
-    required this.topicNumber,
+    required this.subtopic,
   });
 
   @override
@@ -14,14 +14,15 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text('$topic - Topic $topicNumber'),
+        title: Text('$topic - $subtopic'),
       ),
       body: Center(
         child: Text(
-          'Content for $topic\nTopic $topicNumber',
+          'Content for $topic\n$subtopic',
           style: textTheme.titleLarge?.copyWith(
             color: Colors.deepPurple,
             fontWeight: FontWeight.bold,
+            fontFamily: "Poppins",
           ),
           textAlign: TextAlign.center,
         ),
