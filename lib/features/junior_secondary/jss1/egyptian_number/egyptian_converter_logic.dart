@@ -14,7 +14,7 @@ class EgyptianConverter {
       int count = remaining ~/ symbol.value;
       counts[i] = count;
       if (count > 0) {
-        resultBuffer.write(List.filled(count, symbol.label).join(", ") + "; ");
+        resultBuffer.write("${List.filled(count, symbol.label).join(", ")}; ");
         steps.add(
           EgyptianConversionStep(
             description:

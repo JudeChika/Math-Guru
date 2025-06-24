@@ -1,0 +1,22 @@
+class PlaceValueCategory {
+  final String label;
+  final int value; // e.g. 1000000 for Million
+
+  const PlaceValueCategory({required this.label, required this.value});
+}
+
+const List<PlaceValueCategory> placeValueCategories = [
+  PlaceValueCategory(label: 'Trillion', value: 1000000000000),
+  PlaceValueCategory(label: 'Hundred Billion', value: 100000000000),
+  PlaceValueCategory(label: 'Ten Billion', value: 10000000000),
+  PlaceValueCategory(label: 'Billion', value: 1000000000),
+  PlaceValueCategory(label: 'Hundred Million', value: 100000000),
+  PlaceValueCategory(label: 'Ten Million', value: 10000000),
+  PlaceValueCategory(label: 'Million', value: 1000000),
+  PlaceValueCategory(label: 'Hundred Thousand', value: 100000),
+  PlaceValueCategory(label: 'Ten Thousand', value: 10000),
+  PlaceValueCategory(label: 'Thousand', value: 1000),
+  PlaceValueCategory(label: 'Hundred', value: 100),
+  PlaceValueCategory(label: 'Ten', value: 10),
+  PlaceValueCategory(label: 'One', value: 1),
+];
