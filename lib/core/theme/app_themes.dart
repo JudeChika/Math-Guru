@@ -16,7 +16,7 @@ class AppThemes {
         color: Colors.black87,
       ),
       bodySmall: GoogleFonts.poppins(
-        fontSize: 10,
+        fontSize: 12,
         color: Colors.black87,
       ),
     ),

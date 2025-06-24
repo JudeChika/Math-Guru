@@ -110,7 +110,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final avatarRadius = 52.0;
+    const avatarRadius = 52.0;
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Profile')),
       body: Padding(

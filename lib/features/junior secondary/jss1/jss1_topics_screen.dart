@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 const Map<String, List<String>> jss1Topics = {
   'Numbers & Numeration': [
     'Roman Number System',
-    'Egyptian Number System',
+    'Early Egyptian Number System',
     'Hindu Number System',
     'Counting',
     'Place-value',
