@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'roman_number/roman_converter_screen.dart';
+import 'egyptian_number/egyptian_converter_screen.dart';
 
 class Jss1TopicDetailScreen extends StatelessWidget {
   final String topic;
@@ -14,9 +15,11 @@ class Jss1TopicDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    // If "Roman Number System", show the converter screen directly.
     if (subtopic == 'Roman Number System') {
       return const RomanConverterScreen();
+    }
+    if (subtopic == 'Egyptian Number System' || subtopic == 'Early Egyptian Number System') {
+      return const EgyptianConverterScreen();
     }
 
     return Scaffold(
