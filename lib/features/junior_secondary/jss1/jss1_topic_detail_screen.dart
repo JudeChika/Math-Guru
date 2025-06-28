@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'roman_number/roman_converter_screen.dart';
-import 'egyptian_number/egyptian_converter_screen.dart';
-import 'hindu_number/hindu_converter_screen.dart';
-import 'counting/counting_converter_screen.dart';
-import 'place_value/place_value_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
+import 'factors_multiples/hcf/hcf_screen.dart';
+import 'factors_multiples/lcm/lcm_screen.dart';
+import 'number_base_system/binary_counting/binary_counting_screen.dart';
+import 'numbers_and_numeration/counting/counting_converter_screen.dart';
+import 'numbers_and_numeration/egyptian_number/egyptian_converter_screen.dart';
+import 'numbers_and_numeration/hindu_number/hindu_converter_screen.dart';
+import 'numbers_and_numeration/place_value/place_value_screen.dart';
+import 'numbers_and_numeration/roman_number/roman_converter_screen.dart';
+
 
 class Jss1TopicDetailScreen extends StatelessWidget {
   final String topic;
@@ -32,6 +37,18 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Place-value') {
       return const PlaceValueScreen();
+    }
+    if (subtopic == 'LCM') {
+      return const LCMScreen();
+    }
+    if (subtopic == 'HCF') {
+      return const HCFScreen();
+    }
+    if (subtopic == 'Counting in binary') {
+      return const BinaryCountingScreen();
+    }
+    if (subtopic == 'Binary Conversion') {
+      return const BinaryConversionScreen();
     }
 
     return Scaffold(

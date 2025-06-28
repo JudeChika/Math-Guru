@@ -18,7 +18,7 @@ class _HinduConverterScreenState extends State<HinduConverterScreen>
   List<HinduConversionStep> _englishToHinduSteps = [];
   bool _englishToHinduValid = true;
 
-  List<String> _selectedHinduAssets = [];
+  final List<String> _selectedHinduAssets = [];
   String _hinduToEnglishResult = "";
   List<HinduConversionStep> _hinduToEnglishSteps = [];
   bool _hinduToEnglishValid = true;
@@ -227,7 +227,7 @@ class _HinduConverterScreenState extends State<HinduConverterScreen>
                               height: 38,
                             ),
                           ),
-                          if (_selectedHinduAssets.where((e) => e == hinduSymbols[i].assetPath).length > 0)
+                          if (_selectedHinduAssets.where((e) => e == hinduSymbols[i].assetPath).isNotEmpty)
                             Positioned(
                               right: 0,
                               child: CircleAvatar(

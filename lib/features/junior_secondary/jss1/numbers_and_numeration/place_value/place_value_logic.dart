@@ -49,7 +49,7 @@ class PlaceValueLogic {
       });
       steps.add(PlaceValueConversionStep(
         description:
-        "Digit ${digit} is at position ${position} from left: ${category.label} (value ${category.value.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ',')})",
+        "Digit $digit is at position $position from left: ${category.label} (value ${category.value.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ',')})",
         resultSoFar:
         "Digit: $digit, Category: ${category.label}, Place Value: $placeValue",
       ));

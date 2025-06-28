@@ -64,7 +64,7 @@ class _PlaceValueScreenState extends State<PlaceValueScreen> {
           for (int i = 0; i < _tableRows.length; i++)
             DataRow(
               selected: _selectedIndex == i,
-              color: MaterialStateProperty.resolveWith<Color?>(
+              color: WidgetStateProperty.resolveWith<Color?>(
                     (states) => _selectedIndex == i
                     ? Colors.deepPurple.shade50
                     : Colors.grey.shade50,
@@ -89,13 +89,13 @@ class _PlaceValueScreenState extends State<PlaceValueScreen> {
                 DataCell(Text('${_tableRows[i]['position']}')),
                 DataCell(Text('${_tableRows[i]['category']}')),
                 DataCell(Text(
-                    '${_tableRows[i]['placeValue'].toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ",")}')),
+                    _tableRows[i]['placeValue'].toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ","))),
               ],
             )
         ],
-        headingRowColor: MaterialStateProperty.all(Colors.purple.shade50),
+        headingRowColor: WidgetStateProperty.all(Colors.purple.shade50),
         columnSpacing: 18,
-        dataRowColor: MaterialStateProperty.all(Colors.grey.shade50),
+        dataRowColor: WidgetStateProperty.all(Colors.grey.shade50),
       ),
     );
   }

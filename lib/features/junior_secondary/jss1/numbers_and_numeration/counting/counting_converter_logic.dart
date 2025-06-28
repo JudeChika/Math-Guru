@@ -43,27 +43,17 @@ String _simpleNumberToWords(int number) {
       return units[n];
     } else if (n < 100) {
       return tens[n ~/ 10] +
-          (n % 10 > 0 ? ' ' + units[n % 10] : '');
+          (n % 10 > 0 ? ' ${units[n % 10]}' : '');
     } else if (n < 1000) {
-      return units[n ~/ 100] +
-          ' hundred' +
-          (n % 100 > 0 ? ' ' + helper(n % 100) : '');
+      return '${units[n ~/ 100]} hundred${n % 100 > 0 ? ' ${helper(n % 100)}' : ''}';
     } else if (n < 1000000) {
-      return helper(n ~/ 1000) +
-          ' thousand' +
-          (n % 1000 > 0 ? ' ' + helper(n % 1000) : '');
+      return '${helper(n ~/ 1000)} thousand${n % 1000 > 0 ? ' ${helper(n % 1000)}' : ''}';
     } else if (n < 1000000000) {
-      return helper(n ~/ 1000000) +
-          ' million' +
-          (n % 1000000 > 0 ? ' ' + helper(n % 1000000) : '');
+      return '${helper(n ~/ 1000000)} million${n % 1000000 > 0 ? ' ${helper(n % 1000000)}' : ''}';
     } else if (n < 1000000000000) {
-      return helper(n ~/ 1000000000) +
-          ' billion' +
-          (n % 1000000000 > 0 ? ' ' + helper(n % 1000000000) : '');
+      return '${helper(n ~/ 1000000000)} billion${n % 1000000000 > 0 ? ' ${helper(n % 1000000000)}' : ''}';
     } else {
-      return helper(n ~/ 1000000000000) +
-          ' trillion' +
-          (n % 1000000000000 > 0 ? ' ' + helper(n % 1000000000000) : '');
+      return '${helper(n ~/ 1000000000000)} trillion${n % 1000000000000 > 0 ? ' ${helper(n % 1000000000000)}' : ''}';
     }
   }
 

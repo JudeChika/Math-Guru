@@ -75,9 +75,9 @@ class _CountingConverterScreenState extends State<CountingConverterScreen>
             DataCell(Text('${categoryMap[cat.label] ?? 0}')),
           ])
       ],
-      headingRowColor: MaterialStateProperty.all(Colors.purple.shade50),
+      headingRowColor: WidgetStateProperty.all(Colors.purple.shade50),
       columnSpacing: 18,
-      dataRowColor: MaterialStateProperty.all(Colors.grey.shade50),
+      dataRowColor: WidgetStateProperty.all(Colors.grey.shade50),
     );
   }
 
