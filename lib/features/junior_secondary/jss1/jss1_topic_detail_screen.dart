@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss1/fractions/mixed_improper/mixed_improper_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
 import 'factors_multiples/hcf/hcf_screen.dart';
 import 'factors_multiples/lcm/lcm_screen.dart';
@@ -49,6 +50,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Binary Conversion') {
       return const BinaryConversionScreen();
+    }
+    if (subtopic == 'Mixed Numbers & Improper Fractions') {
+      return const MixedImproperScreen();
     }
 
     return Scaffold(
