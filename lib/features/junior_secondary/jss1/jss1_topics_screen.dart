@@ -19,6 +19,8 @@ const Map<String, List<String>> jss1Topics = {
     'Binary Conversion',
   ],
   'Fractions': [
+    'Mixed Numbers & Improper Fractions',
+    'Ordering of Fractions',
     'Conversion to decimal',
     'Conversion to percentage',
     'Number line',
