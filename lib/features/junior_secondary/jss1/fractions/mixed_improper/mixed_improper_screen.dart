@@ -55,6 +55,233 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
     _tabController = TabController(length: 2, vsync: this);
   }
 
+  List<Widget> _mixedToImproperSteps(MixedToImproperResult result, ThemeData theme) {
+    final input = result.input;
+    final impNum = input.whole * input.denominator + input.numerator;
+    final textStyle = theme.textTheme.bodySmall?.copyWith(fontSize: 13);
+
+    return [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 1: Multiply ', style: textStyle),
+            Text('${input.whole}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' by ', style: textStyle),
+            Text('${input.denominator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text('= ', style: textStyle),
+            Text('${input.whole * input.denominator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 2: Add the numerator: ', style: textStyle),
+            Text('${input.whole * input.denominator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' + ', style: textStyle),
+            Text('${input.numerator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' = ', style: textStyle),
+            Text('$impNum', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 3: Place the result over the denominator: ', style: textStyle),
+            FractionText(numerator: impNum, denominator: input.denominator, fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Final Solution: ', style: textStyle),
+            Text('${input.whole}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            const SizedBox(width: 2),
+            FractionText(numerator: input.numerator, denominator: input.denominator, fontSize: 14, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            Text(' = ', style: textStyle),
+            FractionText(numerator: impNum, denominator: input.denominator, fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+          ],
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _improperToMixedSteps(ImproperToMixedResult result, ThemeData theme) {
+    final input = result.input;
+    final output = result.output;
+    final prod = output.whole * output.denominator;
+    final textStyle = theme.textTheme.bodySmall?.copyWith(fontSize: 13);
+
+    return [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 1: Find the largest multiple of ', style: textStyle),
+            Text('${input.denominator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' less than or equal to ', style: textStyle),
+            Text('${input.numerator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(': ', style: textStyle),
+            Text('${output.whole}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' × ', style: textStyle),
+            Text('${output.denominator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' = ', style: textStyle),
+            Text('$prod', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 2: Write the numerator as a sum: ', style: textStyle),
+            Text('${input.numerator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' = ', style: textStyle),
+            Text('$prod', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' + ', style: textStyle),
+            Text('${output.numerator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 3: Split the fraction: ', style: textStyle),
+            FractionText(
+              numerator: '${prod} + ${output.numerator}',
+              denominator: output.denominator,
+              fontSize: 14,
+              fontWeight: FontWeight.bold, color: Colors.deepPurple,
+            ),
+            Text(' = ', style: textStyle),
+            FractionText(numerator: prod, denominator: output.denominator, fontSize: 14, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            Text(' + ', style: textStyle),
+            FractionText(numerator: output.numerator, denominator: output.denominator, fontSize: 14, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 4: Simplify: ', style: textStyle),
+            FractionText(numerator: prod, denominator: output.denominator, fontSize: 14, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            Text(' = ', style: textStyle),
+            Text('${output.whole}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text('; so ', style: textStyle),
+            Text('${output.whole}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            if (output.numerator != 0) ...[
+              Text(' + ', style: textStyle),
+              FractionText(numerator: output.numerator, denominator: output.denominator, fontSize: 14, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            ],
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Final Solution: ', style: textStyle),
+            FractionText(numerator: input.numerator, denominator: input.denominator, fontSize: 14, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            Text(' = ', style: textStyle),
+            if (output.numerator == 0)
+              Text('${output.whole}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple))
+            else
+              MixedNumberText(
+                whole: output.whole,
+                numerator: output.numerator,
+                denominator: output.denominator,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+              ),
+          ],
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _improperToMixedLongDivisionSteps(ImproperToMixedResult result, ThemeData theme) {
+    final input = result.input;
+    final output = result.output;
+    final textStyle = theme.textTheme.bodySmall?.copyWith(fontSize: 13);
+    return [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text('Step 1: Divide numerator by denominator: ', style: textStyle),
+            Text('${input.numerator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' ÷ ', style: textStyle),
+            Text('${input.denominator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' = ', style: textStyle),
+            Text('${output.whole}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(' remainder ', style: textStyle),
+            Text('${output.numerator}', style: textStyle?.copyWith(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            if (output.numerator == 0)
+              Text('Step 2: The answer is ${output.whole}.', style: textStyle)
+            else ...[
+              Text('Step 2: The mixed number is ', style: textStyle),
+              MixedNumberText(
+                whole: output.whole,
+                numerator: output.numerator,
+                denominator: output.denominator,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+              ),
+            ]
+          ],
+        ),
+      ),
+    ];
+  }
+
+  Widget _stepsCard(List<Widget> steps, ThemeData theme) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: steps.length,
+      itemBuilder: (context, idx) => Card(
+        color: theme.cardColor.withOpacity(0.98),
+        elevation: 0.5,
+        margin: const EdgeInsets.symmetric(vertical: 2),
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.deepPurple.shade50,
+            child: Text('${idx + 1}', style: const TextStyle(color: Colors.deepPurple)),
+          ),
+          title: steps[idx],
+        ),
+      ),
+    );
+  }
+
   Widget _mixedToImproperSection(BuildContext context) {
     final theme = Theme.of(context);
     final r = _mixedToImproperResult;
@@ -139,35 +366,7 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
                     Text("Step-by-step Explanation:",
                         style: theme.textTheme.bodyMedium
                             ?.copyWith(fontWeight: FontWeight.bold)),
-                    // Steps for user learning
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                        "Step 1: Multiply the whole number by the denominator: ${input?.whole} × ${input?.denominator} = ${input != null ? input.whole * input.denominator : ''}.",
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                        "Step 2: Add the numerator: ${input != null ? input.whole * input.denominator : ''} + ${input?.numerator} = ${input != null ? input.whole * input.denominator + input.numerator : ""}.",
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                        "Step 3: Place the result over the original denominator: ${r.output.numerator}/${r.output.denominator}.",
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                        "Final Solution: ${input?.whole ?? ''} ${input != null ? '${input.numerator}/${input.denominator}' : ''} = ${r.output.numerator}/${r.output.denominator}",
-                        style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    _stepsCard(_mixedToImproperSteps(r, theme), theme),
                   ],
                 ),
               ),
@@ -262,7 +461,8 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
                           style: theme.textTheme.displayLarge
                               ?.copyWith(
                               color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 32),
                         )
                             : MixedNumberText(
                           whole: output.whole,
@@ -286,43 +486,7 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
                       Text("Step-by-step Explanation:",
                           style: theme.textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.bold)),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          "Step 1: Find the largest multiple of the denominator less than or equal to the numerator: ${output.whole} × ${output.denominator} = ${output.whole * output.denominator}.",
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          "Step 2: Write the numerator as a sum: ${num} = ${output.whole * output.denominator} + ${output.numerator}.",
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          "Step 3: Split the fraction: (${output.whole * output.denominator} + ${output.numerator}) / ${output.denominator} = ${output.whole * output.denominator}/${output.denominator} + ${output.numerator}/${output.denominator}.",
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          "Step 4: Simplify: ${output.whole * output.denominator}/${output.denominator} = ${output.whole}; so ${output.whole} + ${output.numerator}/${output.denominator}.",
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          output.numerator != 0
-                              ? "Final Solution: $num/${output.denominator} = ${output.whole} ${output.numerator}/${output.denominator}"
-                              : "Final Solution: $num/${output.denominator} = ${output.whole}",
-                          style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      _stepsCard(_improperToMixedSteps(r, theme), theme),
                     ],
                     if (_showLongDivision) ...[
                       Text("Workings (Long Division):",
@@ -337,22 +501,7 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
                       Text("Step-by-step Explanation:",
                           style: theme.textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.bold)),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          "Step 1: Divide numerator by denominator: $num ÷ $denom = ${output.whole} remainder ${output.numerator}.",
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          output.numerator != 0
-                              ? "Step 2: The mixed number is ${output.whole} ${output.numerator}/${output.denominator}."
-                              : "Step 2: The answer is ${output.whole}.",
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ),
+                      _stepsCard(_improperToMixedLongDivisionSteps(r, theme), theme),
                     ]
                   ],
                 ),
