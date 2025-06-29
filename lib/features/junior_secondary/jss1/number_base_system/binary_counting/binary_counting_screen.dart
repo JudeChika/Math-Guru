@@ -51,8 +51,8 @@ class _BinaryCountingScreenState extends State<BinaryCountingScreen> {
               ],
             ),
         ],
-        headingRowColor: MaterialStateProperty.all(Colors.purple.shade50),
-        dataRowColor: MaterialStateProperty.all(Colors.grey.shade50),
+        headingRowColor: WidgetStateProperty.all(Colors.purple.shade50),
+        dataRowColor: WidgetStateProperty.all(Colors.grey.shade50),
       ),
     );
   }

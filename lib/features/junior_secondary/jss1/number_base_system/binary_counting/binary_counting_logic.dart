@@ -84,7 +84,7 @@ class BinaryCountingLogic {
       final digit = digits[i];
       terms.add("($digit×2${_superscript(power)})");
     }
-    final expandedNotation = "${_formatBinaryBase2(binaryInput)} = " + terms.join(" + ");
+    final expandedNotation = "${_formatBinaryBase2(binaryInput)} = ${terms.join(" + ")}";
 
     // Step-by-step: Each term, only as base two, no base ten shown
     List<BinaryExpandedStep> steps = [];

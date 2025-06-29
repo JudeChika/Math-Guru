@@ -16,10 +16,12 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
   // Base 2 to 10
   final _binaryInputController = TextEditingController();
   List<BinaryToDecimalResult> _binaryResults = [];
+  String? _binaryMainResult;
 
   // Base 10 to 2
   final _decimalInputController = TextEditingController();
   List<DecimalToBinaryResult> _decimalResults = [];
+  String? _decimalMainResult;
 
   @override
   void initState() {
@@ -33,6 +35,10 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
       _binaryResults = BinaryToDecimalLogic.parseBinaryInputs(_binaryInputController.text)
           .map(BinaryToDecimalLogic.convert)
           .toList();
+      // Show main result if only one and valid
+      _binaryMainResult = (_binaryResults.length == 1 && _binaryResults[0].valid)
+          ? "${_binaryResults[0].binaryInput}\u2082 = ${_binaryResults[0].decimalOutput}\u2081\u2080"
+          : null;
     });
   }
 
@@ -73,6 +79,19 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
               ),
             ],
           ),
+          const SizedBox(height: 12),
+          if (_binaryMainResult != null)
+            Center(
+              child: Text(
+                _binaryMainResult!,
+                style: theme.textTheme.displayLarge?.copyWith(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                  fontSize: 32,
+                ),
+              ),
+            ),
           const SizedBox(height: 18),
           for (final result in _binaryResults)
             _binaryToDecimalResultCard(result, theme),
@@ -97,11 +116,6 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
         ),
       );
     }
-
-    // Expanded notation split for new line before '='
-    final notationParts = result.expandedNotation.split('=');
-    final notationMain = notationParts.length > 1 ? notationParts.sublist(0, notationParts.length - 1).join('=') : result.expandedNotation;
-    final finalAnswer = notationParts.length > 1 ? '=${notationParts.last.trim()}' : '';
 
     return Card(
       color: Colors.green.shade50,
@@ -133,21 +147,27 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    notationMain.trim(),
+                    result.expandedNotation,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontFamily: 'Poppins',
                       color: Colors.deepPurple.shade800,
                     ),
                   ),
-                  if (finalAnswer.isNotEmpty)
-                    Text(
-                      finalAnswer,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontFamily: 'Poppins',
-                        color: Colors.deepPurple.shade800,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Text(
+                    result.expandedValues,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Poppins',
+                      color: Colors.deepPurple.shade800,
                     ),
+                  ),
+                  Text(
+                    result.finalResult,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Poppins',
+                      color: Colors.deepPurple.shade800,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -173,6 +193,9 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
       _decimalResults = inputs
           .map((n) => DecimalToBinaryLogic.convert(n, fractionBits: 12))
           .toList();
+      _decimalMainResult = (_decimalResults.length == 1 && _decimalResults[0].valid)
+          ? "${_decimalResults[0].originalInput}\u2081\u2080 = ${_decimalResults[0].binaryResult}\u2082"
+          : null;
     });
   }
 
@@ -213,6 +236,19 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
               ),
             ],
           ),
+          const SizedBox(height: 12),
+          if (_decimalMainResult != null)
+            Center(
+              child: Text(
+                _decimalMainResult!,
+                style: theme.textTheme.displayLarge?.copyWith(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                  fontSize: 32,
+                ),
+              ),
+            ),
           const SizedBox(height: 18),
           for (final result in _decimalResults)
             _decimalToBinaryResultCard(result, theme),
@@ -238,11 +274,6 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
         ),
       );
     }
-
-    // Expanded notation split for new line before '='
-    final notationParts = result.expandedNotation.split('\n=');
-    final notationMain = notationParts.first;
-    final finalAnswer = notationParts.length > 1 ? notationParts[1] : '';
 
     return Card(
       color: Colors.green.shade50,
@@ -296,21 +327,27 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    notationMain.trim(),
+                    result.expandedNotation,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontFamily: 'Poppins',
                       color: Colors.deepPurple.shade800,
                     ),
                   ),
-                  if (finalAnswer.isNotEmpty)
-                    Text(
-                      finalAnswer,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontFamily: 'Poppins',
-                        color: Colors.deepPurple.shade800,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Text(
+                    result.expandedValues,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Poppins',
+                      color: Colors.deepPurple.shade800,
                     ),
+                  ),
+                  Text(
+                    result.finalResult,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Poppins',
+                      color: Colors.deepPurple.shade800,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -17,9 +17,11 @@ class BinaryDivisionStep {
 class DecimalToBinaryResult {
   final String originalInput;
   final String? binaryResult;
+  final String expandedNotation;
+  final String expandedValues;
+  final String finalResult;
   final List<BinaryDivisionStep> integerSteps;
   final List<BinaryDivisionStep> fractionSteps;
-  final String expandedNotation;
   final List<String> stepByStep;
   final bool valid;
   final String? error;
@@ -27,9 +29,11 @@ class DecimalToBinaryResult {
   DecimalToBinaryResult({
     required this.originalInput,
     required this.binaryResult,
+    required this.expandedNotation,
+    required this.expandedValues,
+    required this.finalResult,
     required this.integerSteps,
     required this.fractionSteps,
-    required this.expandedNotation,
     required this.stepByStep,
     required this.valid,
     this.error,
@@ -68,9 +72,11 @@ class DecimalToBinaryLogic {
       return DecimalToBinaryResult(
         originalInput: input,
         binaryResult: null,
+        expandedNotation: "",
+        expandedValues: "",
+        finalResult: "",
         integerSteps: [],
         fractionSteps: [],
-        expandedNotation: "",
         stepByStep: ["Invalid input: '$input' is not a valid decimal or fraction."],
         valid: false,
         error: "Invalid decimal input.",
@@ -154,23 +160,38 @@ class DecimalToBinaryLogic {
 
     // Expanded Notation
     List<String> expandedTerms = [];
+    List<String> expandedValues = [];
     int intLen = intRemainders.length;
+    int tempIntForValue = intPart;
+    List<int> intRemaindersReversed = intRemainders.reversed.toList();
+
     for (int i = 0; i < intLen; i++) {
       int pow = intLen - 1 - i;
-      int bit = intRemainders.reversed.toList()[i];
+      int bit = intRemaindersReversed[i];
+      int actualValue = bit * (1 << pow);
       expandedTerms.add("(${bit}×2${_superscript(pow)})");
+      expandedValues.add("$actualValue");
     }
     List<String> expandedFracTerms = [];
+    List<String> expandedFracValues = [];
     for (int i = 0; i < fracDigits.length; i++) {
       int bit = fracDigits[i];
+      double value = bit * (1 / (1 << (i + 1)));
       expandedFracTerms.add("(${bit}×2${_subscript(-(i + 1))})");
+      expandedFracValues.add("$value");
     }
+
     String expandedNotation = "$input₁₀ = " +
         expandedTerms.join(' + ') +
         (expandedFracTerms.isNotEmpty
             ? " + " + expandedFracTerms.join(' + ')
-            : "") +
-        "\n= $binaryResult₂";
+            : "");
+    String expandedValuesStr = "= " +
+        expandedValues.join(' + ') +
+        (expandedFracValues.isNotEmpty
+            ? " + " + expandedFracValues.join(' + ')
+            : "");
+    String finalResult = "= ${binaryResult}\u2082";
 
     // Step-by-step description
     List<String> stepByStep = [];
@@ -202,9 +223,11 @@ class DecimalToBinaryLogic {
     return DecimalToBinaryResult(
       originalInput: input,
       binaryResult: binaryResult,
+      expandedNotation: expandedNotation,
+      expandedValues: expandedValuesStr,
+      finalResult: finalResult,
       integerSteps: intSteps,
       fractionSteps: fracSteps,
-      expandedNotation: expandedNotation,
       stepByStep: stepByStep,
       valid: true,
     );

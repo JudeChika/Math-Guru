@@ -2,6 +2,8 @@ class BinaryToDecimalResult {
   final String binaryInput;
   final int? decimalOutput;
   final String expandedNotation;
+  final String expandedValues;
+  final String finalResult;
   final List<String> steps;
   final bool valid;
   final String? error;
@@ -10,6 +12,8 @@ class BinaryToDecimalResult {
     required this.binaryInput,
     required this.decimalOutput,
     required this.expandedNotation,
+    required this.expandedValues,
+    required this.finalResult,
     required this.steps,
     required this.valid,
     this.error,
@@ -35,6 +39,8 @@ class BinaryToDecimalLogic {
         binaryInput: binary,
         decimalOutput: null,
         expandedNotation: "",
+        expandedValues: "",
+        finalResult: "",
         steps: [
           "Invalid input: '$binary' is not a valid binary number. Enter only 0s and 1s.",
         ],
@@ -47,20 +53,23 @@ class BinaryToDecimalLogic {
     int len = digits.length;
     int decimal = 0;
     List<String> terms = [];
+    List<String> values = [];
     List<String> stepDetails = [];
 
     for (int i = 0; i < len; i++) {
       int power = len - 1 - i;
       int digit = int.parse(digits[i]);
       int value = digit * (1 << power);
-      terms.add("($digit×2${_superscript(power)})");
+      terms.add("(${digit}×2${_superscript(power)})");
+      values.add("$value");
       stepDetails.add(
           "Step ${i + 1}: ${digit} × 2${_superscript(power)} = $value");
       decimal += value;
     }
 
-    final expandedNotation =
-        "${_formatBinaryBase2(binary)} = ${terms.join(' + ')} = $decimal";
+    final expandedNotation = "${_formatBinaryBase2(binary)} = ${terms.join(' + ')}";
+    final expandedValues = "= ${values.join(' + ')}";
+    final finalResult = "= $decimal";
 
     stepDetails.add("Final Solution: $binary in base two is $decimal in base ten.");
 
@@ -68,6 +77,8 @@ class BinaryToDecimalLogic {
       binaryInput: binary,
       decimalOutput: decimal,
       expandedNotation: expandedNotation,
+      expandedValues: expandedValues,
+      finalResult: finalResult,
       steps: stepDetails,
       valid: true,
     );
