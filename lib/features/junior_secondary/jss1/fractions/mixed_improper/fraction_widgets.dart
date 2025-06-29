@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
 class FractionText extends StatelessWidget {
-  final int numerator;
-  final int denominator;
+  final dynamic numerator;
+  final dynamic denominator;
   final double fontSize;
   final Color? color;
   final FontWeight? fontWeight;
 
-  const FractionText(
-      {super.key,
-        required this.numerator,
-        required this.denominator,
-        this.fontSize = 20,
-        this.color,
-        this.fontWeight});
+  const FractionText({
+    super.key,
+    required this.numerator,
+    required this.denominator,
+    this.fontSize = 20,
+    this.color,
+    this.fontWeight,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +53,15 @@ class MixedNumberText extends StatelessWidget {
   final Color? color;
   final FontWeight? fontWeight;
 
-  const MixedNumberText(
-      {super.key,
-        required this.whole,
-        required this.numerator,
-        required this.denominator,
-        this.fontSize = 20,
-        this.color,
-        this.fontWeight});
+  const MixedNumberText({
+    super.key,
+    required this.whole,
+    required this.numerator,
+    required this.denominator,
+    this.fontSize = 20,
+    this.color,
+    this.fontWeight,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,8 @@ import 'models.dart';
 import 'fraction_widgets.dart';
 import 'mixed_to_improper_logic.dart';
 import 'improper_to_mixed_logic.dart';
+import 'formatted_workings.dart';
+import 'long_division_widget.dart';
 
 class MixedImproperScreen extends StatefulWidget {
   const MixedImproperScreen({super.key});
@@ -32,7 +34,8 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
       final whole = int.tryParse(_mixedWholeController.text) ?? 0;
       final num = int.tryParse(_mixedNumeratorController.text) ?? 0;
       final denom = int.tryParse(_mixedDenominatorController.text) ?? 1;
-      final input = MixedNumber(whole: whole, numerator: num, denominator: denom);
+      final input =
+      MixedNumber(whole: whole, numerator: num, denominator: denom);
       _mixedToImproperResult = MixedToImproperLogic.convert(input);
     });
   }
@@ -54,6 +57,8 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
 
   Widget _mixedToImproperSection(BuildContext context) {
     final theme = Theme.of(context);
+    final r = _mixedToImproperResult;
+    final input = r?.input;
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       child: Column(
@@ -99,69 +104,98 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
             ],
           ),
           const SizedBox(height: 18),
-          if (_mixedToImproperResult != null)
-            _mixedToImproperResultCard(_mixedToImproperResult!, theme),
-        ],
-      ),
-    );
-  }
-
-  Widget _mixedToImproperResultCard(MixedToImproperResult result, ThemeData theme) {
-    if (!result.valid) {
-      return Card(
-        color: Colors.red.shade50,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(
-            result.error ?? "Invalid input.",
-            style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
-          ),
-        ),
-      );
-    }
-    return Card(
-      color: Colors.green.shade50,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: FractionText(
-                numerator: result.output.numerator,
-                denominator: result.output.denominator,
-                fontSize: 32,
-                color: Colors.deepPurple,
-                fontWeight: FontWeight.bold,
+          if (r != null)
+            r.valid
+                ? Card(
+              color: Colors.green.shade50,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: FractionText(
+                        numerator: r.output.numerator,
+                        denominator: r.output.denominator,
+                        fontSize: 32,
+                        color: Colors.deepPurple,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text("Workings:",
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 6),
+                    if (input != null)
+                      MixedToImproperWorkings(
+                        whole: input.whole,
+                        numerator: input.numerator,
+                        denominator: input.denominator,
+                      ),
+                    const SizedBox(height: 18),
+                    Text("Step-by-step Explanation:",
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.bold)),
+                    // Steps for user learning
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        "Step 1: Multiply the whole number by the denominator: ${input?.whole} × ${input?.denominator} = ${input != null ? input.whole * input.denominator : ''}.",
+                        style: theme.textTheme.bodySmall,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        "Step 2: Add the numerator: ${input != null ? input.whole * input.denominator : ''} + ${input?.numerator} = ${input != null ? input.whole * input.denominator + input.numerator : ""}.",
+                        style: theme.textTheme.bodySmall,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        "Step 3: Place the result over the original denominator: ${r.output.numerator}/${r.output.denominator}.",
+                        style: theme.textTheme.bodySmall,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        "Final Solution: ${input?.whole ?? ''} ${input != null ? '${input.numerator}/${input.denominator}' : ''} = ${r.output.numerator}/${r.output.denominator}",
+                        style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+                : Card(
+              color: Colors.red.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  r.error ?? "Invalid input.",
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: Colors.red),
+                ),
               ),
             ),
-            const SizedBox(height: 12),
-            Text("Workings:",
-                style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: result.workings.map((line) =>
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(line, style: theme.textTheme.bodySmall),
-                  )).toList(),
-            ),
-            const SizedBox(height: 10),
-            Text("Step-by-step Explanation:",
-                style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-            ...result.steps.map((e) => Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: Text(e, style: theme.textTheme.bodySmall),
-            )),
-          ],
-        ),
+        ],
       ),
     );
   }
 
   Widget _improperToMixedSection(BuildContext context) {
     final theme = Theme.of(context);
+    final r = _improperToMixedResult;
+    final num = int.tryParse(_improperNumeratorController.text) ?? 0;
+    final denom = int.tryParse(_improperDenominatorController.text) ?? 1;
+    final output = r?.output;
+    final valid = r?.valid ?? false;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       child: Column(
@@ -210,91 +244,132 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
             ],
           ),
           const SizedBox(height: 18),
-          if (_improperToMixedResult != null)
-            _improperToMixedResultCard(_improperToMixedResult!, theme),
+          if (r != null)
+            valid
+                ? Card(
+              color: Colors.green.shade50,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                        child: output!.numerator == 0
+                            ? Text(
+                          "${output.whole}",
+                          style: theme.textTheme.displayLarge
+                              ?.copyWith(
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold),
+                        )
+                            : MixedNumberText(
+                          whole: output.whole,
+                          numerator: output.numerator,
+                          denominator: output.denominator,
+                          fontSize: 32,
+                          color: Colors.deepPurple,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(height: 16),
+                    if (!_showLongDivision) ...[
+                      Text("Workings (Decompose & Split):",
+                          style: theme.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 6),
+                      ImproperToMixedWorkings(
+                        numerator: num,
+                        denominator: denom,
+                      ),
+                      const SizedBox(height: 18),
+                      Text("Step-by-step Explanation:",
+                          style: theme.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "Step 1: Find the largest multiple of the denominator less than or equal to the numerator: ${output.whole} × ${output.denominator} = ${output.whole * output.denominator}.",
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "Step 2: Write the numerator as a sum: ${num} = ${output.whole * output.denominator} + ${output.numerator}.",
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "Step 3: Split the fraction: (${output.whole * output.denominator} + ${output.numerator}) / ${output.denominator} = ${output.whole * output.denominator}/${output.denominator} + ${output.numerator}/${output.denominator}.",
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "Step 4: Simplify: ${output.whole * output.denominator}/${output.denominator} = ${output.whole}; so ${output.whole} + ${output.numerator}/${output.denominator}.",
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          output.numerator != 0
+                              ? "Final Solution: $num/${output.denominator} = ${output.whole} ${output.numerator}/${output.denominator}"
+                              : "Final Solution: $num/${output.denominator} = ${output.whole}",
+                          style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                    if (_showLongDivision) ...[
+                      Text("Workings (Long Division):",
+                          style: theme.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 6),
+                      LongDivisionWidget(
+                        numerator: num,
+                        denominator: denom,
+                      ),
+                      const SizedBox(height: 18),
+                      Text("Step-by-step Explanation:",
+                          style: theme.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "Step 1: Divide numerator by denominator: $num ÷ $denom = ${output.whole} remainder ${output.numerator}.",
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          output.numerator != 0
+                              ? "Step 2: The mixed number is ${output.whole} ${output.numerator}/${output.denominator}."
+                              : "Step 2: The answer is ${output.whole}.",
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ),
+                    ]
+                  ],
+                ),
+              ),
+            )
+                : Card(
+              color: Colors.red.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  r.error ?? "Invalid input.",
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: Colors.red),
+                ),
+              ),
+            ),
         ],
-      ),
-    );
-  }
-
-  Widget _improperToMixedResultCard(ImproperToMixedResult result, ThemeData theme) {
-    if (!result.valid) {
-      return Card(
-        color: Colors.red.shade50,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(
-            result.error ?? "Invalid input.",
-            style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
-          ),
-        ),
-      );
-    }
-
-    return Card(
-      color: Colors.green.shade50,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-                child: result.output.numerator == 0
-                    ? Text(
-                  "${result.output.whole}",
-                  style: theme.textTheme.displayLarge?.copyWith(
-                      color: Colors.deepPurple, fontWeight: FontWeight.bold),
-                )
-                    : MixedNumberText(
-                  whole: result.output.whole,
-                  numerator: result.output.numerator,
-                  denominator: result.output.denominator,
-                  fontSize: 32,
-                  color: Colors.deepPurple,
-                  fontWeight: FontWeight.bold,
-                )),
-            const SizedBox(height: 12),
-            if (!_showLongDivision) ...[
-              Text("Workings (Decompose & Split):",
-                  style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: result.workingsDecompose.map((line) =>
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(line, style: theme.textTheme.bodySmall),
-                    )).toList(),
-              ),
-              const SizedBox(height: 10),
-              Text("Step-by-step Explanation:",
-                  style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-              ...result.stepsDecomposeMethod.map((e) => Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Text(e, style: theme.textTheme.bodySmall),
-              )),
-            ],
-            if (_showLongDivision) ...[
-              Text("Workings (Long Division):",
-                  style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: result.workingsLongDivision.map((line) =>
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(line, style: theme.textTheme.bodySmall),
-                    )).toList(),
-              ),
-              const SizedBox(height: 10),
-              Text("Step-by-step Explanation:",
-                  style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-              ...result.stepsLongDivision.map((e) => Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Text(e, style: theme.textTheme.bodySmall),
-              )),
-            ]
-          ],
-        ),
       ),
     );
   }
