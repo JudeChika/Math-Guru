@@ -1,80 +1,102 @@
-import 'binary_conversion_models.dart';
+class BinaryToDecimalResult {
+  final String binaryInput;
+  final int? decimalOutput;
+  final String expandedNotation;
+  final List<String> steps;
+  final bool valid;
+  final String? error;
+
+  BinaryToDecimalResult({
+    required this.binaryInput,
+    required this.decimalOutput,
+    required this.expandedNotation,
+    required this.steps,
+    required this.valid,
+    this.error,
+  });
+}
 
 class BinaryToDecimalLogic {
-  static List<BinaryToDecimalResult> convert(List<String> inputs) {
-    return inputs.map((binary) => _convertSingle(binary)).toList();
+  static List<String> parseBinaryInputs(String input) {
+    final cleaned = input.replaceAll(',', ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+    if (cleaned.isEmpty) return [];
+    return cleaned
+        .split(' ')
+        .where((s) => s.trim().isNotEmpty)
+        .toList();
   }
 
-  static BinaryToDecimalResult _convertSingle(String binaryStr) {
-    final cleaned = binaryStr.trim();
-    if (!RegExp(r'^[01]+$').hasMatch(cleaned)) {
+  static bool isValidBinary(String s) => RegExp(r'^[01]+$').hasMatch(s);
+
+  static BinaryToDecimalResult convert(String input) {
+    final binary = input.trim();
+    if (!isValidBinary(binary)) {
       return BinaryToDecimalResult(
-        binary: cleaned,
-        decimal: 0,
-        expandedSteps: ["Invalid binary number: $cleaned"],
-        stepByStep: [],
+        binaryInput: binary,
+        decimalOutput: null,
+        expandedNotation: "",
+        steps: [
+          "Invalid input: '$binary' is not a valid binary number. Enter only 0s and 1s.",
+        ],
+        valid: false,
+        error: "Invalid binary input.",
       );
     }
 
-    final digits = cleaned.split('').map(int.parse).toList();
-    final len = digits.length;
-    List<String> expandedSteps = [];
-    List<String> stepByStep = [];
-
-    // Expanded Notation: (1×2⁴)+(1×2³)+(0×2²)+(1×2¹)+(1×2⁰)
+    final digits = binary.split('');
+    int len = digits.length;
+    int decimal = 0;
     List<String> terms = [];
-    List<String> evals = [];
-    int sum = 0;
-    for (int i = 0; i < len; i++) {
-      final power = len - 1 - i;
-      final digit = digits[i];
-      final value = digit * (1 << power);
-      terms.add('${digit}×2${_superscript(power)}');
-      evals.add('$value');
-      sum += value;
-    }
-    expandedSteps.add('${_withBaseSub(cleaned, 2)} = (${terms.join(') + (')})');
-    expandedSteps.add('= ${evals.join(' + ')}');
-    expandedSteps.add('= $sum');
+    List<String> stepDetails = [];
 
-    // Step-by-step
-    sum = 0;
     for (int i = 0; i < len; i++) {
-      final power = len - 1 - i;
-      final digit = digits[i];
-      final value = digit * (1 << power);
-      stepByStep.add(
-          'Step ${i + 1}: ${digit} × 2${_superscript(power)} = $value'
-              '\nSubtotal: $sum + $value = ${sum + value}'
-      );
-      sum += value;
+      int power = len - 1 - i;
+      int digit = int.parse(digits[i]);
+      int value = digit * (1 << power);
+      terms.add("($digit×2${_superscript(power)})");
+      stepDetails.add(
+          "Step ${i + 1}: ${digit} × 2${_superscript(power)} = $value");
+      decimal += value;
     }
-    stepByStep.add('Final Answer:\n${_withBaseSub(cleaned, 2)} = $sum${_subscript(10)}');
+
+    final expandedNotation =
+        "${_formatBinaryBase2(binary)} = ${terms.join(' + ')} = $decimal";
+
+    stepDetails.add("Final Solution: $binary in base two is $decimal in base ten.");
 
     return BinaryToDecimalResult(
-      binary: cleaned,
-      decimal: sum,
-      expandedSteps: expandedSteps,
-      stepByStep: stepByStep,
+      binaryInput: binary,
+      decimalOutput: decimal,
+      expandedNotation: expandedNotation,
+      steps: stepDetails,
+      valid: true,
     );
   }
 
-  static String _superscript(int n) {
+  static String _powerSup(int n) {
     const sups = [
-      "\u2070", "\u00b9", "\u00b2", "\u00b3", "\u2074", "\u2075",
-      "\u2076", "\u2077", "\u2078", "\u2079"
+      "\u2070",
+      "\u00b9",
+      "\u00b2",
+      "\u00b3",
+      "\u2074",
+      "\u2075",
+      "\u2076",
+      "\u2077",
+      "\u2078",
+      "\u2079"
     ];
     if (n == 0) return sups[0];
-    return n.toString().split('').map((c) => sups[int.parse(c)]).join();
+    String s = "";
+    for (final ch in n.toString().split('')) {
+      s += sups[int.parse(ch)];
+    }
+    return s;
   }
 
-  static String _subscript(int n) {
-    const subs = [
-      "\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085",
-      "\u2086", "\u2087", "\u2088", "\u2089"
-    ];
-    return n.toString().split('').map((c) => subs[int.parse(c)]).join();
-  }
+  static String _superscript(int n) => _powerSup(n);
 
-  static String _withBaseSub(String val, int base) => '$val${_subscript(base)}';
+  static String _formatBinaryBase2(String binary) {
+    return "$binary\u2082";
+  }
 }
