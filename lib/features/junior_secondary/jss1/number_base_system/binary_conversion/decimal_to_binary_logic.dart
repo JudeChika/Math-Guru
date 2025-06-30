@@ -169,7 +169,7 @@ class DecimalToBinaryLogic {
       int pow = intLen - 1 - i;
       int bit = intRemaindersReversed[i];
       int actualValue = bit * (1 << pow);
-      expandedTerms.add("(${bit}×2${_superscript(pow)})");
+      expandedTerms.add("($bit×2${_superscript(pow)})");
       expandedValues.add("$actualValue");
     }
     List<String> expandedFracTerms = [];
@@ -177,21 +177,17 @@ class DecimalToBinaryLogic {
     for (int i = 0; i < fracDigits.length; i++) {
       int bit = fracDigits[i];
       double value = bit * (1 / (1 << (i + 1)));
-      expandedFracTerms.add("(${bit}×2${_subscript(-(i + 1))})");
+      expandedFracTerms.add("($bit×2${_subscript(-(i + 1))})");
       expandedFracValues.add("$value");
     }
 
-    String expandedNotation = "$input₁₀ = " +
-        expandedTerms.join(' + ') +
-        (expandedFracTerms.isNotEmpty
-            ? " + " + expandedFracTerms.join(' + ')
-            : "");
-    String expandedValuesStr = "= " +
-        expandedValues.join(' + ') +
-        (expandedFracValues.isNotEmpty
-            ? " + " + expandedFracValues.join(' + ')
-            : "");
-    String finalResult = "= ${binaryResult}\u2082";
+    String expandedNotation = "$input₁₀ = ${expandedTerms.join(' + ')}${expandedFracTerms.isNotEmpty
+            ? " + ${expandedFracTerms.join(' + ')}"
+            : ""}";
+    String expandedValuesStr = "= ${expandedValues.join(' + ')}${expandedFracValues.isNotEmpty
+            ? " + ${expandedFracValues.join(' + ')}"
+            : ""}";
+    String finalResult = "= $binaryResult\u2082";
 
     // Step-by-step description
     List<String> stepByStep = [];
@@ -249,8 +245,11 @@ class DecimalToBinaryLogic {
     if (n == 0) return sups[0];
     String s = "";
     for (final ch in n.toString().split('')) {
-      if (ch == '-') s += '\u207B';
-      else s += sups[int.parse(ch)];
+      if (ch == '-') {
+        s += '\u207B';
+      } else {
+        s += sups[int.parse(ch)];
+      }
     }
     return s;
   }
@@ -271,8 +270,11 @@ class DecimalToBinaryLogic {
     String s = "";
     final str = n.toString();
     for (final ch in str.split('')) {
-      if (ch == '-') s += '\u208B';
-      else s += subs[int.parse(ch)];
+      if (ch == '-') {
+        s += '\u208B';
+      } else {
+        s += subs[int.parse(ch)];
+      }
     }
     return s;
   }

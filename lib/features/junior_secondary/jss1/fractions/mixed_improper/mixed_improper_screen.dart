@@ -162,7 +162,7 @@ class _MixedImproperScreenState extends State<MixedImproperScreen>
           children: [
             Text('Step 3: Split the fraction: ', style: textStyle),
             FractionText(
-              numerator: '${prod} + ${output.numerator}',
+              numerator: '$prod + ${output.numerator}',
               denominator: output.denominator,
               fontSize: 14,
               fontWeight: FontWeight.bold, color: Colors.deepPurple,

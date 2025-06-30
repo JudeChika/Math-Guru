@@ -60,10 +60,10 @@ class BinaryToDecimalLogic {
       int power = len - 1 - i;
       int digit = int.parse(digits[i]);
       int value = digit * (1 << power);
-      terms.add("(${digit}×2${_superscript(power)})");
+      terms.add("($digit×2${_superscript(power)})");
       values.add("$value");
       stepDetails.add(
-          "Step ${i + 1}: ${digit} × 2${_superscript(power)} = $value");
+          "Step ${i + 1}: $digit × 2${_superscript(power)} = $value");
       decimal += value;
     }
 

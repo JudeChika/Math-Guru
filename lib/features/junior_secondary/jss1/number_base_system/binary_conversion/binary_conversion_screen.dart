@@ -389,8 +389,8 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
               ],
             ),
         ],
-        headingRowColor: MaterialStateProperty.all(Colors.purple.shade50),
-        dataRowColor: MaterialStateProperty.all(Colors.grey.shade50),
+        headingRowColor: WidgetStateProperty.all(Colors.purple.shade50),
+        dataRowColor: WidgetStateProperty.all(Colors.grey.shade50),
       ),
     );
   }
@@ -418,8 +418,8 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
               ],
             ),
         ],
-        headingRowColor: MaterialStateProperty.all(Colors.purple.shade50),
-        dataRowColor: MaterialStateProperty.all(Colors.grey.shade50),
+        headingRowColor: WidgetStateProperty.all(Colors.purple.shade50),
+        dataRowColor: WidgetStateProperty.all(Colors.grey.shade50),
       ),
     );
   }
