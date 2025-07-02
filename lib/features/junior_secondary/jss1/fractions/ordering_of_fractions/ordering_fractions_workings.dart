@@ -22,7 +22,7 @@ class OrderingFractionsWorkings extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Workings:', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)),
+        const Text('Workings:', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold, fontSize: 18, color: Colors.deepPurple)),
         const SizedBox(height: 6),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,

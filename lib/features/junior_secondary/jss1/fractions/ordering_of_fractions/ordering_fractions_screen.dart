@@ -181,7 +181,7 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
             Row(
               children: [
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.arrow_upward),
+                  icon: const Icon(Icons.arrow_upward, color: Colors.white),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purple,
                     textStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600),
@@ -191,7 +191,7 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.arrow_downward),
+                  icon: const Icon(Icons.arrow_downward, color: Colors.white),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     textStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600),
@@ -234,8 +234,8 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
                               ),
                               if (f != _orderedFractions!.last)
                                 _orderType == OrderType.ascending
-                                    ? const Icon(Icons.arrow_forward, color: Colors.purple, size: 26)
-                                    : const Icon(Icons.arrow_back, color: Colors.purple, size: 26),
+                                    ? const Icon(Icons.arrow_back_ios, color: Colors.purple, size: 26)
+                                    : const Icon(Icons.arrow_forward_ios, color: Colors.purple, size: 26),
                             ]
                           ],
                         ),
@@ -321,21 +321,21 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text('Step 3: Multiply ', style: poppins),
+              Text('Step 3: Multiply ', style: poppins.copyWith(color: Colors.deepPurple, fontWeight: FontWeight.w600)),
               FractionDisplay(
                 numerator: s.numerator,
                 denominator: s.denominator,
                 fontSize: 16,
               ),
-              Text(' by ', style: poppins),
+              Text(' by ', style: poppins.copyWith(color: Colors.deepPurple, fontWeight: FontWeight.w600)),
               FractionDisplay(
                 numerator: s.lcm,
                 denominator: 1,
                 fontSize: 16,
                 color: Colors.deepPurple,
               ),
-              Text(' = ', style: poppins),
-              Text('${s.numerator} × ${s.factor} = ', style: poppins),
+              Text(' = ', style: poppins.copyWith(color: Colors.deepPurple, fontWeight: FontWeight.w600)),
+              Text('${s.numerator} × ${s.factor} = ', style: poppins.copyWith(color: Colors.deepPurple, fontWeight: FontWeight.w600)),
               Text('${s.value}', style: poppins.copyWith(color: Colors.deepPurple, fontWeight: FontWeight.w600)),
             ],
           ),
@@ -357,8 +357,8 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
                 ),
                 if (i != _orderedFractions!.length - 1)
                   orderType == OrderType.ascending
-                      ? const Icon(Icons.arrow_forward, color: Colors.deepPurple, size: 18)
-                      : const Icon(Icons.arrow_back, color: Colors.deepPurple, size: 18),
+                      ? const Icon(Icons.arrow_back_ios, color: Colors.deepPurple, size: 18)
+                      : const Icon(Icons.arrow_forward_ios, color: Colors.deepPurple, size: 18),
               ]
             ],
             const SizedBox(width: 8),
