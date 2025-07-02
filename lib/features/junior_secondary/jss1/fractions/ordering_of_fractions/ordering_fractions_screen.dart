@@ -16,7 +16,7 @@ class OrderingFractionsScreen extends StatefulWidget {
 }
 
 class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
-  List<FractionInput> _fractions = [
+  final List<FractionInput> _fractions = [
     FractionInput(),
     FractionInput(),
   ];
@@ -231,7 +231,6 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
                                 denominator: f.denominator,
                                 fontSize: 32,
                                 color: Colors.deepPurple,
-                                fontFamily: 'Poppins',
                               ),
                               if (f != _orderedFractions!.last)
                                 _orderType == OrderType.ascending
@@ -283,7 +282,7 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
                 FractionDisplay(
                   numerator: fractions[i].numerator!,
                   denominator: fractions[i].denominator!,
-                  fontSize: 18, fontFamily: 'Poppins',
+                  fontSize: 18,
                 ),
                 if (i != fractions.length - 1)
                   Padding(
@@ -326,14 +325,14 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
               FractionDisplay(
                 numerator: s.numerator,
                 denominator: s.denominator,
-                fontSize: 16, fontFamily: 'Poppins',
+                fontSize: 16,
               ),
               Text(' by ', style: poppins),
               FractionDisplay(
                 numerator: s.lcm,
                 denominator: 1,
                 fontSize: 16,
-                color: Colors.deepPurple, fontFamily: 'Poppins',
+                color: Colors.deepPurple,
               ),
               Text(' = ', style: poppins),
               Text('${s.numerator} × ${s.factor} = ', style: poppins),
@@ -354,7 +353,7 @@ class _OrderingFractionsScreenState extends State<OrderingFractionsScreen> {
                   numerator: _orderedFractions![i].numerator,
                   denominator: _orderedFractions![i].denominator,
                   fontSize: 18,
-                  color: Colors.purple, fontFamily: 'Poppins',
+                  color: Colors.purple,
                 ),
                 if (i != _orderedFractions!.length - 1)
                   orderType == OrderType.ascending

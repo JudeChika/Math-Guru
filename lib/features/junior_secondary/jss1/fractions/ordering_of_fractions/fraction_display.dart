@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class FractionDisplay extends StatelessWidget {
   final int numerator;
@@ -12,14 +11,15 @@ class FractionDisplay extends StatelessWidget {
     required this.numerator,
     required this.denominator,
     this.fontSize = 22,
-    this.color, required String fontFamily,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     return Math.tex(
       "\\frac{$numerator}{$denominator}",
-      textStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontFamily: 'Poppins', // Use asset font family name
         fontSize: fontSize,
         color: color ?? Colors.deepPurple,
         fontWeight: FontWeight.bold,
