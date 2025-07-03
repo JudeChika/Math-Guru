@@ -46,7 +46,7 @@ class _EquivalentFractionsScreenState extends State<EquivalentFractionsScreen> {
     if (solution == null) {
       setState(() {
         _errorMsg =
-        "Invalid input. Ensure exactly one field is blank for 'x', denominators are not zero, and all entries are valid numbers where required.";
+        "Invalid input. Ensure exactly one field is 'x', denominators are not zero, and all entries are valid numbers where required.";
       });
       return;
     }
@@ -149,28 +149,32 @@ class _EquivalentFractionsScreenState extends State<EquivalentFractionsScreen> {
               key: _formKey,
               child: LayoutBuilder(
                 builder: (context, constraints) {
+                  // Both layouts now use Expanded so that fields fill the row
                   if (constraints.maxWidth < 430) {
                     // Small screen: stack vertically
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
-                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            _fractionInput(
-                              controller: _num1Controller,
-                              label: 'Numerator 1',
-                              style: inputStyle,
-                              labelStyle: labelStyle,
+                            Expanded(
+                              child: _fractionInput(
+                                controller: _num1Controller,
+                                label: 'Numerator 1',
+                                style: inputStyle,
+                                labelStyle: labelStyle,
+                              ),
                             ),
                             const SizedBox(width: 5),
                             Text("/", style: inputStyle.copyWith(fontWeight: FontWeight.bold)),
                             const SizedBox(width: 5),
-                            _fractionInput(
-                              controller: _den1Controller,
-                              label: 'Denominator 1',
-                              style: inputStyle,
-                              labelStyle: labelStyle,
+                            Expanded(
+                              child: _fractionInput(
+                                controller: _den1Controller,
+                                label: 'Denominator 1',
+                                style: inputStyle,
+                                labelStyle: labelStyle,
+                              ),
                             ),
                           ],
                         ),
@@ -178,22 +182,25 @@ class _EquivalentFractionsScreenState extends State<EquivalentFractionsScreen> {
                         Text("=", style: inputStyle.copyWith(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 10),
                         Row(
-                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            _fractionInput(
-                              controller: _num2Controller,
-                              label: 'Numerator 2',
-                              style: inputStyle,
-                              labelStyle: labelStyle,
+                            Expanded(
+                              child: _fractionInput(
+                                controller: _num2Controller,
+                                label: 'Numerator 2',
+                                style: inputStyle,
+                                labelStyle: labelStyle,
+                              ),
                             ),
                             const SizedBox(width: 5),
                             Text("/", style: inputStyle.copyWith(fontWeight: FontWeight.bold)),
                             const SizedBox(width: 5),
-                            _fractionInput(
-                              controller: _den2Controller,
-                              label: 'Denominator 2',
-                              style: inputStyle,
-                              labelStyle: labelStyle,
+                            Expanded(
+                              child: _fractionInput(
+                                controller: _den2Controller,
+                                label: 'Denominator 2',
+                                style: inputStyle,
+                                labelStyle: labelStyle,
+                              ),
                             ),
                           ],
                         ),
@@ -204,38 +211,46 @@ class _EquivalentFractionsScreenState extends State<EquivalentFractionsScreen> {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _fractionInput(
-                          controller: _num1Controller,
-                          label: 'Numerator 1',
-                          style: inputStyle,
-                          labelStyle: labelStyle,
+                        Expanded(
+                          child: _fractionInput(
+                            controller: _num1Controller,
+                            label: 'Numerator 1',
+                            style: inputStyle,
+                            labelStyle: labelStyle,
+                          ),
                         ),
                         const SizedBox(width: 5),
                         Text("/", style: inputStyle.copyWith(fontWeight: FontWeight.bold)),
                         const SizedBox(width: 5),
-                        _fractionInput(
-                          controller: _den1Controller,
-                          label: 'Denominator 1',
-                          style: inputStyle,
-                          labelStyle: labelStyle,
+                        Expanded(
+                          child: _fractionInput(
+                            controller: _den1Controller,
+                            label: 'Denominator 1',
+                            style: inputStyle,
+                            labelStyle: labelStyle,
+                          ),
                         ),
                         const SizedBox(width: 15),
                         Text("=", style: inputStyle.copyWith(fontWeight: FontWeight.bold)),
                         const SizedBox(width: 15),
-                        _fractionInput(
-                          controller: _num2Controller,
-                          label: 'Numerator 2',
-                          style: inputStyle,
-                          labelStyle: labelStyle,
+                        Expanded(
+                          child: _fractionInput(
+                            controller: _num2Controller,
+                            label: 'Numerator 2',
+                            style: inputStyle,
+                            labelStyle: labelStyle,
+                          ),
                         ),
                         const SizedBox(width: 5),
                         Text("/", style: inputStyle.copyWith(fontWeight: FontWeight.bold)),
                         const SizedBox(width: 5),
-                        _fractionInput(
-                          controller: _den2Controller,
-                          label: 'Denominator 2',
-                          style: inputStyle,
-                          labelStyle: labelStyle,
+                        Expanded(
+                          child: _fractionInput(
+                            controller: _den2Controller,
+                            label: 'Denominator 2',
+                            style: inputStyle,
+                            labelStyle: labelStyle,
+                          ),
                         ),
                       ],
                     );
@@ -274,7 +289,6 @@ class _EquivalentFractionsScreenState extends State<EquivalentFractionsScreen> {
                         color: Colors.green[700],
                       ),
                     ),
-                    const SizedBox(height: 8),
                     Text(
                       _result!,
                       style: GoogleFonts.montserrat(
@@ -305,12 +319,15 @@ class _EquivalentFractionsScreenState extends State<EquivalentFractionsScreen> {
                     margin: const EdgeInsets.symmetric(vertical: 4),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (final step in _workingsLatex)
-                            _workingMathLine(step),
-                        ],
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (final step in _workingsLatex)
+                              _workingMathLine(step),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -346,18 +363,15 @@ class _EquivalentFractionsScreenState extends State<EquivalentFractionsScreen> {
     required TextStyle style,
     required TextStyle labelStyle,
   }) {
-    return SizedBox(
-      width: 68,
-      child: TextFormField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        style: style,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: labelStyle,
-          border: const OutlineInputBorder(),
-          contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-        ),
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.text,
+      style: style,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: labelStyle,
+        border: const OutlineInputBorder(),
+        contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
       ),
     );
   }
