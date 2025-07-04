@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss1/fractions/conversion_to_percentage/conversion_to_percentage_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/mixed_improper/mixed_improper_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
 import 'factors_multiples/hcf/hcf_screen.dart';
@@ -65,6 +66,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Conversion to decimal') {
       return const ConversionToDecimalAndFractionScreen();
+    }
+    if (subtopic == 'Conversion to percentage') {
+      return const ConversionToPercentageScreen();
     }
 
     return Scaffold(
