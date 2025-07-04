@@ -3,6 +3,7 @@ import 'package:math_guru/features/junior_secondary/jss1/fractions/mixed_imprope
 import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
 import 'factors_multiples/hcf/hcf_screen.dart';
 import 'factors_multiples/lcm/lcm_screen.dart';
+import 'fractions/conversion_to_decimal/conversion_to_decimal_and_fraction_screen.dart';
 import 'fractions/equivalent_fractions/equivalent_fractions_screen.dart';
 import 'fractions/ordering_of_fractions/ordering_fractions_screen.dart';
 import 'number_base_system/binary_counting/binary_counting_screen.dart';
@@ -61,6 +62,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Equivalent Fractions') {
       return const EquivalentFractionsScreen();
+    }
+    if (subtopic == 'Conversion to decimal') {
+      return const ConversionToDecimalAndFractionScreen();
     }
 
     return Scaffold(
