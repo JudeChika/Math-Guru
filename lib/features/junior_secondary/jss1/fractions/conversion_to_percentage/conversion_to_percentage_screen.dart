@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+import '../conversion_to_decimal/conversion_to_decimal_models.dart';
+import '../conversion_to_decimal/long_division_decimal_logic.dart';
+import '../conversion_to_decimal/long_division_decimal_widget.dart';
 import 'fraction_decimal_to_percentage_logic.dart';
 import 'percentage_to_fraction_logic.dart';
 import 'percentage_conversion_models.dart';
+
+enum PercentageConversionOutputType { fraction, decimal }
 
 class ConversionToPercentageScreen extends StatefulWidget {
   const ConversionToPercentageScreen({super.key});
@@ -24,13 +29,20 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
   List<PercentageConversionExplanationStep> _explanations1 = [];
   bool _hasConverted1 = false;
 
-  // Tab 2: Percentage -> Fraction
+  // Tab 2: Percentage -> Fraction/Decimal
   final _percController = TextEditingController();
   String? _errorMsg2;
   String? _result2;
   List<String> _workingsLatex2 = [];
   List<PercentageConversionExplanationStep> _explanations2 = [];
   bool _hasConverted2 = false;
+  PercentageConversionOutputType _outputType = PercentageConversionOutputType.fraction;
+
+  // For decimal output
+  String? _decimalResult2;
+  List<DecimalConversionExplanationStep> _decimalExplanations2 = [];
+  List<String> _decimalWorkingsLatex2 = [];
+  List _longDivisionSteps2 = [];
 
   @override
   void initState() {
@@ -75,7 +87,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
   }
 
   // Tab 2
-  void _convertPercToFrac() {
+  void _convertPercToFracOrDecimal() {
     final input = _percController.text.trim();
     if (input.isEmpty) {
       setState(() {
@@ -84,6 +96,10 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
         _workingsLatex2 = [];
         _explanations2 = [];
         _hasConverted2 = false;
+        _decimalResult2 = null;
+        _decimalExplanations2 = [];
+        _decimalWorkingsLatex2 = [];
+        _longDivisionSteps2 = [];
       });
       return;
     }
@@ -92,6 +108,10 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
       _result2 = null;
       _workingsLatex2 = [];
       _explanations2 = [];
+      _decimalResult2 = null;
+      _decimalExplanations2 = [];
+      _decimalWorkingsLatex2 = [];
+      _longDivisionSteps2 = [];
     });
 
     var solution = PercentageToFractionLogic.convert(input);
@@ -102,12 +122,45 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
       });
       return;
     }
+
     setState(() {
       _result2 = solution.finalLatex;
       _workingsLatex2 = solution.workingLatex;
       _explanations2 = solution.explanations;
       _hasConverted2 = true;
     });
+
+    // If user wants decimal, perform long division on the final fraction
+    if (_outputType == PercentageConversionOutputType.decimal) {
+      final frac = PercentageToFractionLogic.extractFraction(input);
+      if (frac != null) {
+        final numerator = frac['numerator'];
+        final denominator = frac['denominator'];
+        final longDiv = LongDivisionDecimalLogic.perform(
+          numeratorRaw: numerator.toString(),
+          denominatorRaw: denominator.toString(),
+          maxDecimalPlaces: 6,
+        );
+        if (longDiv != null) {
+          setState(() {
+            _decimalResult2 = longDiv.answer;
+            _decimalWorkingsLatex2 = longDiv.workingsLatex;
+            _decimalExplanations2 = longDiv.explanations;
+            _longDivisionSteps2 = longDiv.steps;
+          });
+        }
+      }
+    }
+  }
+
+  void _onOutputTypeChanged(PercentageConversionOutputType? type) {
+    if (type == null) return;
+    setState(() {
+      _outputType = type;
+    });
+    if (_hasConverted2) {
+      _convertPercToFracOrDecimal();
+    }
   }
 
   @override
@@ -325,14 +378,14 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                 ],
               ),
             ),
-            // Tab 2: Percentage -> Fraction
+            // Tab 2: Percentage -> Fraction/Decimal
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Enter a percentage (e.g. 15%, 4 1/2%, 10.5%) to convert to a fraction:",
+                    "Enter a percentage (e.g. 15%, 4 1/2%, 10.5%) to convert to a fraction or decimal:",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -352,6 +405,24 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                     ),
                   ),
                   const SizedBox(height: 18),
+                  Row(
+                    children: [
+                      ChoiceChip(
+                        label: const Text("Fraction"),
+                        selected: _outputType == PercentageConversionOutputType.fraction,
+                        onSelected: (_) => _onOutputTypeChanged(PercentageConversionOutputType.fraction),
+                        selectedColor: Colors.deepPurple.shade100,
+                      ),
+                      const SizedBox(width: 10),
+                      ChoiceChip(
+                        label: const Text("Decimal (Long Division)"),
+                        selected: _outputType == PercentageConversionOutputType.decimal,
+                        onSelected: (_) => _onOutputTypeChanged(PercentageConversionOutputType.decimal),
+                        selectedColor: Colors.deepPurple.shade100,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
                   Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -359,7 +430,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
                         textStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 17),
                       ),
-                      onPressed: _convertPercToFrac,
+                      onPressed: _convertPercToFracOrDecimal,
                       child: const Text("Convert", style: TextStyle(color: Colors.white)),
                     ),
                   ),
@@ -369,7 +440,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                       _errorMsg2!,
                       style: GoogleFonts.poppins(color: Colors.red, fontSize: 16),
                     ),
-                  if (_result2 != null)
+                  if (_outputType == PercentageConversionOutputType.fraction && _result2 != null)
                     Center(
                       child: Column(
                         children: [
@@ -393,8 +464,33 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                         ],
                       ),
                     ),
+                  if (_outputType == PercentageConversionOutputType.decimal && _decimalResult2 != null)
+                    Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Decimal Value:",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.green[700],
+                            ),
+                          ),
+                          Text(
+                            _decimalResult2!,
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 32,
+                              color: Colors.green[700],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   const SizedBox(height: 18),
-                  if (_workingsLatex2.isNotEmpty)
+
+                  // === WORKING / LONG DIVISION VISUAL ===
+                  if (_outputType == PercentageConversionOutputType.fraction && _workingsLatex2.isNotEmpty)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -440,7 +536,39 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                         ),
                       ],
                     ),
-                  if (_explanations2.isNotEmpty)
+
+                  // === LONG DIVISION VISUAL (when decimal is selected) ===
+                  if (_outputType == PercentageConversionOutputType.decimal && _longDivisionSteps2.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Long Division Visual:",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Card(
+                          color: Colors.purple.shade50,
+                          margin: const EdgeInsets.symmetric(vertical: 4),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                            child: LongDivisionDecimalWidget(
+                              numerator: PercentageToFractionLogic.lastNumerator ?? 0,
+                              denominator: PercentageToFractionLogic.lastDenominator ?? 1,
+                              steps: _longDivisionSteps2,
+                              decimalQuotient: _decimalResult2 ?? "",
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  // === STEP BY STEP SOLUTION ===
+                  if (_outputType == PercentageConversionOutputType.fraction && _explanations2.isNotEmpty)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -486,6 +614,63 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                                       scrollDirection: Axis.horizontal,
                                       child: Math.tex(
                                         _explanations2[i].latexMath!,
+                                        textStyle: GoogleFonts.poppins(
+                                            fontSize: 20, color: Colors.deepPurple),
+                                        mathStyle: MathStyle.display,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  if (_outputType == PercentageConversionOutputType.decimal && _decimalExplanations2.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16),
+                        Text(
+                          "Step-by-step Solution:",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        for (int i = 0; i < _decimalExplanations2.length; i++)
+                          Card(
+                            color: Colors.purple.shade50,
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.deepPurple.shade100,
+                                child: Text(
+                                  '${i + 1}',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _decimalExplanations2[i].description,
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.deepPurple[800],
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  if (_decimalExplanations2[i].latexMath != null)
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Math.tex(
+                                        _decimalExplanations2[i].latexMath!,
                                         textStyle: GoogleFonts.poppins(
                                             fontSize: 20, color: Colors.deepPurple),
                                         mathStyle: MathStyle.display,

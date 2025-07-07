@@ -1,11 +1,12 @@
 class PlaceValueCategory {
   final String label;
-  final int value; // e.g. 1000000 for Million
+  final num value; // Now num to support decimals
 
   const PlaceValueCategory({required this.label, required this.value});
 }
 
-const List<PlaceValueCategory> placeValueCategories = [
+// Main integer categories (left of decimal point)
+const List<PlaceValueCategory> placeValueIntegerCategories = [
   PlaceValueCategory(label: 'Trillion', value: 1000000000000),
   PlaceValueCategory(label: 'Hundred Billion', value: 100000000000),
   PlaceValueCategory(label: 'Ten Billion', value: 10000000000),
@@ -19,4 +20,23 @@ const List<PlaceValueCategory> placeValueCategories = [
   PlaceValueCategory(label: 'Hundred', value: 100),
   PlaceValueCategory(label: 'Ten', value: 10),
   PlaceValueCategory(label: 'One', value: 1),
+];
+
+// Decimal categories (right of decimal point)
+const List<PlaceValueCategory> placeValueDecimalCategories = [
+  PlaceValueCategory(label: 'Tenth', value: 0.1),
+  PlaceValueCategory(label: 'Hundredth', value: 0.01),
+  PlaceValueCategory(label: 'Thousandth', value: 0.001),
+  PlaceValueCategory(label: 'Ten Thousandth', value: 0.0001),
+  PlaceValueCategory(label: 'Hundred Thousandth', value: 0.00001),
+  PlaceValueCategory(label: 'Millionth', value: 0.000001),
+  PlaceValueCategory(label: 'Ten Millionth', value: 0.0000001),
+  PlaceValueCategory(label: 'Hundred Millionth', value: 0.00000001),
+  PlaceValueCategory(label: 'Billionth', value: 0.000000001),
+];
+
+// Combined categories for quick lookup, if needed elsewhere
+final List<PlaceValueCategory> placeValueCategories = [
+  ...placeValueIntegerCategories,
+  ...placeValueDecimalCategories,
 ];
