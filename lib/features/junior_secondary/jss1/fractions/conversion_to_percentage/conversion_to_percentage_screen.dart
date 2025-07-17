@@ -21,7 +21,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  // Tab 1: Fraction/Decimal -> Percentage
+  /// Tab 1: Fraction/Decimal -> Percentage
   final _fracDecController = TextEditingController();
   String? _errorMsg1;
   String? _result1;
@@ -29,7 +29,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
   List<PercentageConversionExplanationStep> _explanations1 = [];
   bool _hasConverted1 = false;
 
-  // Tab 2: Percentage -> Fraction/Decimal
+  /// Tab 2: Percentage -> Fraction/Decimal
   final _percController = TextEditingController();
   String? _errorMsg2;
   String? _result2;
@@ -38,7 +38,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
   bool _hasConverted2 = false;
   PercentageConversionOutputType _outputType = PercentageConversionOutputType.fraction;
 
-  // For decimal output
+  /// For decimal output
   String? _decimalResult2;
   List<DecimalConversionExplanationStep> _decimalExplanations2 = [];
   List<String> _decimalWorkingsLatex2 = [];
@@ -50,7 +50,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
     _tabController = TabController(length: 2, vsync: this);
   }
 
-  // Tab 1
+  /// Tab 1
   void _convertFracDecToPerc() {
     final input = _fracDecController.text.trim();
     if (input.isEmpty) {
@@ -86,7 +86,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
     });
   }
 
-  // Tab 2
+  /// Tab 2
   void _convertPercToFracOrDecimal() {
     final input = _percController.text.trim();
     if (input.isEmpty) {
@@ -203,7 +203,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
         body: TabBarView(
           controller: _tabController,
           children: [
-            // Tab 1: Fraction/Decimal -> Percentage
+            /// Tab 1: Fraction/Decimal -> Percentage
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
               child: Column(
@@ -378,7 +378,7 @@ class _ConversionToPercentageScreenState extends State<ConversionToPercentageScr
                 ],
               ),
             ),
-            // Tab 2: Percentage -> Fraction/Decimal
+            /// Tab 2: Percentage -> Fraction/Decimal
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
               child: Column(

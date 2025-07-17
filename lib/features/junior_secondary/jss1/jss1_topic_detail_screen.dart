@@ -5,6 +5,7 @@ import 'package:math_guru/features/junior_secondary/jss1/fractions/number_line/n
 import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
 import 'factors_multiples/hcf/hcf_screen.dart';
 import 'factors_multiples/lcm/lcm_screen.dart';
+import 'fractions/addition_subtraction_fractions/fraction_addition_subtraction_screen.dart';
 import 'fractions/conversion_to_decimal/conversion_to_decimal_and_fraction_screen.dart';
 import 'fractions/equivalent_fractions/equivalent_fractions_screen.dart';
 import 'fractions/ordering_of_fractions/ordering_fractions_screen.dart';
@@ -73,6 +74,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Number line') {
       return const NumberLineScreen();
+    }
+    if (subtopic == 'Addition & Subtraction') {
+      return const FractionAdditionSubtractionScreen();
     }
 
     return Scaffold(

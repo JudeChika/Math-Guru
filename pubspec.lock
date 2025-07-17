@@ -336,6 +336,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fraction:
+    dependency: "direct main"
+    description:
+      name: fraction
+      sha256: cc8cfccdb748d0fa3922ac29b1fc6c07b384184c1df42c68f5f62c5c052b1ba4
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.2"
   go_router:
     dependency: "direct main"
     description:
