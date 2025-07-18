@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/conversion_to_percentage/conversion_to_percentage_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/fractions/fraction_division/fraction_division_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/fractions/fraction_multiplication/fraction_multiplication_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/mixed_improper/mixed_improper_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/number_line/number_line_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
@@ -77,6 +79,12 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Addition & Subtraction') {
       return const FractionAdditionSubtractionScreen();
+    }
+    if (subtopic == 'Multiplication') {
+      return const FractionMultiplicationScreen();
+    }
+    if (subtopic == 'Division') {
+      return const FractionDivisionScreen();
     }
 
     return Scaffold(
