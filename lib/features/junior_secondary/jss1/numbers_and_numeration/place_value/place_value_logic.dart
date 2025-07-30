@@ -59,7 +59,7 @@ class PlaceValueLogic {
       final categoryIndex = i + intCatStart;
       final category = (categoryIndex < placeValueIntegerCategories.length)
           ? placeValueIntegerCategories[categoryIndex]
-          : PlaceValueCategory(label: "Unknown", value: 0);
+          : const PlaceValueCategory(label: "Unknown", value: 0);
       final position = i + 1;
       final digit = integerDigits[i];
       final placeValue = digit * category.value;

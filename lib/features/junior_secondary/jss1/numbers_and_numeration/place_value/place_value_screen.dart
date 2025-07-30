@@ -122,7 +122,7 @@ class _PlaceValueScreenState extends State<PlaceValueScreen> {
                     ),
                   ),
                 ),
-                DataCell(const Text('Integer')),
+                const DataCell(Text('Integer')),
                 DataCell(Text('${_tableRows[i]['position']}')),
                 DataCell(Text('${_tableRows[i]['category']}')),
                 DataCell(Text(
@@ -130,13 +130,13 @@ class _PlaceValueScreenState extends State<PlaceValueScreen> {
               ],
             ),
           if (_decimalDigits.isNotEmpty)
-            DataRow(
+            const DataRow(
               cells: [
-                const DataCell(Text('')),
-                const DataCell(Text('')),
-                const DataCell(Text('')),
-                const DataCell(Center(child: Text('')), placeholder: true),
-                const DataCell(Center(child: Text('.')), placeholder: true),
+                DataCell(Text('')),
+                DataCell(Text('')),
+                DataCell(Text('')),
+                DataCell(Center(child: Text('')), placeholder: true),
+                DataCell(Center(child: Text('.')), placeholder: true),
               ],
             ),
           // Decimal part
@@ -165,7 +165,7 @@ class _PlaceValueScreenState extends State<PlaceValueScreen> {
                     ),
                   ),
                 ),
-                DataCell(const Text('Decimal')),
+                const DataCell(Text('Decimal')),
                 DataCell(Text('${_tableRows[_integerDigits.length + j]['position']}')),
                 DataCell(Text('${_tableRows[_integerDigits.length + j]['category']}')),
                 DataCell(

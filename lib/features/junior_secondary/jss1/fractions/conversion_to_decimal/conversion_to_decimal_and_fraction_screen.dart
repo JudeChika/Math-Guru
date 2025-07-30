@@ -248,7 +248,7 @@ class _ConversionToDecimalAndFractionScreenState extends State<ConversionToDecim
                   Row(
                     children: [
                       ChoiceChip(
-                        label: Text("Known Facts"),
+                        label: const Text("Known Facts"),
                         selected: _methodDec == DecimalConversionMethod.knownFacts,
                         onSelected: (_) {
                           _onDecMethodToggled(DecimalConversionMethod.knownFacts);
@@ -257,7 +257,7 @@ class _ConversionToDecimalAndFractionScreenState extends State<ConversionToDecim
                       ),
                       const SizedBox(width: 10),
                       ChoiceChip(
-                        label: Text("Long Division"),
+                        label: const Text("Long Division"),
                         selected: _methodDec == DecimalConversionMethod.longDivision,
                         onSelected: (_) {
                           _onDecMethodToggled(DecimalConversionMethod.longDivision);

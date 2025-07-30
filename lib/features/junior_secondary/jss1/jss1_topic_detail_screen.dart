@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss1/approximation/rounding_off_numbers/rounding_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/conversion_to_percentage/conversion_to_percentage_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/fraction_division/fraction_division_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/fraction_multiplication/fraction_multiplication_screen.dart';
@@ -85,6 +86,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Division') {
       return const FractionDivisionScreen();
+    }
+    if (subtopic == 'Rounding off Numbers') {
+      return const RoundingScreen();
     }
 
     return Scaffold(

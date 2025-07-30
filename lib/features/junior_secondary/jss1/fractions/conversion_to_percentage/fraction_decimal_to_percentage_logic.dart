@@ -103,7 +103,7 @@ class FractionDecimalToPercentageLogic {
         description: "Multiply the decimal by 100 to convert to percentage.",
         latexMath: "$raw \\times 100",
       ));
-      double percent = value! * 100;
+      double percent = value * 100;
       String percentStr = percent.toStringAsFixed(4).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
       workingLatex.add("= $percentStr\\%");
       explanations.add(PercentageConversionExplanationStep(

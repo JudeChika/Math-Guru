@@ -78,31 +78,31 @@ class EquivalentFractionsLogic {
 
     switch (unknownPosition) {
       case FractionUnknownPosition.numerator1:
-        eq2 = "x \\times ${d2} = ${d1} \\times ${n2}";
+        eq2 = "x \\times $d2 = $d1 \\times $n2";
         int rightNum = d1! * n2!;
-        eq3 = "x \\times ${d2} = $rightNum";
-        eq4 = "x = \\frac{$rightNum}{${d2}}";
+        eq3 = "x \\times $d2 = $rightNum";
+        eq4 = "x = \\frac{$rightNum}{$d2}";
         xValue = rightNum / d2!;
         break;
       case FractionUnknownPosition.denominator1:
-        eq2 = "${n1} \\times ${d2} = x \\times ${n2}";
+        eq2 = "$n1 \\times $d2 = x \\times $n2";
         int leftNum = n1! * d2!;
-        eq3 = "$leftNum = x \\times ${n2}";
-        eq4 = "x = \\frac{$leftNum}{${n2}}";
+        eq3 = "$leftNum = x \\times $n2";
+        eq4 = "x = \\frac{$leftNum}{$n2}";
         xValue = leftNum / n2!;
         break;
       case FractionUnknownPosition.numerator2:
-        eq2 = "${n1} \\times ${d2} = ${d1} \\times x";
+        eq2 = "$n1 \\times $d2 = $d1 \\times x";
         int leftNum = n1! * d2!;
-        eq3 = "$leftNum = ${d1} \\times x";
-        eq4 = "x = \\frac{$leftNum}{${d1}}";
+        eq3 = "$leftNum = $d1 \\times x";
+        eq4 = "x = \\frac{$leftNum}{$d1}";
         xValue = leftNum / d1!;
         break;
       case FractionUnknownPosition.denominator2:
-        eq2 = "${n1} \\times x = ${d1} \\times ${n2}";
+        eq2 = "$n1 \\times x = $d1 \\times $n2";
         int rightNum = d1! * n2!;
-        eq3 = "${n1} \\times x = $rightNum";
-        eq4 = "x = \\frac{$rightNum}{${n1}}";
+        eq3 = "$n1 \\times x = $rightNum";
+        eq4 = "x = \\frac{$rightNum}{$n1}";
         xValue = rightNum / n1!;
         break;
       default:

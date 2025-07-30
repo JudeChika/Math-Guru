@@ -29,15 +29,10 @@ const Map<String, List<String>> jss1Topics = {
     'Multiplication',
     'Division',
   ],
-  'Estimation': [
-    'Dimensions & Distances',
-    'Capacity & Mass Objects',
-    'Estimation of other things',
-  ],
   'Approximation': [
+    'Rounding off Numbers',
     'Addition & Subtraction',
     'Multiplication & Division',
-    'Rounding off Numbers',
   ],
   'Basic Operations involving the Binary System': [
     'Addition',
