@@ -31,7 +31,7 @@ const Map<String, List<String>> jss1Topics = {
   ],
   'Approximation': [
     'Rounding off Numbers',
-    'Addition & Subtraction',
+    'Addition & Subtraction Approximation',
     'Multiplication & Division',
   ],
   'Basic Operations involving the Binary System': [
