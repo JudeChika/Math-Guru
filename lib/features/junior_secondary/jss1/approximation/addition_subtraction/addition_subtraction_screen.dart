@@ -97,6 +97,7 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
     if (expMatch != null) {
       explanation = expMatch.group(1);
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -107,17 +108,22 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
             fontWeight: FontWeight.w600,
             color: Colors.green[700],
           ),
+          textAlign: TextAlign.center,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Math.tex(
-            math,
-            textStyle: GoogleFonts.montserrat(
-              fontWeight: FontWeight.bold,
-              fontSize: 32,
-              color: Colors.green[700],
+        const SizedBox(height: 10),
+        // Fix for overflow by enabling horizontal scroll
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Center(
+            child: Math.tex(
+              math,
+              textStyle: GoogleFonts.montserrat(
+                fontWeight: FontWeight.bold,
+                fontSize: 32,
+                color: Colors.green[700],
+              ),
+              mathStyle: MathStyle.display,
             ),
-            mathStyle: MathStyle.display,
           ),
         ),
         if (explanation != null)
