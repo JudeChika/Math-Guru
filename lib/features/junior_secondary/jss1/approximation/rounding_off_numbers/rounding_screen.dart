@@ -80,14 +80,14 @@ class _RoundingScreenState extends State<RoundingScreen> {
       } else {
         return Text(
           latex,
-          style: GoogleFonts.poppins(fontSize: 20, color: Colors.deepPurple),
+          style: GoogleFonts.poppins(fontSize: 17, color: Colors.deepPurple),
           softWrap: true,
         );
       }
     } catch (_) {
       return Text(
         latex,
-        style: GoogleFonts.poppins(fontSize: 20, color: Colors.deepPurple),
+        style: GoogleFonts.poppins(fontSize: 17, color: Colors.deepPurple),
         softWrap: true,
       );
     }

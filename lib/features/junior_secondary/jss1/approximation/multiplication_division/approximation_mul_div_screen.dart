@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'addition_subtraction_solver.dart';
+import 'approximation_mul_div_logic.dart';
 
-class ApproximationAddSubtractScreen extends StatefulWidget {
-  const ApproximationAddSubtractScreen({super.key});
+class ApproximationMulDivScreen extends StatefulWidget {
+  const ApproximationMulDivScreen({super.key});
 
   @override
-  State<ApproximationAddSubtractScreen> createState() => _ApproximationAddSubtractScreenState();
+  State<ApproximationMulDivScreen> createState() => _ApproximationMulDivScreenState();
 }
 
-class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtractScreen>
+class _ApproximationMulDivScreenState extends State<ApproximationMulDivScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final List<String> _modes = [
@@ -35,15 +35,15 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
   ];
 
   // For simplicity, 2 operands. Can extend to more.
-  final TextEditingController _controller1Add = TextEditingController();
-  final TextEditingController _controller2Add = TextEditingController();
-  String _selectedModeAdd = 'Nearest Unit';
-  ApproxResult? _resultAdd;
+  final TextEditingController _controller1Mul = TextEditingController();
+  final TextEditingController _controller2Mul = TextEditingController();
+  String _selectedModeMul = 'Nearest Unit';
+  ApproxResult? _resultMul;
 
-  final TextEditingController _controller1Sub = TextEditingController();
-  final TextEditingController _controller2Sub = TextEditingController();
-  String _selectedModeSub = 'Nearest Unit';
-  ApproxResult? _resultSub;
+  final TextEditingController _controller1Div = TextEditingController();
+  final TextEditingController _controller2Div = TextEditingController();
+  String _selectedModeDiv = 'Nearest Unit';
+  ApproxResult? _resultDiv;
 
   @override
   void initState() {
@@ -53,10 +53,10 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
 
   @override
   void dispose() {
-    _controller1Add.dispose();
-    _controller2Add.dispose();
-    _controller1Sub.dispose();
-    _controller2Sub.dispose();
+    _controller1Mul.dispose();
+    _controller2Mul.dispose();
+    _controller1Div.dispose();
+    _controller2Div.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -97,7 +97,6 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
     if (expMatch != null) {
       explanation = expMatch.group(1);
     }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -201,41 +200,41 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
     );
   }
 
-  void _computeAddition() {
-    final input1 = _controller1Add.text.trim();
-    final input2 = _controller2Add.text.trim();
+  void _computeMultiplication() {
+    final input1 = _controller1Mul.text.trim();
+    final input2 = _controller2Mul.text.trim();
     if (input1.isEmpty || input2.isEmpty) {
       setState(() {
-        _resultAdd = null;
+        _resultMul = null;
       });
       return;
     }
-    final result = ApproximationAddSubtractLogic.solve(
+    final result = ApproximationMulDivLogic.solve(
       inputs: [input1, input2],
-      mode: _selectedModeAdd,
-      operation: "+",
+      mode: _selectedModeMul,
+      operation: "×", // Unicode multiplication sign
     );
     setState(() {
-      _resultAdd = result;
+      _resultMul = result;
     });
   }
 
-  void _computeSubtraction() {
-    final input1 = _controller1Sub.text.trim();
-    final input2 = _controller2Sub.text.trim();
+  void _computeDivision() {
+    final input1 = _controller1Div.text.trim();
+    final input2 = _controller2Div.text.trim();
     if (input1.isEmpty || input2.isEmpty) {
       setState(() {
-        _resultSub = null;
+        _resultDiv = null;
       });
       return;
     }
-    final result = ApproximationAddSubtractLogic.solve(
+    final result = ApproximationMulDivLogic.solve(
       inputs: [input1, input2],
-      mode: _selectedModeSub,
-      operation: "-",
+      mode: _selectedModeDiv,
+      operation: "÷", // Unicode division sign
     );
     setState(() {
-      _resultSub = result;
+      _resultDiv = result;
     });
   }
 
@@ -259,7 +258,7 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Enter ${opSymbol == '+' ? 'numbers to add' : 'numbers to subtract'} (whole, decimal, or fraction):",
+            "Enter ${opSymbol == '×' ? 'numbers to multiply' : 'numbers to divide'} (whole, decimal, or fraction):",
             style: GoogleFonts.poppins(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -341,7 +340,7 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
           const SizedBox(height: 22),
           if (result != null) ...[
             _buildResultSection(result.finalApproxLatex, "Approximated Value"),
-            const SizedBox(height: 22),
+            const SizedBox(height: 18),
             _buildResultSection(result.finalExactLatex, "Exact Value"),
             const SizedBox(height: 18),
             _buildStepCard(result.approxSteps, title: "Working (Approximation)", isExplanation: false),
@@ -362,7 +361,7 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Approximate Addition & Subtraction",
+          "Approximate Multiplication & Division",
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -373,8 +372,8 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
           controller: _tabController,
           labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16),
           tabs: const [
-            Tab(text: "Addition"),
-            Tab(text: "Subtraction"),
+            Tab(text: "Multiplication"),
+            Tab(text: "Division"),
           ],
         ),
       ),
@@ -382,26 +381,26 @@ class _ApproximationAddSubtractScreenState extends State<ApproximationAddSubtrac
         controller: _tabController,
         children: [
           _buildTabContent(
-            controller1: _controller1Add,
-            controller2: _controller2Add,
-            selectedMode: _selectedModeAdd,
+            controller1: _controller1Mul,
+            controller2: _controller2Mul,
+            selectedMode: _selectedModeMul,
             onModeChanged: (val) {
-              if (val != null) setState(() => _selectedModeAdd = val);
+              if (val != null) setState(() => _selectedModeMul = val);
             },
-            onCompute: _computeAddition,
-            result: _resultAdd,
-            opSymbol: "+",
+            onCompute: _computeMultiplication,
+            result: _resultMul,
+            opSymbol: "×",
           ),
           _buildTabContent(
-            controller1: _controller1Sub,
-            controller2: _controller2Sub,
-            selectedMode: _selectedModeSub,
+            controller1: _controller1Div,
+            controller2: _controller2Div,
+            selectedMode: _selectedModeDiv,
             onModeChanged: (val) {
-              if (val != null) setState(() => _selectedModeSub = val);
+              if (val != null) setState(() => _selectedModeDiv = val);
             },
-            onCompute: _computeSubtraction,
-            result: _resultSub,
-            opSymbol: "-",
+            onCompute: _computeDivision,
+            result: _resultDiv,
+            opSymbol: "÷",
           ),
         ],
       ),
