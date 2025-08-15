@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'binary_counting_logic.dart';
 import 'binary_grouping_row.dart';
 import 'binary_expanded_step.dart';
@@ -40,10 +41,12 @@ class _BinaryCountingScreenState extends State<BinaryCountingScreen> {
                   row.groupName,
                   style: const TextStyle(fontFamily: 'Poppins'),
                 )),
-                DataCell(Text(
-                  row.powerRep,
-                  style: const TextStyle(fontFamily: 'Poppins'),
-                )),
+                DataCell(
+                  Math.tex(
+                    row.powerRepLaTeX ?? row.powerRep,
+                    textStyle: const TextStyle(fontFamily: 'Poppins'),
+                  ),
+                ),
                 DataCell(Text(
                   row.digit,
                   style: const TextStyle(fontFamily: 'Poppins'),
@@ -57,14 +60,45 @@ class _BinaryCountingScreenState extends State<BinaryCountingScreen> {
     );
   }
 
-  Widget _stepsList(List<BinaryExpandedStep> steps, bool valid) {
+  /// Split expanded notation and values into separate lines for wrapping
+  Widget _expandedNotationSection(BinaryCountingResult result, ThemeData theme) {
+    // If expandedNotationLaTeX has \\ use a single Math.tex, else split
+    if ((result.expandedNotationLaTeX ?? '').contains(r'\\')) {
+      return Math.tex(
+        result.expandedNotationLaTeX!,
+        textStyle: theme.textTheme.bodyMedium?.copyWith(
+          fontFamily: 'Poppins',
+          color: Colors.deepPurple.shade800,
+        ),
+      );
+    } else {
+      // Split by ' = ' or ' + ' to avoid overflow
+      final parts = (result.expandedNotationLaTeX ?? result.expandedNotation).split(RegExp(r'(=|\+)'));
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (final part in parts)
+            if (part.trim().isNotEmpty)
+              Math.tex(
+                part.trim(),
+                textStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontFamily: 'Poppins',
+                  color: Colors.deepPurple.shade800,
+                ),
+              ),
+        ],
+      );
+    }
+  }
+
+  Widget _stepsList(List<BinaryExpandedStep> steps, bool valid, ThemeData theme) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: steps.length,
       itemBuilder: (context, idx) => Card(
         color: valid
-            ? Theme.of(context).cardColor.withOpacity(0.97)
+            ? theme.cardColor.withOpacity(0.97)
             : Colors.red.shade50,
         elevation: 0.5,
         margin: const EdgeInsets.symmetric(vertical: 4),
@@ -74,9 +108,9 @@ class _BinaryCountingScreenState extends State<BinaryCountingScreen> {
             child: Text('${idx + 1}',
                 style: const TextStyle(color: Colors.deepPurple, fontFamily: 'Poppins')),
           ),
-          title: Text(
-            steps[idx].description,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(fontFamily: 'Poppins'),
+          title: Math.tex(
+            steps[idx].descriptionLaTeX ?? steps[idx].description,
+            textStyle: theme.textTheme.bodySmall?.copyWith(fontFamily: 'Poppins'),
           ),
         ),
       ),
@@ -120,21 +154,16 @@ class _BinaryCountingScreenState extends State<BinaryCountingScreen> {
             Text("Expanded Notation:",
                 style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600, fontFamily: 'Poppins')),
+            const SizedBox(height: 6),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Text(
-                result.expandedNotation,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontFamily: 'Poppins',
-                  color: Colors.deepPurple.shade800,
-                ),
-              ),
+              child: _expandedNotationSection(result, theme),
             ),
             const SizedBox(height: 20),
             Text("Step-by-step Solution:",
                 style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600, fontFamily: 'Poppins')),
-            _stepsList(result.steps, result.valid),
+            _stepsList(result.steps, result.valid, theme),
           ],
         ),
       ),

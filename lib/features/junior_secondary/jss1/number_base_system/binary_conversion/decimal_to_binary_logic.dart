@@ -26,6 +26,12 @@ class DecimalToBinaryResult {
   final bool valid;
   final String? error;
 
+  // Added for LaTeX rendering
+  final String? expandedNotationLaTeX;
+  final String? expandedValuesLaTeX;
+  final String? finalResultLaTeX;
+  final List<String>? stepByStepLaTeX;
+
   DecimalToBinaryResult({
     required this.originalInput,
     required this.binaryResult,
@@ -37,6 +43,10 @@ class DecimalToBinaryResult {
     required this.stepByStep,
     required this.valid,
     this.error,
+    this.expandedNotationLaTeX,
+    this.expandedValuesLaTeX,
+    this.finalResultLaTeX,
+    this.stepByStepLaTeX,
   });
 }
 
@@ -80,6 +90,10 @@ class DecimalToBinaryLogic {
         stepByStep: ["Invalid input: '$input' is not a valid decimal or fraction."],
         valid: false,
         error: "Invalid decimal input.",
+        expandedNotationLaTeX: null,
+        expandedValuesLaTeX: null,
+        finalResultLaTeX: null,
+        stepByStepLaTeX: null,
       );
     }
 
@@ -158,11 +172,13 @@ class DecimalToBinaryLogic {
     String fracBinary = fracDigits.join('');
     String binaryResult = fracBinary.isNotEmpty ? "$intBinary.$fracBinary" : intBinary;
 
-    // Expanded Notation
+    // Expanded Notation and LaTeX versions
     List<String> expandedTerms = [];
     List<String> expandedValues = [];
+    List<String> expandedTermsLaTeX = [];
+    List<String> expandedFracTermsLaTeX = [];
+    List<String> expandedFracValuesLaTeX = [];
     int intLen = intRemainders.length;
-    int tempIntForValue = intPart;
     List<int> intRemaindersReversed = intRemainders.reversed.toList();
 
     for (int i = 0; i < intLen; i++) {
@@ -171,6 +187,7 @@ class DecimalToBinaryLogic {
       int actualValue = bit * (1 << pow);
       expandedTerms.add("($bit×2${_superscript(pow)})");
       expandedValues.add("$actualValue");
+      expandedTermsLaTeX.add("($bit \\times 2^{$pow})");
     }
     List<String> expandedFracTerms = [];
     List<String> expandedFracValues = [];
@@ -179,42 +196,68 @@ class DecimalToBinaryLogic {
       double value = bit * (1 / (1 << (i + 1)));
       expandedFracTerms.add("($bit×2${_subscript(-(i + 1))})");
       expandedFracValues.add("$value");
+      expandedFracTermsLaTeX.add("($bit \\times 2^{-${i + 1}})");
+      expandedFracValuesLaTeX.add("${value}");
     }
 
     String expandedNotation = "$input₁₀ = ${expandedTerms.join(' + ')}${expandedFracTerms.isNotEmpty
-            ? " + ${expandedFracTerms.join(' + ')}"
-            : ""}";
+        ? " + ${expandedFracTerms.join(' + ')}"
+        : ""}";
     String expandedValuesStr = "= ${expandedValues.join(' + ')}${expandedFracValues.isNotEmpty
-            ? " + ${expandedFracValues.join(' + ')}"
-            : ""}";
+        ? " + ${expandedFracValues.join(' + ')}"
+        : ""}";
     String finalResult = "= $binaryResult\u2082";
+
+    // Apply suggested fixes here:
+    String expandedNotationLaTeX =
+        "${input}_{{10}} = ${expandedTermsLaTeX.join(' + ')}"
+            + (expandedFracTermsLaTeX.isNotEmpty ? " + ${expandedFracTermsLaTeX.join(' + ')}" : "");
+    String expandedValuesLaTeX =
+        "= ${expandedValues.join(' + ')}"
+            + (expandedFracValuesLaTeX.isNotEmpty ? " + ${expandedFracValuesLaTeX.join(' + ')}" : "");
+    String finalResultLaTeX = "= ${binaryResult}_{{2}}";
 
     // Step-by-step description
     List<String> stepByStep = [];
+    List<String> stepByStepLaTeX = [];
     stepByStep.add("Integer Part Conversion:");
+    stepByStepLaTeX.add("Integer\\ Part\\ Conversion:");
     for (final s in intSteps) {
       stepByStep.add(
           "Step ${s.step}: ${s.value} ${s.operation} = ${s.quotientOrIntPart}, remainder = ${s.remainderOrFraction}");
+      stepByStepLaTeX.add(
+          "Step\\ ${s.step}:\\ ${s.value}\\ ${s.operation.replaceAll('÷', '\\div')}\\ =\\ ${s.quotientOrIntPart},\\ remainder\\ =\\ ${s.remainderOrFraction}");
     }
     stepByStep.add(
         "Reading the remainders upwards gives the integer binary part: $intBinary");
+    stepByStepLaTeX.add(
+        "Reading\\ the\\ remainders\\ upwards\\ gives\\ the\\ integer\\ binary\\ part:\\ $intBinary");
 
     if (fracDigits.isNotEmpty) {
       stepByStep.add("Fractional Part Conversion:");
+      stepByStepLaTeX.add("Fractional\\ Part\\ Conversion:");
       for (final s in fracSteps) {
         stepByStep.add(
             "Step ${s.step}: ${s.value} ${s.operation} = ${s.quotientOrIntPart} (integer part), fractional remainder = ${s.remainderOrFraction}");
+        stepByStepLaTeX.add(
+            "Step\\ ${s.step}:\\ ${s.value}\\ ${s.operation.replaceAll('×', '\\times')}\\ =\\ ${s.quotientOrIntPart}\\ (integer\\ part),\\ fractional\\ remainder\\ =\\ ${s.remainderOrFraction}");
       }
       stepByStep.add(
           "The binary fraction is formed by taking the integer part from each multiplication in order: $fracBinary");
+      stepByStepLaTeX.add(
+          "The\\ binary\\ fraction\\ is\\ formed\\ by\\ taking\\ the\\ integer\\ part\\ from\\ each\\ multiplication\\ in\\ order:\\ $fracBinary");
       if (recurring) {
         stepByStep.add(
             "Note: The binary fraction is recurring and truncated for display.");
+        stepByStepLaTeX.add(
+            "Note:\\ The\\ binary\\ fraction\\ is\\ recurring\\ and\\ truncated\\ for\\ display.");
       }
     }
 
     stepByStep.add(
         "Final Solution: $input in base ten is $binaryResult in base two.");
+    stepByStepLaTeX.add(
+        "Final\\ Solution:\\ $input\\ in\\ base\\ ten\\ is\\ $binaryResult\\ in\\ base\\ two.");
 
     return DecimalToBinaryResult(
       originalInput: input,
@@ -226,6 +269,10 @@ class DecimalToBinaryLogic {
       fractionSteps: fracSteps,
       stepByStep: stepByStep,
       valid: true,
+      expandedNotationLaTeX: expandedNotationLaTeX,
+      expandedValuesLaTeX: expandedValuesLaTeX,
+      finalResultLaTeX: finalResultLaTeX,
+      stepByStepLaTeX: stepByStepLaTeX,
     );
   }
 

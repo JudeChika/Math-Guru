@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'binary_to_decimal_logic.dart';
 import 'decimal_to_binary_logic.dart';
 
@@ -82,9 +83,10 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
           const SizedBox(height: 12),
           if (_binaryMainResult != null)
             Center(
-              child: Text(
-                _binaryMainResult!,
-                style: theme.textTheme.displayLarge?.copyWith(
+              child: Math.tex(
+                // Render main result in LaTeX
+                "${_binaryResults[0].binaryInput}_2 = ${_binaryResults[0].decimalOutput}_{10}",
+                textStyle: theme.textTheme.displayLarge?.copyWith(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                   color: Colors.deepPurple,
@@ -117,6 +119,13 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
       );
     }
 
+    // Compose expanded notation LaTeX, split lines for readability
+    final expandedLaTeX = """
+      ${result.binaryInput}_2 = ${result.expandedNotationLaTeX ?? result.expandedNotation} \\\\
+      = ${result.expandedValuesLaTeX ?? result.expandedValues} \\\\
+      = ${result.finalResultLaTeX ?? result.finalResult}
+    """;
+
     return Card(
       color: Colors.green.shade50,
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -143,32 +152,12 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    result.expandedNotation,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Poppins',
-                      color: Colors.deepPurple.shade800,
-                    ),
-                  ),
-                  Text(
-                    result.expandedValues,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Poppins',
-                      color: Colors.deepPurple.shade800,
-                    ),
-                  ),
-                  Text(
-                    result.finalResult,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Poppins',
-                      color: Colors.deepPurple.shade800,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              child: Math.tex(
+                expandedLaTeX,
+                textStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontFamily: 'Poppins',
+                  color: Colors.deepPurple.shade800,
+                ),
               ),
             ),
             const SizedBox(height: 8),
@@ -179,7 +168,7 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 fontFamily: 'Poppins',
               ),
             ),
-            _stepsList(result.steps),
+            _stepsList(result.stepsLaTeX ?? result.steps),
           ],
         ),
       ),
@@ -237,11 +226,11 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
             ],
           ),
           const SizedBox(height: 12),
-          if (_decimalMainResult != null)
+          if (_decimalMainResult != null && _decimalResults.isNotEmpty && _decimalResults[0].valid)
             Center(
-              child: Text(
-                _decimalMainResult!,
-                style: theme.textTheme.displayLarge?.copyWith(
+              child: Math.tex(
+                "${_decimalResults[0].originalInput}_{10} = ${_decimalResults[0].binaryResult}_2",
+                textStyle: theme.textTheme.displayLarge?.copyWith(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                   color: Colors.deepPurple,
@@ -275,6 +264,13 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
       );
     }
 
+    // Compose expanded notation LaTeX, split lines for readability
+    final expandedLaTeX = """
+      ${result.originalInput}_{{10}} = ${result.expandedNotationLaTeX ?? result.expandedNotation} \\\\
+      = ${result.expandedValuesLaTeX ?? result.expandedValues} \\\\
+      = ${result.finalResultLaTeX ?? result.finalResult}
+    """;
+
     return Card(
       color: Colors.green.shade50,
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -283,9 +279,9 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Base 10: ${result.originalInput}",
-              style: theme.textTheme.bodyMedium?.copyWith(
+            Math.tex(
+              "Base\\ 10:\\ ${result.originalInput}",
+              textStyle: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple,
                 fontFamily: 'Poppins',
@@ -323,32 +319,12 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    result.expandedNotation,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Poppins',
-                      color: Colors.deepPurple.shade800,
-                    ),
-                  ),
-                  Text(
-                    result.expandedValues,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Poppins',
-                      color: Colors.deepPurple.shade800,
-                    ),
-                  ),
-                  Text(
-                    result.finalResult,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Poppins',
-                      color: Colors.deepPurple.shade800,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              child: Math.tex(
+                expandedLaTeX,
+                textStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontFamily: 'Poppins',
+                  color: Colors.deepPurple.shade800,
+                ),
               ),
             ),
             const SizedBox(height: 8),
@@ -359,7 +335,7 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 fontFamily: 'Poppins',
               ),
             ),
-            _stepsList(result.stepByStep),
+            _stepsList(result.stepByStepLaTeX ?? result.stepByStep),
           ],
         ),
       ),
@@ -440,9 +416,9 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 style: const TextStyle(
                     color: Colors.deepPurple, fontFamily: 'Poppins')),
           ),
-          title: Text(
+          title: Math.tex(
             steps[idx],
-            style: Theme.of(context)
+            textStyle: Theme.of(context)
                 .textTheme
                 .bodySmall
                 ?.copyWith(fontFamily: 'Poppins'),

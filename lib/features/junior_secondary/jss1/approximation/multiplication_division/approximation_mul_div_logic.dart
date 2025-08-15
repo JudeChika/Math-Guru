@@ -78,7 +78,7 @@ class ApproximationMulDivLogic {
         ));
       } else {
         approxSteps.add(ApproxSolutionStep(
-          latex: "${_removeTrailingZeros(orig)}",
+          latex: _removeTrailingZeros(orig),
           description: "Operand ${i + 1} needs no approximation.",
         ));
       }

@@ -5,6 +5,7 @@ class BinaryCountingResult {
   final String binaryString;
   final List<BinaryGroupingRow> groupingTable;
   final String expandedNotation;
+  final String? expandedNotationLaTeX;
   final List<BinaryExpandedStep> steps;
   final bool valid;
   final String? error;
@@ -13,6 +14,7 @@ class BinaryCountingResult {
     required this.binaryString,
     required this.groupingTable,
     required this.expandedNotation,
+    this.expandedNotationLaTeX,
     required this.steps,
     required this.valid,
     this.error,
@@ -54,6 +56,7 @@ class BinaryCountingLogic {
         binaryString: binaryInput,
         groupingTable: [],
         expandedNotation: '',
+        expandedNotationLaTeX: null,
         steps: [
           BinaryExpandedStep(description: "Invalid input: '$binaryInput' is not a valid binary number. Enter only 0s and 1s."),
         ],
@@ -74,17 +77,22 @@ class BinaryCountingLogic {
             : "2^$power",
         powerRep: "2${_superscript(power)}",
         digit: digits[i],
+        powerRepLaTeX: "2^{$power}",
       ));
     }
 
     // Expanded notation (mathematical, with only the terms)
-    List<String> terms = [];
+    List<String> termsLaTeX = [];
     for (int i = 0; i < len; i++) {
       final power = len - 1 - i;
       final digit = digits[i];
-      terms.add("($digit×2${_superscript(power)})");
+      termsLaTeX.add("($digit \\times 2^{$power})");
     }
-    final expandedNotation = "${_formatBinaryBase2(binaryInput)} = ${terms.join(" + ")}";
+    // Compose a multi-line LaTeX string for wrapping
+    final expandedNotationLaTeX = "${binaryInput}_2 = " +
+        termsLaTeX.take(3).join(" + ") + r" \\ " +
+        (termsLaTeX.length > 3 ? termsLaTeX.skip(3).join(" + ") : "");
+    final expandedNotation = "${_formatBinaryBase2(binaryInput)} = ${termsLaTeX.join(" + ")}";
 
     // Step-by-step: Each term, only as base two, no base ten shown
     List<BinaryExpandedStep> steps = [];
@@ -93,6 +101,7 @@ class BinaryCountingLogic {
       final digit = digits[i];
       steps.add(BinaryExpandedStep(
         description: "Step ${i + 1}: $digit × 2${_superscript(power)}",
+        descriptionLaTeX: "Step ${i + 1}: $digit \\times 2^{$power}",
       ));
     }
 
@@ -100,6 +109,7 @@ class BinaryCountingLogic {
       binaryString: binaryInput,
       groupingTable: groupingTable,
       expandedNotation: expandedNotation,
+      expandedNotationLaTeX: expandedNotationLaTeX,
       steps: steps,
       valid: true,
     );
