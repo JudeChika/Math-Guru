@@ -83,17 +83,20 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
           const SizedBox(height: 12),
           if (_binaryMainResult != null)
             Center(
-              child: Math.tex(
-                // Render main result in LaTeX
-                "${_binaryResults[0].binaryInput}_2 = ${_binaryResults[0].decimalOutput}_{10}",
-                textStyle: theme.textTheme.displayLarge?.copyWith(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                  fontSize: 32,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Math.tex(
+                  "${_binaryResults[0].binaryInput}_2 = ${_binaryResults[0].decimalOutput}_{10}",
+                  textStyle: theme.textTheme.displayLarge?.copyWith(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple,
+                    fontSize: 32,
+                  ),
                 ),
               ),
             ),
+
           const SizedBox(height: 18),
           for (final result in _binaryResults)
             _binaryToDecimalResultCard(result, theme),
@@ -119,13 +122,6 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
       );
     }
 
-    // Compose expanded notation LaTeX, split lines for readability
-    final expandedLaTeX = """
-      ${result.binaryInput}_2 = ${result.expandedNotationLaTeX ?? result.expandedNotation} \\\\
-      = ${result.expandedValuesLaTeX ?? result.expandedValues} \\\\
-      = ${result.finalResultLaTeX ?? result.finalResult}
-    """;
-
     return Card(
       color: Colors.green.shade50,
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -150,16 +146,79 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 fontFamily: 'Poppins',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Math.tex(
-                expandedLaTeX,
-                textStyle: theme.textTheme.bodyMedium?.copyWith(
-                  fontFamily: 'Poppins',
-                  color: Colors.deepPurple.shade800,
+            // Fixed: Simplified approach to avoid RenderFlex issues
+            if (result.expandedNotationLaTeX != null) ...[
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Math.tex(
+                        result.expandedNotationLaTeX!,
+                        textStyle: theme.textTheme.bodyMedium?.copyWith(
+                          fontFamily: 'Poppins',
+                          color: Colors.deepPurple.shade800,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Math.tex(
+                        "= ${result.expandedValuesLaTeX ?? result.expandedValues}",
+                        textStyle: theme.textTheme.bodyMedium?.copyWith(
+                          fontFamily: 'Poppins',
+                          color: Colors.deepPurple.shade800,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Math.tex(
+                        "= ${result.finalResultLaTeX ?? result.finalResult}",
+                        textStyle: theme.textTheme.bodyMedium?.copyWith(
+                          fontFamily: 'Poppins',
+                          color: Colors.deepPurple.shade800,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ] else
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Text(
+                  "${result.expandedNotation}\n${result.expandedValues}\n${result.finalResult}",
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontFamily: 'Poppins',
+                    color: Colors.deepPurple.shade800,
+                  ),
+                ),
+              ),
             const SizedBox(height: 8),
             Text(
               "Step-by-step Solution:",
@@ -228,13 +287,16 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
           const SizedBox(height: 12),
           if (_decimalMainResult != null && _decimalResults.isNotEmpty && _decimalResults[0].valid)
             Center(
-              child: Math.tex(
-                "${_decimalResults[0].originalInput}_{10} = ${_decimalResults[0].binaryResult}_2",
-                textStyle: theme.textTheme.displayLarge?.copyWith(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                  fontSize: 32,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Math.tex(
+                  "${_decimalResults[0].originalInput}_{10} = ${_decimalResults[0].binaryResult}_2",
+                  textStyle: theme.textTheme.displayLarge?.copyWith(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple,
+                    fontSize: 32,
+                  ),
                 ),
               ),
             ),
@@ -263,13 +325,6 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
         ),
       );
     }
-
-    // Compose expanded notation LaTeX, split lines for readability
-    final expandedLaTeX = """
-      ${result.originalInput}_{{10}} = ${result.expandedNotationLaTeX ?? result.expandedNotation} \\\\
-      = ${result.expandedValuesLaTeX ?? result.expandedValues} \\\\
-      = ${result.finalResultLaTeX ?? result.finalResult}
-    """;
 
     return Card(
       color: Colors.green.shade50,
@@ -317,16 +372,61 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 fontFamily: 'Poppins',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Math.tex(
-                expandedLaTeX,
-                textStyle: theme.textTheme.bodyMedium?.copyWith(
-                  fontFamily: 'Poppins',
-                  color: Colors.deepPurple.shade800,
+            // Fixed: Display each LaTeX line separately with horizontal scrolling
+            if (result.expandedNotationLaTeX != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Math.tex(
+                    result.expandedNotationLaTeX!,
+                    textStyle: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Poppins',
+                      color: Colors.deepPurple.shade800,
+                      fontSize: 14, // Slightly smaller to fit better
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Math.tex(
+                    "= ${result.expandedValuesLaTeX ?? result.expandedValues}",
+                    textStyle: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Poppins',
+                      color: Colors.deepPurple.shade800,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Math.tex(
+                    "= ${result.finalResultLaTeX ?? result.finalResult}",
+                    textStyle: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Poppins',
+                      color: Colors.deepPurple.shade800,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            ] else
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Text(
+                  "${result.expandedNotation}\n${result.expandedValues}\n${result.finalResult}",
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontFamily: 'Poppins',
+                    color: Colors.deepPurple.shade800,
+                  ),
+                ),
+              ),
             const SizedBox(height: 8),
             Text(
               "Step-by-step Solution:",
@@ -416,12 +516,18 @@ class _BinaryConversionScreenState extends State<BinaryConversionScreen>
                 style: const TextStyle(
                     color: Colors.deepPurple, fontFamily: 'Poppins')),
           ),
-          title: Math.tex(
-            steps[idx],
-            textStyle: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(fontFamily: 'Poppins'),
+          title: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Math.tex(
+              steps[idx],
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(
+                fontFamily: 'Poppins',
+                fontSize: 12, // Smaller font for steps
+              ),
+            ),
           ),
         ),
       ),

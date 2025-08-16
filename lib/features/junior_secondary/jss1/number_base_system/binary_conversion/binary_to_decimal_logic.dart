@@ -81,23 +81,26 @@ class BinaryToDecimalLogic {
       int value = digit * (1 << power);
       terms.add("($digit×2${_superscript(power)})");
       values.add("$value");
-      termsLaTeX.add("($digit \\times 2^{$power})");
+      // Fixed LaTeX syntax - removed parentheses around individual terms and simplified
+      termsLaTeX.add("$digit \\times 2^{$power}");
       valuesLaTeX.add("$value");
       stepDetails.add(
           "Step ${i + 1}: $digit × 2${_superscript(power)} = $value");
-      stepsLaTeX.add("Step ${i + 1}: $digit \\times 2^{$power} = $value");
+      stepsLaTeX.add("\\text{Step } ${i + 1}: $digit \\times 2^{$power} = $value");
       decimal += value;
     }
 
     final expandedNotation = "${_formatBinaryBase2(binary)} = ${terms.join(' + ')}";
-    final expandedValues = "= ${values.join(' + ')}";
-    final finalResult = "= $decimal";
+    final expandedValues = " ${values.join(' + ')}";
+    final finalResult = " $decimal";
+
+    // Fixed LaTeX - cleaner syntax without problematic formatting
     final expandedNotationLaTeX = "${binary}_2 = ${termsLaTeX.join(' + ')}";
-    final expandedValuesLaTeX = "= ${valuesLaTeX.join(' + ')}";
-    final finalResultLaTeX = "= $decimal";
+    final expandedValuesLaTeX = valuesLaTeX.join(' + ');
+    final finalResultLaTeX = "$decimal";
 
     stepDetails.add("Final Solution: $binary in base two is $decimal in base ten.");
-    stepsLaTeX.add("Final\\ Solution:\\ $binary\\ in\\ base\\ two\\ is\\ $decimal\\ in\\ base\\ ten.");
+    stepsLaTeX.add("\\text{Final Solution: } $binary \\text{ in base two is } $decimal \\text{ in base ten.}");
 
     return BinaryToDecimalResult(
       binaryInput: binary,
