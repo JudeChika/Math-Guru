@@ -122,12 +122,7 @@ class _BinaryAdditionScreenState extends State<BinaryAdditionScreen> {
             // Centralized main result display
             if (_result != null && _result!.valid)
               Center(
-                child: Card(
-                  color: Colors.deepPurple.shade50,
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
+                child: Column(
                       children: [
                         Text(
                           "Result",
@@ -146,22 +141,24 @@ class _BinaryAdditionScreenState extends State<BinaryAdditionScreen> {
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold,
                               color: Colors.deepPurple,
-                              fontSize: 24,
+                              fontSize: 30,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        Math.tex(
-                          "= ${_result!.decimalSum}_{10}",
-                          textStyle: theme.textTheme.titleMedium?.copyWith(
-                            fontFamily: 'Poppins',
-                            color: Colors.deepPurple.shade700,
+                        const SizedBox(height: 10),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Math.tex(
+                            "= ${_result!.decimalSum}_{10}",
+                            textStyle: theme.textTheme.titleMedium?.copyWith(
+                              fontFamily: 'Poppins',
+                              color: Colors.deepPurple.shade700,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ),
               ),
 
             const SizedBox(height: 18),
@@ -210,6 +207,10 @@ class _BinaryAdditionScreenState extends State<BinaryAdditionScreen> {
             ),
             const SizedBox(height: 12),
 
+            // Legend for binary addition rules
+            _buildLegendCard(theme),
+            const SizedBox(height: 20),
+
             // Working display as table
             Text(
               "Working:",
@@ -218,10 +219,9 @@ class _BinaryAdditionScreenState extends State<BinaryAdditionScreen> {
                 fontFamily: 'Poppins',
               ),
             ),
-            const SizedBox(height: 8),
             _buildWorkingTable(result, theme),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
 
             // Step-by-step explanation
             Text(
@@ -231,8 +231,43 @@ class _BinaryAdditionScreenState extends State<BinaryAdditionScreen> {
                 fontFamily: 'Poppins',
               ),
             ),
+            _buildStepsList(result.stepByStepLaTeX ?? []), // Use LaTeX instead of plain text
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLegendCard(ThemeData theme) {
+    return Card(
+      color: Colors.purple.shade50,
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Rules For Adding Binary Numbers",
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
+                color: Colors.deepPurple,
+              ),
+            ),
             const SizedBox(height: 8),
-            _buildStepsList(result.stepByStepExplanation), // Use plain text instead of LaTeX
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Math.tex("0 + 0 = 0"),
+                const SizedBox(height: 8),
+                Math.tex("0 + 1 = 1"),
+                const SizedBox(height: 8),
+                Math.tex("1 + 0 = 1"),
+                const SizedBox(height: 8),
+                Math.tex("1 + 1 = 10_2"),
+              ],
+            ),
           ],
         ),
       ),
@@ -245,129 +280,142 @@ class _BinaryAdditionScreenState extends State<BinaryAdditionScreen> {
     List<String> paddedInputs = result.binaryInputs
         .map((input) => input.padLeft(maxLength, ' '))
         .toList();
-    String paddedResult = result.binarySum.padLeft(maxLength, ' ');
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: DataTable(
-          columnSpacing: 8,
-          horizontalMargin: 12,
-          headingRowHeight: 0, // Hide header
-          dataRowMinHeight: 32,
-          dataRowMaxHeight: 32,
-          columns: List.generate(
-            maxLength + 2, // +2 for operator and notation columns
+      child: DataTable(
+        columnSpacing: 12,
+        horizontalMargin: 8,
+        headingRowColor: WidgetStateProperty.all(Colors.purple.shade50),
+        dataRowColor: WidgetStateProperty.all(Colors.grey.shade50),
+        columns: [
+          const DataColumn(label: SizedBox(width: 30, child: Text(""))), // Operator column
+          ...List.generate(
+            maxLength,
                 (index) => DataColumn(
-              label: Container(width: 0), // Empty headers
+              label: SizedBox(
+                width: 40,
+                child: Text(
+                  "Bit ${maxLength - index - 1}",
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ),
-          rows: [
-            // Input rows
-            for (int i = 0; i < paddedInputs.length; i++)
-              DataRow(
-                cells: [
-                  // Operator column
-                  DataCell(
-                    Text(
-                      i == 0 ? '' : '+',
-                      style: const TextStyle(
-                        fontFamily: 'Courier New',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+          const DataColumn(
+            label: SizedBox(
+              width: 80,
+              child: Text(
+                "Notation",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ), // Notation column
+        ],
+        rows: [
+          // Input rows
+          for (int i = 0; i < paddedInputs.length; i++)
+            DataRow(
+              color: WidgetStateProperty.all(Colors.grey.shade50),
+              cells: [
+                // Operator column
+                DataCell(
+                  SizedBox(
+                    width: 30,
+                    child: Center(
+                      child: Math.tex(
+                        i == 0 ? "" : "+",
+                        textStyle: const TextStyle(fontSize: 14),
                       ),
                     ),
                   ),
-                  // Binary digits
-                  ...paddedInputs[i].split('').map(
-                        (digit) => DataCell(
-                      Text(
-                        digit,
-                        style: const TextStyle(
-                          fontFamily: 'Courier New',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                ),
+                // Binary digits
+                ...paddedInputs[i].split('').map(
+                      (digit) => DataCell(
+                    SizedBox(
+                      width: 40,
+                      child: Center(
+                        child: Math.tex(
+                          digit == ' ' ? "0" : digit,
+                          textStyle: const TextStyle(fontSize: 14),
                         ),
                       ),
                     ),
                   ),
-                  // Notation column
-                  DataCell(
-                    Text(
-                      '(${result.binaryInputs[i]}₂)',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-            // Separator row
-            DataRow(
-              cells: List.generate(
-                maxLength + 2,
-                    (index) => DataCell(
-                  Container(
-                    height: 1,
-                    color: index == 0 || index == maxLength + 1
-                        ? Colors.transparent
-                        : Colors.black,
-                  ),
                 ),
-              ),
-            ),
-
-            // Result row
-            DataRow(
-              cells: [
-                // Equals sign
-                const DataCell(
-                  Text(
-                    '=',
-                    style: TextStyle(
-                      fontFamily: 'Courier New',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                // Result digits
-                ...paddedResult.split('').map(
-                      (digit) => DataCell(
-                    Text(
-                      digit,
-                      style: const TextStyle(
-                        fontFamily: 'Courier New',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
-                ),
-                // Result notation
+                // Notation column
                 DataCell(
-                  Text(
-                    '= ${result.binarySum}₂',
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 12,
-                      color: Colors.deepPurple,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    width: 80,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Math.tex(
+                        "(${result.binaryInputs[i]})_2",
+                        textStyle: const TextStyle(fontSize: 10),
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-          ],
-        ),
+
+          // Result row with different color
+          DataRow(
+            color: WidgetStateProperty.all(Colors.deepPurple.shade100),
+            cells: [
+              // Equals sign
+              DataCell(
+                SizedBox(
+                  width: 30,
+                  child: Center(
+                    child: Math.tex(
+                      "=",
+                      textStyle: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ),
+              ),
+              // Result digits
+              ...result.binarySum.split('').map(
+                    (digit) => DataCell(
+                  SizedBox(
+                    width: 40,
+                    child: Center(
+                      child: Math.tex(
+                        digit,
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // Result notation
+              DataCell(
+                SizedBox(
+                  width: 80,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Math.tex(
+                      "= (${result.binarySum})_2",
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -392,11 +440,14 @@ class _BinaryAdditionScreenState extends State<BinaryAdditionScreen> {
                 )
             ),
           ),
-          title: Text(
-            steps[idx],
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontFamily: 'Poppins',
-              fontSize: 12,
+          title: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Math.tex(
+              steps[idx],
+              textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontFamily: 'Poppins',
+                fontSize: 12,
+              ),
             ),
           ),
         ),

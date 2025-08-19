@@ -135,7 +135,7 @@ class BinaryAdditionLogic {
         sum: carry,
         resultBit: carry,
         newCarry: 0,
-        explanation: "Leftover carry becomes the new most-significant bit(s): $carry = $carryBinary₂",
+        explanation: "\\text{Leftover carry becomes the new most-significant bit(s): } $carry = ${carryBinary}_2",
       ));
     }
 
@@ -155,13 +155,7 @@ class BinaryAdditionLogic {
 
     for (BinaryAdditionStep step in steps) {
       stepByStepExplanation.add("• ${step.explanation}");
-      // Fixed LaTeX - properly escape special characters and avoid problematic subscripts
-      String cleanExplanation = step.explanation
-          .replaceAll('₀', '0').replaceAll('₁', '1').replaceAll('₂', '2')
-          .replaceAll('₃', '3').replaceAll('₄', '4').replaceAll('₅', '5')
-          .replaceAll('**', '')
-          .replaceAll('→', 'then');
-      stepByStepLaTeX.add("\\text{• $cleanExplanation}");
+      stepByStepLaTeX.add(step.explanation);
     }
 
     stepByStepExplanation.add("Final Result: $binarySum₂ = $decimalSum₁₀");
@@ -171,6 +165,7 @@ class BinaryAdditionLogic {
     int expectedSum = cleanInputs.map(binaryToDecimal).reduce((a, b) => a + b);
     if (decimalSum != expectedSum) {
       stepByStepExplanation.add("Verification: ${cleanInputs.map((s) => '$s₂ = ${binaryToDecimal(s)}₁₀').join(' + ')} = $expectedSum₁₀ ✓");
+      stepByStepLaTeX.add("\\text{Verification: } ${cleanInputs.map((s) => '${s}_2 = ${binaryToDecimal(s)}_{10}').join(' + ')} = ${expectedSum}_{10} \\checkmark");
     }
 
     return BinaryAdditionResult(
@@ -188,10 +183,10 @@ class BinaryAdditionLogic {
 
   static String _createStepExplanation(int colIndex, List<int> bits, int carry, int sum, int resultBit, int newCarry) {
     String bitsStr = bits.join(' + ');
-    String carryStr = carry > 0 ? " + carry$carry" : "";
+    String carryStr = carry > 0 ? " + \\text{carry } $carry" : "";
     String sumInBinary = decimalToBinary(sum);
 
-    return "Col${_subscript(colIndex)}: $bitsStr$carryStr = $sum = $sumInBinary₂ → write **$resultBit**${newCarry > 0 ? ', carry **$newCarry**' : ''}";
+    return "\\text{Col}_{$colIndex}: $bitsStr$carryStr = $sum = ${sumInBinary}_2 \\rightarrow \\text{write } $resultBit${newCarry > 0 ? ', \\text{carry } $newCarry' : ''}";
   }
 
   static String _createWorkingDisplay(List<String> inputs, String result) {
