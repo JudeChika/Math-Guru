@@ -121,7 +121,7 @@ class BinaryMultiplicationLogic {
     List<BinaryMultiplicationStep> steps = [];
     List<String> partialProducts = [];
 
-    // Generate partial products (right to left)
+    // Generate partial products (right to left) - POSITIONALLY ALIGNED VERSION
     for (int i = cleanMultiplier.length - 1; i >= 0; i--) {
       int multiplierBit = int.parse(cleanMultiplier[i]);
       int position = cleanMultiplier.length - 1 - i;
@@ -130,10 +130,10 @@ class BinaryMultiplicationLogic {
       String explanation;
 
       if (multiplierBit == 0) {
-        // Multiplying by 0 gives zeros with proper positioning
-        int productLength = cleanMultiplicand.length + position;
-        partialProduct = "0" * productLength;
-        explanation = "\\text{Step ${steps.length + 1}: } ${cleanMultiplicand}_2 \\times $multiplierBit = ${"0" * productLength}_2 \\text{ (all zeros)}";
+        // Multiplying by 0 gives zeros of same length as multiplicand, positioned correctly
+        String zeros = "0" * cleanMultiplicand.length;
+        partialProduct = zeros + ("0" * position);
+        explanation = "\\text{Step ${steps.length + 1}: } ${cleanMultiplicand}_2 \\times $multiplierBit = ${zeros}_2 \\text{ at position $position}";
       } else {
         // Multiplying by 1 gives the multiplicand shifted left by position
         partialProduct = cleanMultiplicand + ("0" * position);
@@ -147,11 +147,10 @@ class BinaryMultiplicationLogic {
         explanation: explanation,
       ));
 
-      // Add all partial products (including zeros) for display
       partialProducts.add(partialProduct);
     }
 
-    // Add all partial products (including those with zeros)
+    // Add all partial products
     String binaryProduct = addBinaryNumbers(partialProducts);
     int decimalProduct = binaryToDecimal(binaryProduct);
 

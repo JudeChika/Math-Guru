@@ -85,12 +85,7 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
             // Centralized main result display
             if (_result != null && _result!.valid)
               Center(
-                child: Card(
-                  color: Colors.deepPurple.shade50,
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
+                child: Column(
                       children: [
                         Text(
                           "Result",
@@ -109,11 +104,11 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold,
                               color: Colors.deepPurple,
-                              fontSize: 24,
+                              fontSize: 30,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 10),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Math.tex(
@@ -121,13 +116,12 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
                             textStyle: theme.textTheme.titleMedium?.copyWith(
                               fontFamily: 'Poppins',
                               color: Colors.deepPurple.shade700,
+                              fontSize: 20,
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ),
               ),
 
             const SizedBox(height: 18),
@@ -227,13 +221,15 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
               ),
             ),
             const SizedBox(height: 8),
-            Wrap(
-              spacing: 16,
-              runSpacing: 4,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Math.tex("0 \\times 0 = 0"),
+                const SizedBox(height: 8),
                 Math.tex("0 \\times 1 = 0"),
+                const SizedBox(height: 8),
                 Math.tex("1 \\times 0 = 0"),
+                const SizedBox(height: 8),
                 Math.tex("1 \\times 1 = 1"),
               ],
             ),
@@ -371,7 +367,7 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
       }
 
       rows.add(DataRow(
-        color: WidgetStateProperty.all(Colors.orange.shade50),
+        color: WidgetStateProperty.all(Colors.purple.shade50),
         cells: [
           DataCell(
             SizedBox(
@@ -397,7 +393,7 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
                 child: Center(
                   child: digit.isEmpty ? const SizedBox() : Math.tex(
                     digit,
-                    textStyle: const TextStyle(fontSize: 14, color: Colors.orange),
+                    textStyle: const TextStyle(fontSize: 14, color: Colors.deepPurpleAccent),
                   ),
                 ),
               ),
@@ -410,8 +406,8 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Math.tex(
-                  "(${partialProduct})_2",
-                  textStyle: const TextStyle(fontSize: 10, color: Colors.orange),
+                  "($partialProduct)_2",
+                  textStyle: const TextStyle(fontSize: 10, color: Colors.deepPurpleAccent),
                 ),
               ),
             ),
@@ -452,7 +448,7 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.deepPurple,
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
               ),
@@ -470,7 +466,7 @@ class _BinaryMultiplicationScreenState extends State<BinaryMultiplicationScreen>
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.deepPurple,
-                  fontSize: 10,
+                  fontSize: 13,
                 ),
               ),
             ),
