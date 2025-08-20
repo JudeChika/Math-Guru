@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/addition_subtraction/addition_subtraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/multiplication_division/approximation_mul_div_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/rounding_off_numbers/rounding_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/basic_operations_involving_binary_system/binary_multiplication/binary_multiplication_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/basic_operations_involving_binary_system/binary_subtraction/binary_subtraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/conversion_to_percentage/conversion_to_percentage_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/fraction_division/fraction_division_screen.dart';
@@ -100,11 +101,14 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     if (subtopic == 'Multiplication & Division') {
       return const ApproximationMulDivScreen();
     }
-    if (subtopic == 'Addition') {
+    if (subtopic == 'Binary Addition') {
       return const BinaryAdditionScreen();
     }
-    if (subtopic == 'Subtraction') {
+    if (subtopic == 'Binary Subtraction') {
       return const BinarySubtractionScreen();
+    }
+    if (subtopic == 'Binary Multiplication') {
+      return const BinaryMultiplicationScreen();
     }
 
     return Scaffold(

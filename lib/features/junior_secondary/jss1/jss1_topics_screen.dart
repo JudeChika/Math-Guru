@@ -35,10 +35,10 @@ const Map<String, List<String>> jss1Topics = {
     'Multiplication & Division',
   ],
   'Basic Operations involving the Binary System': [
-    'Addition',
-    'Subtraction',
-    'Multiplication',
-    'Division',
+    'Binary Addition',
+    'Binary Subtraction',
+    'Binary Multiplication',
+    'Binary Division',
   ],
   'Algebra': [
     'Basic Operations',
