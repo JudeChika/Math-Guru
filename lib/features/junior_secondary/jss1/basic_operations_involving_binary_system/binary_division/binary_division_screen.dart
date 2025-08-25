@@ -3,6 +3,128 @@ import 'package:flutter_math_fork/flutter_math.dart';
 import 'binary_division_logic.dart';
 import 'binary_division_models.dart';
 
+class LongDivisionPainter extends CustomPainter {
+  final String divisor;
+  final String dividend;
+  final String quotient;
+  final String remainder;
+  final List<BinaryDivisionStep> steps;
+
+  LongDivisionPainter({
+    required this.divisor,
+    required this.dividend,
+    required this.quotient,
+    required this.remainder,
+    required this.steps,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    final textPainter = TextPainter(
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    );
+
+
+    // Draw the division bracket
+    final bracketPath = Path();
+    final startX = size.width / 2 - 60;
+    const startY = 50;
+
+    // Horizontal line above dividend
+    bracketPath.moveTo(startX + 40, startY as double);
+    bracketPath.lineTo(startX + 120, startY as double);
+
+    // Vertical line for division bracket
+    bracketPath.moveTo(startX + 40, startY as double);
+    bracketPath.lineTo(startX + 40, startY + 20);
+
+    canvas.drawPath(bracketPath, paint);
+
+    // Draw divisor
+    textPainter.text = TextSpan(
+      text: divisor,
+      style: const TextStyle(
+        fontSize: 18,
+        color: Colors.black,
+        fontFamily: 'Poppins',
+      ),
+    );
+    textPainter.layout();
+    textPainter.paint(canvas, Offset(startX - 30, startY + 5));
+
+    // Draw dividend
+    textPainter.text = TextSpan(
+      text: dividend,
+      style: const TextStyle(
+        fontSize: 18,
+        color: Colors.black,
+        fontFamily: 'Poppins',
+      ),
+    );
+    textPainter.layout();
+    textPainter.paint(canvas, Offset(startX + 50, startY + 5));
+
+    // Draw working steps
+    double currentY = startY + 40;
+    for (var step in steps.where((s) => s.quotientBit == "1")) {
+      // Draw step dividend
+      textPainter.text = TextSpan(
+        text: step.dividend,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontFamily: 'Poppins',
+        ),
+      );
+      textPainter.layout();
+      textPainter.paint(canvas, Offset(startX + 60, currentY));
+
+      // Draw minus and divisor
+      textPainter.text = TextSpan(
+        text: "-${step.divisor}",
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.blue,
+          fontFamily: 'Poppins',
+        ),
+      );
+      textPainter.layout();
+      textPainter.paint(canvas, Offset(startX + 50, currentY + 20));
+
+      // Draw line
+      canvas.drawLine(
+        Offset(startX + 45, currentY + 35),
+        Offset(startX + 110, currentY + 35),
+        paint..strokeWidth = 1,
+      );
+
+      // Draw remainder
+      textPainter.text = TextSpan(
+        text: step.remainder,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.orange,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Poppins',
+        ),
+      );
+      textPainter.layout();
+      textPainter.paint(canvas, Offset(startX + 60, currentY + 40));
+
+      currentY += 70;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
 enum DivisionMethod { longDivision, repeatedSubtraction }
 
 class BinaryDivisionScreen extends StatefulWidget {
@@ -29,8 +151,7 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
     });
   }
 
-  void _onMethodChanged(DivisionMethod? method) {
-    if (method == null) return;
+  void _onMethodChanged(DivisionMethod method) {
     setState(() {
       _selectedMethod = method;
     });
@@ -85,9 +206,9 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
               ),
               onSubmitted: (_) => _performDivision(),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-            // Method selection
+            // Method selection with buttons
             Text(
               "Division Method:",
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -95,36 +216,100 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                 fontFamily: 'Poppins',
               ),
             ),
-            const SizedBox(height: 8),
             Row(
               children: [
                 Expanded(
-                  child: RadioListTile<DivisionMethod>(
-                    title: const Text("Long Division", style: TextStyle(fontFamily: 'Poppins')),
-                    value: DivisionMethod.longDivision,
-                    groupValue: _selectedMethod,
-                    onChanged: _onMethodChanged,
-                    activeColor: Colors.deepPurple,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    child: ElevatedButton(
+                      onPressed: () => _onMethodChanged(DivisionMethod.longDivision),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _selectedMethod == DivisionMethod.longDivision
+                            ? const Color(0xFF6B46C1)
+                            : Colors.grey.shade200,
+                        foregroundColor: _selectedMethod == DivisionMethod.longDivision
+                            ? Colors.white
+                            : Colors.black,
+                        elevation: _selectedMethod == DivisionMethod.longDivision ? 4 : 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      child: const Text(
+                        "Long Division",
+                        style: TextStyle(fontFamily: 'Poppins', fontSize: 11),
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: RadioListTile<DivisionMethod>(
-                    title: const Text("Repeated Subtraction", style: TextStyle(fontFamily: 'Poppins')),
-                    value: DivisionMethod.repeatedSubtraction,
-                    groupValue: _selectedMethod,
-                    onChanged: _onMethodChanged,
-                    activeColor: Colors.deepPurple,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    child: ElevatedButton(
+                      onPressed: () => _onMethodChanged(DivisionMethod.repeatedSubtraction),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _selectedMethod == DivisionMethod.repeatedSubtraction
+                            ? const Color(0xFF6B46C1)
+                            : Colors.grey.shade200,
+                        foregroundColor: _selectedMethod == DivisionMethod.repeatedSubtraction
+                            ? Colors.white
+                            : Colors.black,
+                        elevation: _selectedMethod == DivisionMethod.repeatedSubtraction ? 4 : 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      child: const Text(
+                        "Repeated Subtraction",
+                        style: TextStyle(fontFamily: 'Poppins', fontSize: 11),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-            // Divide button
+            // Convert button (styled like the image)
             Center(
-              child: ElevatedButton(
-                onPressed: _performDivision,
-                child: const Text("Divide", style: TextStyle(fontFamily: 'Poppins')),
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF6B46C1), Color(0xFF6B46C1)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.purple.withOpacity(0.3),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ElevatedButton(
+                  onPressed: _performDivision,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                  child: const Text(
+                    "Divide",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ),
 
@@ -133,12 +318,7 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
             // Centralized main result display
             if (_result != null && _result!.valid)
               Center(
-                child: Card(
-                  color: Colors.deepPurple.shade50,
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
+                child: Column(
                       children: [
                         Text(
                           "Result",
@@ -148,7 +328,7 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                             color: Colors.deepPurple,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Math.tex(
@@ -157,10 +337,11 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold,
                               color: Colors.deepPurple,
-                              fontSize: 24,
+                              fontSize: 30,
                             ),
                           ),
                         ),
+                        const SizedBox(height: 10),
                         if (_result!.binaryRemainder != "0")
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -172,7 +353,7 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                               ),
                             ),
                           ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 10),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Math.tex(
@@ -180,13 +361,12 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                             textStyle: theme.textTheme.titleMedium?.copyWith(
                               fontFamily: 'Poppins',
                               color: Colors.deepPurple.shade700,
+                              fontSize: 20,
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ),
               ),
 
             const SizedBox(height: 18),
@@ -238,7 +418,7 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
             // Legend for binary division rules (only for long division)
             if (result.method == "long_division")
               _buildLegendCard(theme),
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
 
             // Working display
             Text(
@@ -248,14 +428,13 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                 fontFamily: 'Poppins',
               ),
             ),
-            const SizedBox(height: 8),
 
             if (result.method == "long_division")
-              _buildLongDivisionTable(result, theme)
+              _buildLongDivisionVisual(result, theme)
             else
               _buildRepeatedSubtractionTable(result, theme),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
 
             // Step-by-step explanation
             Text(
@@ -265,7 +444,6 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                 fontFamily: 'Poppins',
               ),
             ),
-            const SizedBox(height: 8),
             _buildStepsList(result.stepByStepLaTeX ?? []),
           ],
         ),
@@ -291,13 +469,15 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            Wrap(
-              spacing: 16,
-              runSpacing: 4,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Math.tex("0 \\div 1 = 0"),
+                const SizedBox(height: 8),
                 Math.tex("1 \\div 1 = 1"),
+                const SizedBox(height: 8),
                 Math.tex("0 \\div 0 = \\text{undefined}"),
+                const SizedBox(height: 8),
                 Math.tex("1 \\div 0 = \\text{undefined}"),
               ],
             ),
@@ -307,133 +487,228 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
     );
   }
 
-  Widget _buildLongDivisionTable(BinaryDivisionResult result, ThemeData theme) {
-    return Card(
-      color: Colors.blue.shade50,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Text(
-              "Long Division Process",
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
-                color: Colors.deepPurple,
-              ),
+  Widget _buildLongDivisionVisual(BinaryDivisionResult result, ThemeData theme) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Title
+          Text(
+            "Long Division Visual:",
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.deepPurple,
+              fontFamily: 'Poppins',
             ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.deepPurple.shade200),
-              ),
+          ),
+
+          // Create the long division layout
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.purple.shade50,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Division layout
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Quotient
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Math.tex(
+                  // Build the visual step by step like the image format
+                  CustomPaint(
+                    size: const Size(300, 0),
+                    painter: LongDivisionPainter(
+                      divisor: result.divisor,
+                      dividend: result.dividend,
+                      quotient: result.binaryQuotient,
+                      remainder: result.binaryRemainder,
+                      steps: result.longDivisionSteps,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Step-by-step working display in text format
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Quotient line
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
                             result.binaryQuotient,
-                            textStyle: const TextStyle(
-                              fontSize: 18,
+                            style: const TextStyle(
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple,
+                              color: Colors.green,
+                              fontFamily: 'monospace',
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  // Divider line and divisor | dividend
-                  Row(
-                    children: [
-                      Math.tex(
-                        result.divisor,
-                        textStyle: const TextStyle(fontSize: 16),
-                      ),
-                      const Text(" | ", style: TextStyle(fontSize: 16)),
-                      Math.tex(
-                        result.dividend,
-                        textStyle: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  const Divider(thickness: 1, color: Colors.black54),
-                  const SizedBox(height: 8),
-                  // Steps
-                  for (int i = 0; i < result.longDivisionSteps.length; i++)
-                    if (result.longDivisionSteps[i].quotientBit == "1")
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                        // Division line with divisor and dividend
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Row(
-                              children: [
-                                const SizedBox(width: 20),
-                                Math.tex(
-                                  result.longDivisionSteps[i].dividend,
-                                  textStyle: const TextStyle(fontSize: 14),
-                                ),
-                              ],
+                            Text(
+                              "${result.divisor} ",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'monospace',
+                              ),
                             ),
-                            Row(
-                              children: [
-                                const Text("-", style: TextStyle(fontSize: 14)),
-                                const SizedBox(width: 8),
-                                Math.tex(
-                                  result.longDivisionSteps[i].divisor,
-                                  textStyle: const TextStyle(fontSize: 14),
-                                ),
-                              ],
+                            Container(
+                              height: 30,
+                              width: 2,
+                              color: Colors.black,
                             ),
-                            const Divider(thickness: 1, color: Colors.black26),
-                            Row(
-                              children: [
-                                const SizedBox(width: 20),
-                                Math.tex(
-                                  result.longDivisionSteps[i].remainder,
-                                  textStyle: const TextStyle(fontSize: 14),
+                            Container(
+                              padding: const EdgeInsets.only(left: 8),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.black, width: 2),
                                 ),
-                              ],
+                              ),
+                              child: Text(
+                                " ${result.dividend}",
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'monospace',
+                                ),
+                              ),
                             ),
-                            const SizedBox(height: 8),
                           ],
                         ),
-                      ),
-                  // Final remainder
-                  if (result.binaryRemainder != "0")
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Row(
-                        children: [
-                          const Text("Remainder: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                          Math.tex(
-                            result.binaryRemainder,
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple,
+
+                        const SizedBox(height: 16),
+
+                        // Working steps
+                        ...result.longDivisionSteps
+                            .where((step) => step.quotientBit == "1")
+                            .map((step) => Container(
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: Column(
+                            children: [
+                              // Current dividend
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      step.dividend,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: 'monospace',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // Minus and divisor
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "-",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'monospace',
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    child: Text(
+                                      step.divisor,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                        fontFamily: 'monospace',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // Horizontal line
+                              Container(
+                                width: 100,
+                                height: 1,
+                                color: Colors.black,
+                                margin: const EdgeInsets.symmetric(vertical: 4),
+                              ),
+
+                              // Remainder
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      step.remainder == "0" ? "0" : step.remainder,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.orange,
+                                        fontFamily: 'monospace',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )),
+
+                        // Final remainder if not zero
+                        if (result.binaryRemainder != "0")
+                          Container(
+                            margin: const EdgeInsets.only(top: 16),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade50,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.red.shade200),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  "Final Remainder: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                                Text(
+                                  result.binaryRemainder,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                    fontFamily: 'monospace',
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                      ],
                     ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -493,7 +768,7 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
       ],
     ));
 
-    // Subtraction steps
+    // Subtraction steps (removed the divider rows)
     for (int i = 0; i < result.subtractionSteps.length; i++) {
       BinarySubtractionStep step = result.subtractionSteps[i];
 
@@ -600,18 +875,6 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
           ),
         ],
       ));
-
-      // Add separator line except for the last step
-      if (i < result.subtractionSteps.length - 1) {
-        rows.add(DataRow(
-          cells: List.generate(maxLength + 2, (index) => const DataCell(
-            SizedBox(
-              width: 40,
-              child: Divider(thickness: 1),
-            ),
-          )),
-        ));
-      }
     }
 
     return SingleChildScrollView(
