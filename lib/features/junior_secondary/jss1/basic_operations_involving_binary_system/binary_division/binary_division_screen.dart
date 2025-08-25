@@ -176,8 +176,7 @@ class _BinaryDivisionScreenState extends State<BinaryDivisionScreen> {
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Math.tex(
-                            "= ${_result!.decimalQuotient}_{10}" +
-                                (_result!.decimalRemainder != 0 ? " \\text{ remainder } ${_result!.decimalRemainder}_{10}" : ""),
+                            "= ${_result!.decimalQuotient}_{10}${_result!.decimalRemainder != 0 ? " \\text{ remainder } ${_result!.decimalRemainder}_{10}" : ""}",
                             textStyle: theme.textTheme.titleMedium?.copyWith(
                               fontFamily: 'Poppins',
                               color: Colors.deepPurple.shade700,

@@ -212,14 +212,14 @@ class BinaryMultiplicationLogic {
 
     lines.add("  ${multiplicand.padLeft(maxLength, ' ')}   ($multiplicand₂)");
     lines.add("× ${multiplier.padLeft(maxLength, ' ')}   ($multiplier₂)");
-    lines.add("${'─' * (maxLength + 2)}");
+    lines.add('─' * (maxLength + 2));
 
     for (String partial in partialProducts) {
       lines.add("  ${partial.padLeft(maxLength, ' ')}");
     }
 
     if (partialProducts.length > 1) {
-      lines.add("${'─' * (maxLength + 2)}");
+      lines.add('─' * (maxLength + 2));
     }
 
     lines.add("  ${result.padLeft(maxLength, ' ')} = $result₂");
