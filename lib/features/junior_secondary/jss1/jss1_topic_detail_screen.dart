@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss1/algebra/algebra_input_and_solution_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/addition_subtraction/addition_subtraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/multiplication_division/approximation_mul_div_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/rounding_off_numbers/rounding_screen.dart';
@@ -38,6 +39,7 @@ class Jss1TopicDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    print('topic: $topic, subtopic: "$subtopic"'); // Debug
 
     if (subtopic == 'Roman Number System') {
       return const RomanConverterScreen();
@@ -113,6 +115,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Binary Division') {
       return const BinaryDivisionScreen();
+    }
+    if (subtopic.trim() == 'World Problems involving the use of Letters') {
+      return const AlgebraInputAndSolutionScreen();
     }
 
     return Scaffold(

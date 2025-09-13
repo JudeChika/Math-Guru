@@ -41,6 +41,7 @@ const Map<String, List<String>> jss1Topics = {
     'Binary Division',
   ],
   'Algebra': [
+    'World Problems involving the use of Letters'
     'Basic Operations',
     'Simplifying Expressions',
     'Translation of Word Problems into Mathematical Statements',
