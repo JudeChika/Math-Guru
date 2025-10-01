@@ -14,27 +14,40 @@ class AlgebraInputAndSolutionScreen extends StatefulWidget {
 
 class _AlgebraInputAndSolutionScreenState extends State<AlgebraInputAndSolutionScreen> {
   final TextEditingController _equationController = TextEditingController();
-  final TextEditingController _variableController = TextEditingController();
-  String _selectedOperator = '+';
-  List<String> operators = ['+', '-', '×', '÷', '='];
+  String? _selectedVariable;
+  List<String> _variables = [];
   AlgebraSolution? _solution;
   String? _error;
+
+  void _updateVariables() {
+    final eq = _equationController.text.replaceAll(' ', '');
+    final vars = RegExp(r'[a-zA-Z]+').allMatches(eq).map((m) => m.group(0)!).toSet().toList();
+    setState(() {
+      _variables = vars;
+      if (_variables.isNotEmpty) {
+        if (_selectedVariable == null || !_variables.contains(_selectedVariable)) {
+          _selectedVariable = _variables.first;
+        }
+      } else {
+        _selectedVariable = null;
+      }
+    });
+  }
 
   void _solveEquation() {
     setState(() {
       _error = null;
       final equation = _equationController.text.trim();
-      final variable = _variableController.text.trim();
       if (equation.isEmpty) {
         _error = "Please enter an equation.";
         _solution = null;
         return;
       }
-      final solution = AlgebraSolver.solve(equation, solveFor: variable.isEmpty ? null : variable);
+      final solution = AlgebraSolver.solve(equation, solveFor: _selectedVariable);
       if (solution != null) {
         _solution = solution;
       } else {
-        _error = "Solver could not process this equation.";
+        _error = "Solver could not process this equation. Please check your input.";
         _solution = null;
       }
     });
@@ -43,7 +56,8 @@ class _AlgebraInputAndSolutionScreenState extends State<AlgebraInputAndSolutionS
   void _clearAll() {
     setState(() {
       _equationController.text = '';
-      _variableController.text = '';
+      _selectedVariable = null;
+      _variables = [];
       _solution = null;
       _error = null;
     });
@@ -85,66 +99,47 @@ class _AlgebraInputAndSolutionScreenState extends State<AlgebraInputAndSolutionS
             TextFormField(
               controller: _equationController,
               style: inputStyle,
+              onChanged: (v) => _updateVariables(),
               decoration: InputDecoration(
-                labelText: "Equation (e.g. x + 4 = 7, 5x = 45, 3x - 40 = 10 - 2x)",
+                labelText: "Equation (e.g. 2x + 3 = x - 5, 3(x+2) = 21, x/2 + 3 = 9)",
                 labelStyle: labelStyle,
                 border: const OutlineInputBorder(),
                 contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              "Which variable to solve for? (optional):",
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w600,
-                color: Colors.deepPurple,
-              ),
-            ),
-            const SizedBox(height: 4),
-            TextFormField(
-              controller: _variableController,
-              style: inputStyle,
-              decoration: InputDecoration(
-                labelText: "Variable (e.g. x, w, p, y, z)",
-                labelStyle: labelStyle,
-                border: const OutlineInputBorder(),
-                contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              "Select an operator for your equation:",
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w600,
-                color: Colors.deepPurple,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: operators
-                  .map((op) => Row(
+            if (_variables.isNotEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Radio<String>(
-                    value: op,
-                    groupValue: _selectedOperator,
-                    activeColor: Colors.deepPurple,
-                    onChanged: (v) {
-                      setState(() {
-                        _selectedOperator = v!;
-                      });
-                    },
-                  ),
                   Text(
-                    op,
+                    "Select variable to solve for:",
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
                       color: Colors.deepPurple,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  DropdownButton<String>(
+                    value: _selectedVariable,
+                    items: _variables.map((v) => DropdownMenuItem(
+                      value: v,
+                      child: Text(
+                        v,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                    )).toList(),
+                    onChanged: (v) {
+                      setState(() {
+                        _selectedVariable = v;
+                      });
+                    },
+                  ),
                 ],
-              ))
-                  .toList(),
-            ),
+              ),
             const SizedBox(height: 20),
             Center(
               child: ElevatedButton(

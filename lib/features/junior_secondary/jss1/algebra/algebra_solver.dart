@@ -1,199 +1,287 @@
 import 'algebra_models.dart';
 
+/// Symbolic algebraic solver for simple linear equations.
+/// Handles: sums, products, fractions, parentheses, multiple variables.
+/// Always isolates the target variable in terms of the others, with numeric solution if possible.
 class AlgebraSolver {
   static AlgebraSolution? solve(String equationRaw, {String? solveFor}) {
-    try {
-      String eq = equationRaw.replaceAll(' ', '');
-      String variable = solveFor != null && solveFor.isNotEmpty ? solveFor : _detectVariable(eq);
-      List<AlgebraStep> workings = [];
-      List<AlgebraStep> explanations = [];
+    final workings = <AlgebraStep>[];
+    final explanations = <AlgebraStep>[];
 
-      workings.add(AlgebraStep(description: 'Given equation', latex: eq));
+    String eq = equationRaw.replaceAll(' ', '');
 
-      if (!eq.contains('=')) {
-        explanations.add(AlgebraStep(
-            description: 'Equation must contain \'=\' sign', latex: eq));
-        return null;
+    // Step 1: Expand parentheses (only one level, for simplicity)
+    eq = _expandParentheses(eq);
+    workings.add(AlgebraStep(description: 'Expand parentheses', latex: eq));
+
+    // Step 2: Validate equation has '='
+    if (!eq.contains('=')) {
+      explanations.add(AlgebraStep(
+          description: 'Equation must contain "=" sign', latex: eq));
+      return null;
+    }
+
+    // Step 3: Split equation
+    final parts = eq.split('=');
+    String left = parts[0];
+    String right = parts[1];
+
+    // Step 4: Detect variables
+    final allVars = _getVariables(eq);
+    String variable = solveFor != null && solveFor.isNotEmpty
+        ? solveFor
+        : (allVars.isNotEmpty ? allVars.first : 'x');
+
+    // Step 5: Symbolic rearrangement for sums
+    // e.g. a + b = 5, solve for a: a = 5 - b
+    // e.g. x + 4 = 7, x = 7 - 4
+    final sumPattern = RegExp(r'^([a-zA-Z]+)([+\-].+)?$');
+    final leftSumMatch = sumPattern.firstMatch(left);
+    if (leftSumMatch != null && left.contains(variable)) {
+      String others = left.replaceFirst(variable, '');
+      if (others.isNotEmpty) {
+        String step1 = '$variable = $right $others'.replaceAll('--', '+');
+        workings.add(AlgebraStep(description: 'Transpose other terms to RHS', latex: step1));
+        explanations.add(AlgebraStep(description: 'Move other terms to the right-hand side', latex: step1));
+        String step2 = _simplifyRHS(step1);
+        workings.add(AlgebraStep(description: 'Simplify right-hand side', latex: step2));
+        explanations.add(AlgebraStep(description: 'Combine like terms', latex: step2));
+        return AlgebraSolution(
+          finalLatex: step2,
+          workings: workings,
+          explanations: explanations,
+        );
       }
+    }
 
-      // Split left and right side
-      final parts = eq.split('=');
-      String left = parts[0];
-      String right = parts[1];
-
-      // x+4=7, x-4=7
-      if (_isSimpleAddSub(left, right, variable)) {
-        final match = RegExp(r'^' + RegExp.escape(variable) + r'([+-])(\d+)$').firstMatch(left);
-        if (match != null) {
-          String op = match.group(1)!;
-          String num = match.group(2)!;
-          String step1;
-          if (op == '+') {
-            step1 = '$variable = $right - $num';
-            workings.add(AlgebraStep(description: 'Transpose constant to RHS', latex: step1));
-            explanations.add(AlgebraStep(description: 'Move $num from LHS to RHS and subtract', latex: step1));
-            String step2 = '$variable = ${_computeSimple(right, num, '-')}';
-            workings.add(AlgebraStep(description: 'Solve for $variable', latex: step2));
-            explanations.add(AlgebraStep(description: 'Subtract constant', latex: step2));
-            return AlgebraSolution(
-              finalLatex: step2,
-              workings: workings,
-              explanations: explanations,
-            );
-          } else if (op == '-') {
-            step1 = '$variable = $right + $num';
-            workings.add(AlgebraStep(description: 'Transpose constant to RHS', latex: step1));
-            explanations.add(AlgebraStep(description: 'Move $num from LHS to RHS and add', latex: step1));
-            String step2 = '$variable = ${_computeSimple(right, num, '+')}';
-            workings.add(AlgebraStep(description: 'Solve for $variable', latex: step2));
-            explanations.add(AlgebraStep(description: 'Add constant', latex: step2));
-            return AlgebraSolution(
-              finalLatex: step2,
-              workings: workings,
-              explanations: explanations,
-            );
-          }
-        }
-      }
-
-      // 5x=45
-      if (_isSimpleMul(left, right, variable)) {
-        final match = RegExp(r'^(\d+)[*×]?' + RegExp.escape(variable) + r'$').firstMatch(left);
-        if (match != null) {
-          String coeff = match.group(1)!;
-          String step1 = '$variable = $right / $coeff';
-          workings.add(AlgebraStep(description: 'Divide both sides by coefficient', latex: step1));
-          explanations.add(AlgebraStep(description: 'Isolate $variable by dividing both sides by $coeff', latex: step1));
-          String step2 = '$variable = ${_computeSimple(right, coeff, '/')}';
-          workings.add(AlgebraStep(description: 'Solve for $variable', latex: step2));
-          explanations.add(AlgebraStep(description: 'Divide RHS by coefficient', latex: step2));
-          return AlgebraSolution(
-            finalLatex: step2,
-            workings: workings,
-            explanations: explanations,
-          );
-        }
-      }
-
-      // px=z, py=z, z=py
-      if (_isProductForm(left, right, variable)) {
-        // e.g. py=z, solve for p or y
-        final others = left.replaceAll(variable, '').replaceAll('*', '').replaceAll('×','');
-        if (others.isEmpty) return null;
-        String step1 = '$variable = $right / $others';
-        workings.add(AlgebraStep(description: 'Divide both sides by other variable(s)', latex: step1));
-        explanations.add(AlgebraStep(description: 'Isolate $variable by dividing by $others', latex: step1));
+    // Step 6: Symbolic rearrangement for products
+    // e.g. p*y = z, solve for p: p = z / y
+    final prodPattern = RegExp(r'^(([a-zA-Z]+\*)+)([a-zA-Z]+)$');
+    if (left.contains('*')) {
+      final factors = left.split('*');
+      if (factors.contains(variable)) {
+        final otherFactors = factors.where((f) => f != variable).join('*');
+        String step1 = '$variable = $right / $otherFactors';
+        workings.add(AlgebraStep(description: 'Divide both sides by other factors', latex: step1));
+        explanations.add(AlgebraStep(description: 'Isolate $variable by dividing both sides by $otherFactors', latex: step1));
         return AlgebraSolution(
           finalLatex: step1,
           workings: workings,
           explanations: explanations,
         );
       }
+    }
 
-      // (y/2)-15=13
-      if (_isFractionMinus(left, right, variable)) {
-        final frac = RegExp(r'\((\w+)/(\d+)\)').firstMatch(left);
-        if (frac != null) {
-          String num = frac.group(1)!;
-          String denom = frac.group(2)!;
-          String minus = left.split(')').last.replaceAll('-', '').trim();
-          String step1 = '($num/$denom) = $right + $minus';
-          workings.add(AlgebraStep(description: 'Transpose constant', latex: step1));
-          explanations.add(AlgebraStep(description: 'Add $minus to both sides', latex: step1));
-          String step2 = '($num/$denom) = ${_computeSimple(right, minus, '+')}';
-          workings.add(AlgebraStep(description: 'Sum RHS', latex: step2));
-          explanations.add(AlgebraStep(description: 'Compute sum', latex: step2));
-          String step3 = '($num/$denom) = (${_computeSimple(right, minus, '+')}/1)';
-          workings.add(AlgebraStep(description: 'Express as fraction', latex: step3));
-          explanations.add(AlgebraStep(description: 'Write as fraction', latex: step3));
-          String step4 = '($num x 1) = (${_computeSimple(right, minus, '+')} x $denom)';
-          workings.add(AlgebraStep(description: 'Cross multiply', latex: step4));
-          explanations.add(AlgebraStep(description: 'Cross multiply', latex: step4));
-          String step5 = '$num = ${int.parse(_computeSimple(right, minus, '+')) * int.parse(denom)}';
-          workings.add(AlgebraStep(description: 'Solve for $num', latex: step5));
-          explanations.add(AlgebraStep(description: 'Multiply to solve', latex: step5));
-          return AlgebraSolution(
-            finalLatex: step5,
-            workings: workings,
-            explanations: explanations,
-          );
-        }
+    // Handle implicit multiplication (e.g. py=z)
+    final implicitProdPattern = RegExp(r'^([a-zA-Z]+)$');
+    if (implicitProdPattern.hasMatch(left) && left.contains(variable) && left.length > 1) {
+      final otherVars = left.replaceAll(variable, '');
+      String step1 = '$variable = $right / $otherVars';
+      workings.add(AlgebraStep(description: 'Divide both sides by other variable(s)', latex: step1));
+      explanations.add(AlgebraStep(description: 'Isolate $variable by dividing both sides by $otherVars', latex: step1));
+      return AlgebraSolution(
+        finalLatex: step1,
+        workings: workings,
+        explanations: explanations,
+      );
+    }
+
+    // Step 7: Fractions (variable in numerator)
+    // e.g. (y/2) - 15 = 13
+    final fracPattern = RegExp(r'([a-zA-Z]+)\/(\d+)');
+    final fracMatch = fracPattern.firstMatch(left);
+    if (fracMatch != null && fracMatch.group(1) == variable) {
+      String denom = fracMatch.group(2)!;
+      String rest = left.replaceFirst(fracMatch.group(0)!, '');
+      String step1 = '$variable/$denom = $right${rest.startsWith('-') ? ' + ${rest.substring(1)}' : ' - $rest'}';
+      workings.add(AlgebraStep(description: 'Transpose constant to RHS', latex: step1));
+      explanations.add(AlgebraStep(description: 'Add/subtract constant from both sides', latex: step1));
+      String step2 = '$variable = ($right${rest.startsWith('-') ? ' + ${rest.substring(1)}' : ' - $rest'}) * $denom';
+      workings.add(AlgebraStep(description: 'Multiply both sides by denominator', latex: step2));
+      explanations.add(AlgebraStep(description: 'Clear the fraction by multiplying both sides by $denom', latex: step2));
+      String step3 = _simplifyRHS(step2);
+      workings.add(AlgebraStep(description: 'Simplify', latex: step3));
+      explanations.add(AlgebraStep(description: 'Simplify further', latex: step3));
+      return AlgebraSolution(
+        finalLatex: step3,
+        workings: workings,
+        explanations: explanations,
+      );
+    }
+
+    // Step 8: Fractions (variable in denominator)
+    // e.g. (2/y) + 3 = 9
+    final fracDenomPattern = RegExp(r'(\d+)\/([a-zA-Z]+)');
+    final fracDenomMatch = fracDenomPattern.firstMatch(left);
+    if (fracDenomMatch != null && fracDenomMatch.group(2) == variable) {
+      String numer = fracDenomMatch.group(1)!;
+      String rest = left.replaceFirst(fracDenomMatch.group(0)!, '');
+      String step1 = '$numer/$variable = $right${rest.startsWith('+') ? ' - ${rest.substring(1)}' : ' + $rest'}';
+      workings.add(AlgebraStep(description: 'Transpose constant to RHS', latex: step1));
+      explanations.add(AlgebraStep(description: 'Add/subtract constant from both sides', latex: step1));
+      String step2 = '$variable = $numer / ($right${rest.startsWith('+') ? ' - ${rest.substring(1)}' : ' + $rest'})';
+      workings.add(AlgebraStep(description: 'Cross-multiply', latex: step2));
+      explanations.add(AlgebraStep(description: 'Isolate $variable', latex: step2));
+      String step3 = _simplifyRHS(step2);
+      workings.add(AlgebraStep(description: 'Simplify', latex: step3));
+      explanations.add(AlgebraStep(description: 'Simplify further', latex: step3));
+      return AlgebraSolution(
+        finalLatex: step3,
+        workings: workings,
+        explanations: explanations,
+      );
+    }
+
+    // Step 9: Standard linear equations (ax + b = cx + d)
+    // Move all terms to one side, collect like terms, solve for variable
+    final leftTerms = _parseTerms(left);
+    final rightTerms = _parseTerms(right);
+
+    double varCoeff = (leftTerms[variable] ?? 0) - (rightTerms[variable] ?? 0);
+    double rhsConst = (rightTerms[''] ?? 0) - (leftTerms[''] ?? 0);
+
+    // If there are other variables, keep them symbolic
+    final otherVars = _getVariables(eq).where((v) => v != variable).toList();
+    String symbolicRHS = '';
+    if (otherVars.isNotEmpty) {
+      for (final v in otherVars) {
+        symbolicRHS += (leftTerms[v] != null ? ' - ${leftTerms[v]}$v' : '') +
+            (rightTerms[v] != null ? ' + ${rightTerms[v]}$v' : '');
       }
+    }
 
-      // 3x-40=10-2x
-      if (_isCollectLikeTerms(left, right, variable)) {
-        // Example: 3x - 40 = 10 - 2x
-        final coeffL = RegExp(r'(\d+)' + RegExp.escape(variable)).firstMatch(left)?.group(1) ?? '1';
-        final coeffR = RegExp(r'(\d+)' + RegExp.escape(variable)).firstMatch(right)?.group(1) ?? '0';
-        final constL = RegExp(r'-(\d+)').firstMatch(left)?.group(1) ?? '0';
-        final constR = RegExp(r'(\d+)').firstMatch(right)?.group(1) ?? '0';
+    String step1 = '${varCoeff == 1 ? '' : varCoeff}$variable = $rhsConst$symbolicRHS'.replaceAll('--', '+');
+    workings.add(AlgebraStep(
+        description: 'Collect $variable terms on LHS and constants/other variables on RHS',
+        latex: step1));
+    explanations.add(AlgebraStep(
+        description: 'Move all $variable terms to left and constants/other variables to right', latex: step1));
 
-        String step1 = '${coeffL}${variable} + ${coeffR}${variable} = $constR + $constL';
-        workings.add(AlgebraStep(description: 'Collect like terms', latex: step1));
-        explanations.add(AlgebraStep(description: 'Group variable terms and constants', latex: step1));
-
-        int sumCoeff = int.parse(coeffL) + int.parse(coeffR);
-        int sumConst = int.parse(constR) + int.parse(constL);
-        String step2 = '${sumCoeff}${variable} = $sumConst';
-        workings.add(AlgebraStep(description: 'Sum up coefficients', latex: step2));
-        explanations.add(AlgebraStep(description: 'Sum coefficients and constants', latex: step2));
-
-        String step3 = '($sumCoeff$variable)/$sumCoeff = $sumConst/$sumCoeff';
-        workings.add(AlgebraStep(description: 'Divide both sides', latex: step3));
-        explanations.add(AlgebraStep(description: 'Isolate $variable', latex: step3));
-
-        String step4 = '$variable = ${sumConst ~/ sumCoeff}';
-        workings.add(AlgebraStep(description: 'Solve for $variable', latex: step4));
-        explanations.add(AlgebraStep(description: 'Final solution', latex: step4));
-
+    // Solve for variable
+    if (varCoeff == 0) {
+      String step;
+      if (rhsConst == 0 && symbolicRHS.isEmpty) {
+        step = 'Infinite solutions (identity)';
+      } else {
+        step = 'No solution (contradiction)';
+      }
+      workings.add(AlgebraStep(description: step, latex: step));
+      explanations.add(AlgebraStep(description: step, latex: step));
+      return AlgebraSolution(
+        finalLatex: step,
+        workings: workings,
+        explanations: explanations,
+      );
+    } else {
+      if (symbolicRHS.isNotEmpty) {
+        String step2 = '$variable = ($rhsConst$symbolicRHS)/$varCoeff';
+        workings.add(AlgebraStep(
+            description: 'Divide both sides by coefficient of $variable',
+            latex: step2));
+        explanations.add(AlgebraStep(
+            description: 'Isolate $variable symbolically', latex: step2));
+        String pretty = _simplifyRHS(step2);
+        workings.add(AlgebraStep(description: 'Simplify', latex: pretty));
+        explanations.add(AlgebraStep(description: 'Simplified expression', latex: pretty));
         return AlgebraSolution(
-          finalLatex: step4,
+          finalLatex: pretty,
+          workings: workings,
+          explanations: explanations,
+        );
+      } else {
+        double solution = rhsConst / varCoeff;
+        final pretty = solution % 1 == 0 ? solution.toInt().toString() : solution.toStringAsFixed(3);
+        String step2 = '$variable = $rhsConst / $varCoeff = $pretty';
+        workings.add(AlgebraStep(
+            description: 'Divide both sides by coefficient of $variable',
+            latex: step2));
+        explanations.add(AlgebraStep(
+            description: 'Isolate $variable numerically', latex: step2));
+        return AlgebraSolution(
+          finalLatex: '$variable = $pretty',
           workings: workings,
           explanations: explanations,
         );
       }
-
-      explanations.add(AlgebraStep(
-          description: 'Solver does not support this equation type yet.', latex: eq));
-      return null;
-    } catch (e) {
-      return null;
     }
   }
 
-  // --- Helpers ---
-  static String _detectVariable(String eq) {
-    final match = RegExp(r'[a-zA-Z]').firstMatch(eq);
-    return match?.group(0) ?? 'x';
+  // Utility functions
+
+  /// Expands one level of parentheses: e.g. 2(x+3) => 2x+6
+  static String _expandParentheses(String expr) {
+    final parenRegex = RegExp(r'(\d*)\(([^()]+)\)');
+    return expr.replaceAllMapped(parenRegex, (m) {
+      final multiplier = m.group(1)!.isEmpty ? 1 : int.parse(m.group(1)!);
+      final inside = m.group(2)!;
+      final expanded = inside.split(RegExp(r'(?=[+\-])')).map((piece) {
+        piece = piece.trim();
+        if (piece.isEmpty) return '';
+        final termMatch = RegExp(r'([+\-]?\d*)([a-zA-Z]*)').firstMatch(piece);
+        if (termMatch != null) {
+          final coeffStr = termMatch.group(1)!;
+          final coeff = coeffStr.isEmpty || coeffStr == '+' ? 1 : (coeffStr == '-' ? -1 : int.parse(coeffStr));
+          final variable = termMatch.group(2)!;
+          if (variable.isEmpty) {
+            return '${multiplier * coeff}';
+          } else {
+            final sign = coeff > 0 ? '' : '-';
+            return '$sign${multiplier * coeff.abs()}$variable';
+          }
+        }
+        return piece;
+      }).join('');
+      return expanded;
+    });
   }
 
-  static bool _isSimpleAddSub(String left, String right, String variable) =>
-      RegExp(r'^' + RegExp.escape(variable) + r'[+-]\d+$').hasMatch(left);
+  /// Returns all variables in an expression
+  static Set<String> _getVariables(String expr) {
+    return RegExp(r'[a-zA-Z]+').allMatches(expr).map((m) => m.group(0)!).toSet();
+  }
 
-  static bool _isSimpleMul(String left, String right, String variable) =>
-      RegExp(r'^\d+[*×]?' + RegExp.escape(variable) + r'$').hasMatch(left);
+  /// Parses a string into terms and constant
+  static Map<String, double> _parseTerms(String expr) {
+    // Replace - with +- for splitting, handle fractions and decimals
+    expr = expr.replaceAll('-', '+-');
+    final termRegex = RegExp(r'([+\-]?\d*\.?\d*)([a-zA-Z]+)');
+    final terms = <String, double>{};
+    double constant = 0;
+    expr.split('+').forEach((piece) {
+      piece = piece.trim();
+      if (piece.isEmpty) return;
+      final m = termRegex.firstMatch(piece);
+      if (m != null) {
+        double coeff = m.group(1)!.isEmpty || m.group(1) == '+' ? 1 : (m.group(1) == '-' ? -1 : double.parse(m.group(1)!));
+        String variable = m.group(2)!;
+        terms[variable] = (terms[variable] ?? 0) + coeff;
+      } else {
+        // Constant term
+        if (piece.contains('/')) {
+          // Handle fractions
+          final parts = piece.split('/');
+          if (parts.length == 2) {
+            constant += double.parse(parts[0]) / double.parse(parts[1]);
+          }
+        } else {
+          constant += double.tryParse(piece) ?? 0;
+        }
+      }
+    });
+    terms[''] = constant;
+    return terms;
+  }
 
-  static bool _isProductForm(String left, String right, String variable) =>
-      left.contains(variable) && RegExp(r'^[a-zA-Z*×]+$').hasMatch(left);
-
-  static bool _isFractionMinus(String left, String right, String variable) =>
-      left.contains('/') && left.contains('-');
-
-  static bool _isCollectLikeTerms(String left, String right, String variable) =>
-      left.contains(variable) && right.contains(variable);
-
-  static String _computeSimple(String a, String b, String op) {
-    int ia = int.tryParse(a) ?? 0;
-    int ib = int.tryParse(b) ?? 0;
-    switch (op) {
-      case '+':
-        return '${ia + ib}';
-      case '-':
-        return '${ia - ib}';
-      case '/':
-        return ib == 0 ? 'undefined' : '${ia ~/ ib}';
-      default:
-        return 'unsupported';
-    }
+  /// Attempt to simplify symbolic right-hand side (combine constants)
+  static String _simplifyRHS(String expr) {
+    // Only for simple expressions: variable = numeric +/- variable
+    // e.g. a = 5 - b => just return as-is.
+    return expr
+        .replaceAll('+-', '-')
+        .replaceAll('--', '+')
+        .replaceAll('+', ' + ')
+        .replaceAll('-', ' - ')
+        .replaceAll('= ', '=') // clean up spaces
+        .replaceAll('  ', ' ');
   }
 }
