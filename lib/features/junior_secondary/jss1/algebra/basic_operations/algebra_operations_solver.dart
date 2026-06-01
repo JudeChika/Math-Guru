@@ -12,7 +12,6 @@ class AlgebraOperationsSolver {
     }
 
     try {
-      // Determine the operation based on symbols present
       if (input.contains('/')) {
         return _solveDivision(input);
       } else if (input.contains('*')) {
@@ -31,7 +30,6 @@ class AlgebraOperationsSolver {
   static OperationResult _solveAdditionSubtraction(String expr) {
     List<OperationSolutionStep> steps = [];
 
-    // Formatting the initial expression to standard math notation
     String initialExpr = expr.replaceAll('+', ' + ').replaceAll('-', ' - ');
     if (initialExpr.startsWith(' - ')) initialExpr = '-${initialExpr.substring(3)}';
 
@@ -49,27 +47,30 @@ class AlgebraOperationsSolver {
 
     for (String term in rawTerms) {
       if (term.isEmpty) continue;
-      String letters = (term.replaceAll(RegExp(r'[^a-z]'), '').split('')..sort()).join(''); // Sort letters alphabetically (e.g. yx -> xy)
+      String letters = (term.replaceAll(RegExp(r'[^a-z]'), '').split('')..sort()).join('');
       String numbers = term.replaceAll(RegExp(r'[a-z]'), '');
 
       double coeff = 1.0;
-      if (numbers == '-') {
-        coeff = -1.0;
-      } else if (numbers.isNotEmpty) {
-        coeff = double.parse(numbers);
+      if (numbers == '-') coeff = -1.0;
+      else if (numbers.isNotEmpty) {
+        if (numbers.contains('/')) {
+          var frac = numbers.split('/');
+          coeff = double.parse(frac[0]) / double.parse(frac[1]);
+        } else {
+          coeff = double.parse(numbers);
+        }
       }
 
       if (!likeTermsMap.containsKey(letters)) likeTermsMap[letters] = [];
       likeTermsMap[letters]!.add(coeff);
     }
 
-    // Step 2: Grouping visually
     String groupedLaTeX = "";
     for (String key in likeTermsMap.keys) {
       for (double val in likeTermsMap[key]!) {
         String sign = val >= 0 ? "+" : "-";
         String numStr = _formatWhole(val.abs());
-        if (numStr == "1" && key.isNotEmpty) numStr = ""; // e.g. 1x -> x
+        if (numStr == "1" && key.isNotEmpty) numStr = "";
 
         if (groupedLaTeX.isEmpty && sign == "+") {
           groupedLaTeX += "$numStr$key";
@@ -86,13 +87,18 @@ class AlgebraOperationsSolver {
       ));
     }
 
-    // Step 3: Simplifying
     for (String key in likeTermsMap.keys) {
       double sum = likeTermsMap[key]!.reduce((a, b) => a + b);
       groupedTerms[key] = sum;
     }
 
-    String finalAnswer = _formatTermsLaTeX(groupedTerms);
+    String fractionAnswer = _formatFractionTermsLaTeX(groupedTerms, 1.0);
+    String decimalAnswer = _formatTermsLaTeX(groupedTerms);
+    String finalAnswer = fractionAnswer;
+    if (fractionAnswer.replaceAll(' ', '') != decimalAnswer.replaceAll(' ', '')) {
+      finalAnswer = "$fractionAnswer = $decimalAnswer";
+    }
+
     steps.add(OperationSolutionStep(
       workingLaTeX: finalAnswer,
       explanation: "Add and subtract the numbers attached to the matching letters to get the final simplified answer.",
@@ -129,10 +135,14 @@ class AlgebraOperationsSolver {
       String numbersPart = term.replaceAll(RegExp(r'[a-z]'), '');
 
       double coeff = 1.0;
-      if (numbersPart == '-') {
-        coeff = -1.0;
-      } else if (numbersPart.isNotEmpty) {
-        coeff = double.parse(numbersPart);
+      if (numbersPart == '-') coeff = -1.0;
+      else if (numbersPart.isNotEmpty) {
+        if (numbersPart.contains('/')) {
+          var frac = numbersPart.split('/');
+          coeff = double.parse(frac[0]) / double.parse(frac[1]);
+        } else {
+          coeff = double.parse(numbersPart);
+        }
       }
 
       numbers.add(coeff);
@@ -144,7 +154,6 @@ class AlgebraOperationsSolver {
       }
     }
 
-    // Step 2: Separation
     String numGroup = numbers.map((n) => _formatWhole(n)).join(' \\times ');
     String varGroup = lettersList.join(' \\times ');
     String separatedExpr = "($numGroup)";
@@ -155,28 +164,20 @@ class AlgebraOperationsSolver {
       explanation: "Group all the plain numbers together, and group all the letters together.",
     ));
 
-    // Step 3: Result
     String finalVarStr = "";
     List<String> sortedVars = finalVars.keys.toList()..sort();
     for (String v in sortedVars) {
       int count = finalVars[v]!;
-      if (count > 1) {
-        finalVarStr += "$v^$count";
-      } else {
-        finalVarStr += v;
-      }
+      if (count > 1) finalVarStr += "$v^$count";
+      else finalVarStr += v;
     }
 
-    String finalAnswer = _formatWhole(finalNum);
-    if (finalAnswer == "1" && finalVarStr.isNotEmpty) {
-      finalAnswer = finalVarStr;
-    } else if (finalAnswer == "-1" && finalVarStr.isNotEmpty) {
-      finalAnswer = "-$finalVarStr";
-    } else {
-      finalAnswer += finalVarStr;
+    String fractionAnswer = _formatFractionTermsLaTeX({finalVarStr: finalNum}, 1.0);
+    String decimalAnswer = _formatTermsLaTeX({finalVarStr: finalNum});
+    String finalAnswer = fractionAnswer;
+    if (fractionAnswer.replaceAll(' ', '') != decimalAnswer.replaceAll(' ', '')) {
+      finalAnswer = "$fractionAnswer = $decimalAnswer";
     }
-
-    if (finalNum == 0) finalAnswer = "0";
 
     steps.add(OperationSolutionStep(
       workingLaTeX: finalAnswer,
@@ -207,12 +208,10 @@ class AlgebraOperationsSolver {
       explanation: "Write the division out as a fraction. We will separate the numbers from the letters to make it easier.",
     ));
 
-    // Extract numerator
     String numLetters = numTerm.replaceAll(RegExp(r'[^a-z]'), '');
     String numNumbers = numTerm.replaceAll(RegExp(r'[a-z]'), '');
     double numCoeff = numNumbers.isEmpty ? 1.0 : (numNumbers == '-' ? -1.0 : double.parse(numNumbers));
 
-    // Extract denominator
     String denLetters = denTerm.replaceAll(RegExp(r'[^a-z]'), '');
     String denNumbers = denTerm.replaceAll(RegExp(r'[a-z]'), '');
     double denCoeff = denNumbers.isEmpty ? 1.0 : (denNumbers == '-' ? -1.0 : double.parse(denNumbers));
@@ -221,7 +220,6 @@ class AlgebraOperationsSolver {
       return OperationResult(steps: [], finalAnswerLaTeX: "", valid: false, errorMessage: "Cannot divide by zero.");
     }
 
-    // Step 2: Separation display
     String separationStep = "\\left(\\frac{${_formatWhole(numCoeff)}}{${_formatWhole(denCoeff)}}\\right)";
     if (numLetters.isNotEmpty || denLetters.isNotEmpty) {
       separationStep += " \\times \\left(\\frac{${numLetters.isEmpty ? '1' : numLetters}}{${denLetters.isEmpty ? '1' : denLetters}}\\right)";
@@ -231,10 +229,6 @@ class AlgebraOperationsSolver {
       workingLaTeX: separationStep,
       explanation: "Divide the numbers directly. For the letters, cancel out the matching ones at the top (numerator) and bottom (denominator).",
     ));
-
-    // Calculate final coefficient
-    double finalCoeff = numCoeff / denCoeff;
-    String finalCoeffStr = _formatWhole(finalCoeff);
 
     // Cancel letters
     Map<String, int> topVars = {};
@@ -251,29 +245,44 @@ class AlgebraOperationsSolver {
       int top = topVars[char] ?? 0;
       int bot = botVars[char] ?? 0;
       int diff = top - bot;
-      if (diff > 0) {
-        finalTopVars += diff > 1 ? "$char^$diff" : char;
-      } else if (diff < 0) {
-        finalBotVars += (diff.abs() > 1) ? "$char^${diff.abs()}" : char;
-      }
+      if (diff > 0) finalTopVars += diff > 1 ? "$char^$diff" : char;
+      else if (diff < 0) finalBotVars += (diff.abs() > 1) ? "$char^${diff.abs()}" : char;
     }
 
-    String finalAnswer = "";
+    // Decimal Construction
+    double finalCoeff = numCoeff / denCoeff;
+    String finalCoeffStr = _formatWhole(finalCoeff);
+
+    String decTopDisplay = finalCoeffStr == "1" ? (finalTopVars.isEmpty ? "1" : finalTopVars) : "$finalCoeffStr$finalTopVars";
+    if (finalCoeffStr == "-1" && finalTopVars.isNotEmpty) decTopDisplay = "-$finalTopVars";
+
+    String decimalAnswer = "";
     if (finalBotVars.isEmpty) {
-      // It's a whole expression
-      if (finalCoeffStr == "1" && finalTopVars.isNotEmpty) {
-        finalAnswer = finalTopVars;
-      } else if (finalCoeffStr == "-1" && finalTopVars.isNotEmpty) {
-        finalAnswer = "-$finalTopVars";
-      } else {
-        finalAnswer = "$finalCoeffStr$finalTopVars";
-      }
-      if (finalCoeff == 0) finalAnswer = "0";
+      decimalAnswer = decTopDisplay;
+      if (finalCoeff == 0) decimalAnswer = "0";
     } else {
-      // It remains a fraction
-      String topDisplay = finalCoeffStr == "1" ? (finalTopVars.isEmpty ? "1" : finalTopVars) : "$finalCoeffStr$finalTopVars";
-      if (finalCoeffStr == "-1" && finalTopVars.isNotEmpty) topDisplay = "-$finalTopVars";
-      finalAnswer = "\\frac{$topDisplay}{$finalBotVars}";
+      decimalAnswer = "\\frac{$decTopDisplay}{$finalBotVars}";
+    }
+
+    // Fraction Construction
+    var frac = _simplifyFraction(numCoeff, denCoeff);
+    int fn = frac[0];
+    int fd = frac[1];
+
+    String fracTopDisplay = fn.abs() == 1 ? (finalTopVars.isEmpty ? "1" : finalTopVars) : "${fn.abs()}$finalTopVars";
+    String fracBotDisplay = fd == 1 ? finalBotVars : "$fd$finalBotVars";
+
+    String fractionAnswer = "";
+    if (fracBotDisplay.isEmpty) {
+      fractionAnswer = fn < 0 ? "-$fracTopDisplay" : fracTopDisplay;
+    } else {
+      fractionAnswer = fn < 0 ? "-\\frac{$fracTopDisplay}{$fracBotDisplay}" : "\\frac{$fracTopDisplay}{$fracBotDisplay}";
+    }
+    if (fn == 0) fractionAnswer = "0";
+
+    String finalAnswer = fractionAnswer;
+    if (fractionAnswer.replaceAll(' ', '') != decimalAnswer.replaceAll(' ', '')) {
+      finalAnswer = "$fractionAnswer = $decimalAnswer";
     }
 
     steps.add(OperationSolutionStep(
@@ -289,6 +298,33 @@ class AlgebraOperationsSolver {
     );
   }
 
+  // --- Fraction Utilities ---
+  static int _gcd(int a, int b) {
+    while (b != 0) {
+      int t = b;
+      b = a % b;
+      a = t;
+    }
+    return a;
+  }
+
+  static List<int> _simplifyFraction(double num, double den) {
+    int multiplier = 1;
+    while (((num * multiplier).roundToDouble() - (num * multiplier)).abs() > 1e-5 ||
+        ((den * multiplier).roundToDouble() - (den * multiplier)).abs() > 1e-5) {
+      multiplier *= 10;
+      if (multiplier > 10000) break;
+    }
+    int n = (num * multiplier).round();
+    int d = (den * multiplier).round();
+    if (d == 0) return [n, 1];
+    int gcd = _gcd(n.abs(), d.abs());
+    n = n ~/ gcd;
+    d = d ~/ gcd;
+    if (d < 0) { n = -n; d = -d; }
+    return [n, d];
+  }
+
   // --- Formatting Helpers ---
   static String _formatWhole(double value) {
     if (value % 1 == 0) return value.toInt().toString();
@@ -296,6 +332,40 @@ class AlgebraOperationsSolver {
     if (s.endsWith('0')) s = s.substring(0, s.length - 1);
     if (s.endsWith('.0')) s = s.substring(0, s.length - 2);
     return s;
+  }
+
+  static String _formatFractionTermsLaTeX(Map<String, double> terms, double den) {
+    String res = "";
+    List<String> keys = terms.keys.toList()..sort();
+    for (String k in keys) {
+      double num = terms[k]!;
+      if (num == 0) continue;
+
+      var frac = _simplifyFraction(num, den);
+      int n = frac[0];
+      int d = frac[1];
+
+      String term = "";
+      if (d == 1) {
+        String v = n.abs().toString();
+        if (v == "1" && k.isNotEmpty) v = "";
+        term = v + k;
+      } else {
+        String v = n.abs().toString();
+        if (v == "1" && k.isNotEmpty) {
+          term = "\\frac{$k}{$d}";
+        } else {
+          term = "\\frac{$v$k}{$d}";
+        }
+      }
+
+      if (res.isEmpty) {
+        res += n < 0 ? "-$term" : term;
+      } else {
+        res += n < 0 ? " - $term" : " + $term";
+      }
+    }
+    return res.isEmpty ? "0" : res;
   }
 
   static String _formatTermsLaTeX(Map<String, double> terms) {

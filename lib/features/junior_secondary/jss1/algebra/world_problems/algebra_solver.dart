@@ -17,7 +17,6 @@ class AlgebraSolver {
       String lhs = sides[0];
       String rhs = sides[1];
 
-      // Identify all unique variables in the equation
       Set<String> variables = {};
       for (var match in RegExp(r'[a-z]').allMatches(equation)) {
         variables.add(match.group(0)!);
@@ -28,7 +27,6 @@ class AlgebraSolver {
       }
 
       List<String> availableVars = variables.toList()..sort();
-      // Use targetSubject if valid, otherwise default to the first alphabetically
       String subject = (targetSubject != null && variables.contains(targetSubject))
           ? targetSubject
           : availableVars.first;
@@ -41,7 +39,6 @@ class AlgebraSolver {
             : "This is our starting equation. Our goal is to find the value of '$subject'.",
       ));
 
-      // Extract explicit denominators to clear fractions (LCM Method)
       List<int> denominators = [];
       for (var match in RegExp(r'/(\d+)').allMatches(equation)) {
         denominators.add(int.parse(match.group(1)!));
@@ -74,7 +71,6 @@ class AlgebraSolver {
 
       double totalSubject = subjectLhs - subjectRhs;
 
-      // Compute combined RHS
       Map<String, double> groupedRhs = {};
       Set<String> allOtherKeys = {...otherLhs.keys, ...otherRhs.keys};
       for (String k in allOtherKeys) {
@@ -90,8 +86,12 @@ class AlgebraSolver {
       if (leftGroup.trim().isEmpty) leftGroup = "0";
 
       String rightGroup = "";
-      for (var k in otherRhs.keys) if (otherRhs[k] != 0) rightGroup += "${_formatTermWithSign(otherRhs[k]!, k)} ";
-      for (var k in otherLhs.keys) if (otherLhs[k] != 0) rightGroup += "${_formatTermWithSign(-otherLhs[k]!, k)} ";
+      for (var k in otherRhs.keys) {
+        if (otherRhs[k] != 0) rightGroup += "${_formatTermWithSign(otherRhs[k]!, k)} ";
+      }
+      for (var k in otherLhs.keys) {
+        if (otherLhs[k] != 0) rightGroup += "${_formatTermWithSign(-otherLhs[k]!, k)} ";
+      }
 
       rightGroup = rightGroup.trim();
       if (rightGroup.startsWith('+')) rightGroup = rightGroup.substring(1).trim();
@@ -118,8 +118,9 @@ class AlgebraSolver {
           explanation: "Simplify both sides by combining the grouped terms."
       ));
 
-      // Step 4 & 5: Division & Final Answer
+      // Step 4 & 5: Division & Final Answers (Fraction + Decimal)
       String finalAnswerStr = "";
+
       if (totalSubject != 1) {
         String divisor = _formatWhole(totalSubject);
         steps.add(AlgebraSolutionStep(
@@ -128,12 +129,27 @@ class AlgebraSolver {
         ));
 
         Map<String, double> finalRhs = {};
-        for (var k in groupedRhs.keys) finalRhs[k] = groupedRhs[k]! / totalSubject;
+        for (var k in groupedRhs.keys) {
+          finalRhs[k] = groupedRhs[k]! / totalSubject;
+        }
 
-        finalAnswerStr = "$subject = ${_formatTermsLaTeX(finalRhs)}";
-        if (finalAnswerStr.endsWith("= ")) finalAnswerStr += "0";
+        String fractionRhs = _formatFractionTermsLaTeX(groupedRhs, totalSubject);
+        String decimalRhs = _formatTermsLaTeX(finalRhs);
+
+        if (fractionRhs.replaceAll(' ', '') == decimalRhs.replaceAll(' ', '')) {
+          finalAnswerStr = "$subject = $fractionRhs";
+        } else {
+          finalAnswerStr = "$subject = $fractionRhs = $decimalRhs";
+        }
       } else {
-        finalAnswerStr = "$subject = $simpRhs";
+        String fractionRhs = _formatFractionTermsLaTeX(groupedRhs, 1.0);
+        String decimalRhs = _formatTermsLaTeX(groupedRhs);
+
+        if (fractionRhs.replaceAll(' ', '') == decimalRhs.replaceAll(' ', '')) {
+          finalAnswerStr = "$subject = $fractionRhs";
+        } else {
+          finalAnswerStr = "$subject = $fractionRhs = $decimalRhs";
+        }
       }
 
       steps.add(AlgebraSolutionStep(
@@ -166,8 +182,9 @@ class AlgebraSolver {
       String numbers = part.replaceAll(RegExp(r'[a-z]'), '');
 
       double coeff = 1.0;
-      if (numbers == '-' || numbers == '-/') coeff = -1.0;
-      else if (numbers.isEmpty || numbers == '/') coeff = 1.0;
+      if (numbers == '-' || numbers == '-/') {
+        coeff = -1.0;
+      } else if (numbers.isEmpty || numbers == '/') coeff = 1.0;
       else {
         if (numbers.startsWith('/')) numbers = '1$numbers';
         if (numbers.startsWith('-/')) numbers = '-1${numbers.substring(1)}';
@@ -186,11 +203,13 @@ class AlgebraSolver {
 
   static Map<String, double> _multiplyTerms(Map<String, double> terms, double multiplier) {
     Map<String, double> result = {};
-    for (var k in terms.keys) result[k] = terms[k]! * multiplier;
+    for (var k in terms.keys) {
+      result[k] = terms[k]! * multiplier;
+    }
     return result;
   }
 
-  // --- Math Helpers (LCM) ---
+  // --- Math Helpers (LCM & GCD) ---
   static int _gcd(int a, int b) {
     while (b != 0) {
       int t = b;
@@ -205,6 +224,23 @@ class AlgebraSolver {
     int res = numbers[0];
     for (int i = 1; i < numbers.length; i++) res = _lcm(res, numbers[i]);
     return res;
+  }
+
+  static List<int> _simplifyFraction(double num, double den) {
+    int multiplier = 1;
+    while (((num * multiplier).roundToDouble() - (num * multiplier)).abs() > 1e-5 ||
+        ((den * multiplier).roundToDouble() - (den * multiplier)).abs() > 1e-5) {
+      multiplier *= 10;
+      if (multiplier > 10000) break;
+    }
+    int n = (num * multiplier).round();
+    int d = (den * multiplier).round();
+    if (d == 0) return [n, 1];
+    int gcd = _gcd(n.abs(), d.abs());
+    n = n ~/ gcd;
+    d = d ~/ gcd;
+    if (d < 0) { n = -n; d = -d; }
+    return [n, d];
   }
 
   // --- Formatting Helpers ---
@@ -228,6 +264,45 @@ class AlgebraSolver {
     String v = _formatWhole(val.abs());
     if (v == "1" && variable.isNotEmpty) v = "";
     return (val < 0 ? "- " : "+ ") + v + variable;
+  }
+
+  static String _formatFractionTermsLaTeX(Map<String, double> terms, double den) {
+    String res = "";
+    List<String> keys = terms.keys.toList()..sort((a,b) {
+      if (a.isEmpty) return 1;
+      if (b.isEmpty) return -1;
+      return a.compareTo(b);
+    });
+
+    for (String k in keys) {
+      double num = terms[k]!;
+      if (num == 0) continue;
+
+      var frac = _simplifyFraction(num, den);
+      int n = frac[0];
+      int d = frac[1];
+
+      String term = "";
+      if (d == 1) {
+        String v = n.abs().toString();
+        if (v == "1" && k.isNotEmpty) v = "";
+        term = v + k;
+      } else {
+        String v = n.abs().toString();
+        if (v == "1" && k.isNotEmpty) {
+          term = "\\frac{$k}{$d}";
+        } else {
+          term = "\\frac{$v$k}{$d}";
+        }
+      }
+
+      if (res.isEmpty) {
+        res += n < 0 ? "-$term" : term;
+      } else {
+        res += n < 0 ? " - $term" : " + $term";
+      }
+    }
+    return res.isEmpty ? "0" : res;
   }
 
   static String _formatTermsLaTeX(Map<String, double> terms) {
