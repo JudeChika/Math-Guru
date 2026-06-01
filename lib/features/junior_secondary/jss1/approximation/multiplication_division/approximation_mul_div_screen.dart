@@ -309,7 +309,7 @@ class _ApproximationMulDivScreenState extends State<ApproximationMulDivScreen>
           ),
           const SizedBox(height: 14),
           DropdownButtonFormField<String>(
-            value: selectedMode,
+            initialValue: selectedMode,
             items: _modes
                 .map((mode) => DropdownMenuItem(
               value: mode,

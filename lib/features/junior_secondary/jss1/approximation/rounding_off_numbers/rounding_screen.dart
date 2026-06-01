@@ -140,7 +140,7 @@ class _RoundingScreenState extends State<RoundingScreen> {
             ),
             const SizedBox(height: 18),
             DropdownButtonFormField<String>(
-              value: _selectedMode,
+              initialValue: _selectedMode,
               items: _roundingModes
                   .map((mode) => DropdownMenuItem(
                 value: mode,

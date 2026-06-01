@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:math_guru/features/junior_secondary/jss1/algebra/algebra_input_and_solution_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/algebra/basic_operations/algebra_operations_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/algebra/world_problems/algebra_input_and_solution_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/addition_subtraction/addition_subtraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/multiplication_division/approximation_mul_div_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/rounding_off_numbers/rounding_screen.dart';
@@ -118,6 +119,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic.trim() == 'World Problems involving the use of Letters') {
       return const AlgebraInputAndSolutionScreen();
+    }
+    if (subtopic.trim() == 'Basic Operations') {
+      return const AlgebraOperationsScreen();
     }
 
     return Scaffold(
