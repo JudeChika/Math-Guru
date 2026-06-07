@@ -51,8 +51,9 @@ class AlgebraOperationsSolver {
       String numbers = term.replaceAll(RegExp(r'[a-z]'), '');
 
       double coeff = 1.0;
-      if (numbers == '-') coeff = -1.0;
-      else if (numbers.isNotEmpty) {
+      if (numbers == '-') {
+        coeff = -1.0;
+      } else if (numbers.isNotEmpty) {
         if (numbers.contains('/')) {
           var frac = numbers.split('/');
           coeff = double.parse(frac[0]) / double.parse(frac[1]);
@@ -135,8 +136,9 @@ class AlgebraOperationsSolver {
       String numbersPart = term.replaceAll(RegExp(r'[a-z]'), '');
 
       double coeff = 1.0;
-      if (numbersPart == '-') coeff = -1.0;
-      else if (numbersPart.isNotEmpty) {
+      if (numbersPart == '-') {
+        coeff = -1.0;
+      } else if (numbersPart.isNotEmpty) {
         if (numbersPart.contains('/')) {
           var frac = numbersPart.split('/');
           coeff = double.parse(frac[0]) / double.parse(frac[1]);
@@ -168,8 +170,11 @@ class AlgebraOperationsSolver {
     List<String> sortedVars = finalVars.keys.toList()..sort();
     for (String v in sortedVars) {
       int count = finalVars[v]!;
-      if (count > 1) finalVarStr += "$v^$count";
-      else finalVarStr += v;
+      if (count > 1) {
+        finalVarStr += "$v^$count";
+      } else {
+        finalVarStr += v;
+      }
     }
 
     String fractionAnswer = _formatFractionTermsLaTeX({finalVarStr: finalNum}, 1.0);
@@ -245,8 +250,9 @@ class AlgebraOperationsSolver {
       int top = topVars[char] ?? 0;
       int bot = botVars[char] ?? 0;
       int diff = top - bot;
-      if (diff > 0) finalTopVars += diff > 1 ? "$char^$diff" : char;
-      else if (diff < 0) finalBotVars += (diff.abs() > 1) ? "$char^${diff.abs()}" : char;
+      if (diff > 0) {
+        finalTopVars += diff > 1 ? "$char^$diff" : char;
+      } else if (diff < 0) finalBotVars += (diff.abs() > 1) ? "$char^${diff.abs()}" : char;
     }
 
     // Decimal Construction

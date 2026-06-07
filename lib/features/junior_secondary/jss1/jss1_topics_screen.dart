@@ -45,7 +45,6 @@ const Map<String, List<String>> jss1Topics = {
     'Basic Operations',
     'Simplifying Expressions Involving Brackets',
     'Translation of Word Problems into Mathematical Statements',
-    'Translation of Algebraic Sentences into Words',
   ],
   'Perimeter of Plane Shapes': [
     'Square',

@@ -222,7 +222,9 @@ class AlgebraSolver {
   static int _getLCM(List<int> numbers) {
     if (numbers.isEmpty) return 1;
     int res = numbers[0];
-    for (int i = 1; i < numbers.length; i++) res = _lcm(res, numbers[i]);
+    for (int i = 1; i < numbers.length; i++) {
+      res = _lcm(res, numbers[i]);
+    }
     return res;
   }
 
