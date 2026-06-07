@@ -24,6 +24,7 @@ dependencies:
   shared_preferences: ^2.5.3
   cupertino_icons: ^1.0.8
   fraction: ^3.0.1
+  tflite_flutter: ^0.10.0
 
 
 dev_dependencies:
@@ -45,3 +46,5 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/ml_model/math_guru_offline.tflite
+    - assets/ml_model/spiece.model
