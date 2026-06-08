@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss1/algebra/basic_operations/algebra_operations_screen.dart';
-import 'package:math_guru/features/junior_secondary/jss1/algebra/translations/translation_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/algebra/world_problems/algebra_input_and_solution_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/addition_subtraction/addition_subtraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/multiplication_division/approximation_mul_div_screen.dart';
@@ -127,9 +126,6 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic.trim() == 'Simplifying Expressions Involving Brackets') {
       return const BracketsOperationsScreen();
-    }
-    if (subtopic.trim() == 'Translation of Word Problems into Mathematical Statements') {
-      return const TranslationScreen();
     }
 
     return Scaffold(

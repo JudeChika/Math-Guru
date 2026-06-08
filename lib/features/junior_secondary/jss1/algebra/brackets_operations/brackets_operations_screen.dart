@@ -15,12 +15,22 @@ class BracketsOperationsScreen extends StatefulWidget {
 class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
   final TextEditingController _expressionController = TextEditingController();
   BracketResult? _result;
+  String? _selectedSubject;
 
-  void _solveExpression() {
+  void _solveExpression({String? subjectOverride}) {
     FocusScope.of(context).unfocus();
     if (_expressionController.text.trim().isNotEmpty) {
       setState(() {
-        _result = BracketsOperationsSolver.simplifyExpression(_expressionController.text.trim());
+        _result = BracketsOperationsSolver.simplifyExpression(
+          _expressionController.text.trim(),
+          targetSubject: subjectOverride ?? _selectedSubject,
+        );
+
+        if (_result != null && _result!.valid) {
+          _selectedSubject = _result!.subjectUsed;
+        } else {
+          _selectedSubject = null;
+        }
       });
     }
   }
@@ -37,7 +47,7 @@ class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Simplifying Expressions with Brackets'),
+        title: const Text('Expressions & Equations with Brackets'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -46,31 +56,38 @@ class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Enter expression with brackets e.g. 2x + 3(4x - y/2):",
+                "Enter your expression or equation:",
                 style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
               Text(
-                "Use parentheses () to group terms.",
+                "e.g., 3(2x - 1) or 2(3x - 1) = 3(3y + 1)",
                 style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey.shade600),
               ),
               const SizedBox(height: 16),
+
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _expressionController,
-                      keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
-                        hintText: "e.g. 2(3x + 4y) - 4(x - y)",
+                        hintText: "e.g. 2(3x - 1) = 3(3y + 1)",
                       ),
-                      onSubmitted: (_) => _solveExpression(),
+                      onSubmitted: (_) {
+                        _selectedSubject = null;
+                        _solveExpression();
+                      },
                     ),
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton(
-                    onPressed: _solveExpression,
-                    child: const Text("Simplify"),
+                    onPressed: () {
+                      _selectedSubject = null;
+                      _solveExpression();
+                    },
+                    child: const Text("Solve"),
                   ),
                 ],
               ),
@@ -81,8 +98,42 @@ class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // --- 1. FINAL RESULT TOP CARD ---
-                    Text("Final Simplified Answer:",
+                    // --- VARIABLE SELECTOR ---
+                    if (_result!.availableVariables.length > 1) ...[
+                      Text("Make subject of formula:",
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepPurple
+                          )
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8.0,
+                        children: _result!.availableVariables.map((variable) {
+                          final isSelected = variable == _selectedSubject;
+                          return ChoiceChip(
+                            label: Text(variable),
+                            selected: isSelected,
+                            selectedColor: Colors.deepPurple.shade100,
+                            backgroundColor: Colors.grey.shade200,
+                            labelStyle: TextStyle(
+                                color: isSelected ? Colors.deepPurple.shade900 : Colors.black87,
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                fontFamily: 'Poppins'
+                            ),
+                            onSelected: (bool selected) {
+                              if (selected && variable != _selectedSubject) {
+                                _solveExpression(subjectOverride: variable);
+                              }
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+
+                    // --- FINAL RESULT CARD ---
+                    Text("Final Result:",
                         style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.deepPurple
@@ -101,7 +152,7 @@ class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
                             scrollDirection: Axis.horizontal,
                             child: Math.tex(
                               _result!.finalAnswerLaTeX,
-                              textStyle: theme.textTheme.displayLarge?.copyWith(
+                              textStyle: theme.textTheme.displaySmall?.copyWith(
                                 fontFamily: 'Poppins',
                                 color: Colors.green.shade800,
                               ),
@@ -112,7 +163,7 @@ class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
                     ),
                     const SizedBox(height: 24),
 
-                    // --- 2. WORKINGS SUMMARY ---
+                    // --- WORKINGS SECTION ---
                     Text("Workings:",
                         style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
@@ -123,8 +174,8 @@ class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
                     _buildWorkingsCard(_result!.steps, theme),
                     const SizedBox(height: 24),
 
-                    // --- 3. STEP-BY-STEP EXPLANATION ---
-                    Text("Step-by-step Explanation:",
+                    // --- STEP-BY-STEP BREAKDOWN ---
+                    Text("Step-by-step Breakdown:",
                         style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.deepPurple
@@ -140,7 +191,7 @@ class _BracketsOperationsScreenState extends State<BracketsOperationsScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
-                      _result!.errorMessage ?? "Invalid input",
+                      _result!.errorMessage ?? "Error evaluating input.",
                       style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
                     ),
                   ),
