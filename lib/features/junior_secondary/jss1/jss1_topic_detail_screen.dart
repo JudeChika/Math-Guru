@@ -13,6 +13,7 @@ import 'package:math_guru/features/junior_secondary/jss1/fractions/fraction_mult
 import 'package:math_guru/features/junior_secondary/jss1/fractions/mixed_improper/mixed_improper_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/number_line/number_line_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/perimeter/square/square_perimeter_screen.dart';
 import 'algebra/brackets_operations/brackets_operations_screen.dart';
 import 'basic_operations_involving_binary_system/binary_addition/binary_addition_screen.dart';
 import 'factors_multiples/hcf/hcf_screen.dart';
@@ -126,6 +127,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic.trim() == 'Simplifying Expressions Involving Brackets') {
       return const BracketsOperationsScreen();
+    }
+    if (subtopic.trim() == 'Square') {
+      return const SquarePerimeterScreen();
     }
 
     return Scaffold(
