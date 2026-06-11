@@ -309,8 +309,9 @@ class BracketsOperationsSolver {
       if (letters.isNotEmpty) letters = (letters.split('')..sort()).join('');
 
       double coeff = 1.0;
-      if (numbers == '-' || numbers == '-/') coeff = -1.0;
-      else if (numbers.isEmpty || numbers == '+' || numbers == '/') coeff = 1.0;
+      if (numbers == '-' || numbers == '-/') {
+        coeff = -1.0;
+      } else if (numbers.isEmpty || numbers == '+' || numbers == '/') coeff = 1.0;
       else {
         if (numbers.startsWith('/')) numbers = '1$numbers';
         if (numbers.startsWith('-/')) numbers = '-1${numbers.substring(1)}';
@@ -342,8 +343,9 @@ class BracketsOperationsSolver {
       if (letters.isNotEmpty) letters = (letters.split('')..sort()).join('');
 
       double coeff = 1.0;
-      if (numbers == '-' || numbers == '-/') coeff = -1.0;
-      else if (numbers.isEmpty || numbers == '+' || numbers == '/') coeff = 1.0;
+      if (numbers == '-' || numbers == '-/') {
+        coeff = -1.0;
+      } else if (numbers.isEmpty || numbers == '+' || numbers == '/') coeff = 1.0;
       else {
         if (numbers.startsWith('/')) numbers = '1$numbers';
         if (numbers.startsWith('-/')) numbers = '-1${numbers.substring(1)}';
@@ -365,12 +367,17 @@ class BracketsOperationsSolver {
 
     List<String> chars = combined.split('')..sort();
     Map<String, int> counts = {};
-    for (var c in chars) counts[c] = (counts[c] ?? 0) + 1;
+    for (var c in chars) {
+      counts[c] = (counts[c] ?? 0) + 1;
+    }
 
     String res = "";
     for (var k in counts.keys) {
-      if (counts[k]! > 1) res += "$k^${counts[k]}";
-      else res += k;
+      if (counts[k]! > 1) {
+        res += "$k^${counts[k]}";
+      } else {
+        res += k;
+      }
     }
     return res;
   }
