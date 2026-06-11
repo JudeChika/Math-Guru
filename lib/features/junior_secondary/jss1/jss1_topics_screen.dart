@@ -53,6 +53,7 @@ const Map<String, List<String>> jss1Topics = {
     'Trapezium',
     'Parallelogram',
     'Circle',
+    'Quadrant'
   ],
   'Area of Plane Shapes': [
     'Square',

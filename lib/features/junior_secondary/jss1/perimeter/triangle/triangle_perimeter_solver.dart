@@ -1,5 +1,3 @@
-// lib/features/junior_secondary/jss1/geometry/perimeter/triangle/triangle_perimeter_solver.dart
-
 import 'triangle_perimeter_models.dart';
 
 class TrianglePerimeterSolver {
