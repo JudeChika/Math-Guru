@@ -4,6 +4,7 @@ import 'package:math_guru/features/junior_secondary/jss1/algebra/world_problems/
 import 'package:math_guru/features/junior_secondary/jss1/approximation/addition_subtraction/addition_subtraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/multiplication_division/approximation_mul_div_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/rounding_off_numbers/rounding_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/area/square/square_area_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/basic_operations_involving_binary_system/binary_division/binary_division_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/basic_operations_involving_binary_system/binary_multiplication/binary_multiplication_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/basic_operations_involving_binary_system/binary_subtraction/binary_subtraction_screen.dart';
@@ -158,6 +159,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic.trim() == 'Quadrant') {
       return const QuadrantPerimeterScreen();
+    }
+    if (subtopic.trim() == 'Area of Square') {
+      return const SquareAreaScreen();
     }
 
     return Scaffold(
