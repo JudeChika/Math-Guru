@@ -1,5 +1,3 @@
-// lib/features/junior_secondary/jss1/area/square/square_area_solver.dart
-
 import 'dart:math';
 import 'square_area_models.dart';
 

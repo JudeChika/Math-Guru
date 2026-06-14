@@ -1,47 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'square_area_solver.dart';
-import 'square_area_models.dart';
+import 'rectangle_area_solver.dart';
+import 'rectangle_area_models.dart';
 
-class SquareAreaScreen extends StatefulWidget {
-  const SquareAreaScreen({super.key});
+class RectangleAreaScreen extends StatefulWidget {
+  const RectangleAreaScreen({super.key});
 
   @override
-  State<SquareAreaScreen> createState() => _SquareAreaScreenState();
+  State<RectangleAreaScreen> createState() => _RectangleAreaScreenState();
 }
 
-class _SquareAreaScreenState extends State<SquareAreaScreen> {
-  final TextEditingController _sideController = TextEditingController();
+class _RectangleAreaScreenState extends State<RectangleAreaScreen> {
+  final TextEditingController _lengthController = TextEditingController();
+  final TextEditingController _breadthController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
-  AreaResult? _result;
+
+  RectangleAreaResult? _result;
 
   String _selectedUnit = 'cm';
   final List<String> _units = ['mm', 'cm', 'm', 'km'];
 
-  void _onSideChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Area field dynamically
-    setState(() {});
-  }
-
-  void _onAreaChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Side field dynamically
+  void _onInputChanged(String value) {
+    // Trigger a rebuild to dynamically lock/unlock fields based on what is populated
     setState(() {});
   }
 
   void _solve() {
     FocusScope.of(context).unfocus();
-    if (_sideController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForArea(
-          _sideController.text.trim(), _selectedUnit));
-    } else if (_areaController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForSide(
-          _areaController.text.trim(), _selectedUnit));
+
+    final lText = _lengthController.text.trim();
+    final bText = _breadthController.text.trim();
+    final aText = _areaController.text.trim();
+
+    if (lText.isNotEmpty && bText.isNotEmpty) {
+      setState(() => _result = RectangleAreaSolver.solveForArea(lText, bText, _selectedUnit));
+    } else if (aText.isNotEmpty && bText.isNotEmpty) {
+      setState(() => _result = RectangleAreaSolver.solveForLength(aText, bText, _selectedUnit));
+    } else if (aText.isNotEmpty && lText.isNotEmpty) {
+      setState(() => _result = RectangleAreaSolver.solveForBreadth(aText, lText, _selectedUnit));
+    } else {
+      // Show a snackbar if less than 2 fields are filled
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter any two values to solve.')),
+      );
     }
   }
 
   @override
   void dispose() {
-    _sideController.dispose();
+    _lengthController.dispose();
+    _breadthController.dispose();
     _areaController.dispose();
     super.dispose();
   }
@@ -50,12 +58,14 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Determine if fields should be enabled based on whether the OTHER field is empty
-    final bool isSideEnabled = _areaController.text.trim().isEmpty;
-    final bool isAreaEnabled = _sideController.text.trim().isEmpty;
+    // A field remains enabled as long as ALL THREE fields aren't competing.
+    // If the *other two* fields are filled, disable this one.
+    final bool isLengthEnabled = !(_areaController.text.isNotEmpty && _breadthController.text.isNotEmpty);
+    final bool isBreadthEnabled = !(_areaController.text.isNotEmpty && _lengthController.text.isNotEmpty);
+    final bool isAreaEnabled = !(_lengthController.text.isNotEmpty && _breadthController.text.isNotEmpty);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Area of a Square')),
+      appBar: AppBar(title: const Text('Area of a Rectangle')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         child: Column(
@@ -67,15 +77,15 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
                 Expanded(
                   flex: 2,
                   child: TextField(
-                    controller: _sideController,
-                    enabled: isSideEnabled,
+                    controller: _lengthController,
+                    enabled: isLengthEnabled,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    onChanged: _onSideChanged,
+                    onChanged: _onInputChanged,
                     decoration: InputDecoration(
-                      labelText: "Enter Length (a)",
-                      hintText: "e.g. 5",
-                      filled: !isSideEnabled,
-                      fillColor: isSideEnabled ? Colors.transparent : Colors.grey.shade200,
+                      labelText: "Enter Length (l)",
+                      hintText: "e.g. 8",
+                      filled: !isLengthEnabled,
+                      fillColor: isLengthEnabled ? Colors.transparent : Colors.grey.shade200,
                     ),
                   ),
                 ),
@@ -97,7 +107,7 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
                       if (newValue != null) {
                         setState(() {
                           _selectedUnit = newValue;
-                          _result = null; // Clear previous result on unit change
+                          _result = null;
                         });
                       }
                     },
@@ -107,13 +117,26 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: _breadthController,
+              enabled: isBreadthEnabled,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              onChanged: _onInputChanged,
+              decoration: InputDecoration(
+                labelText: "Enter Breadth (b)",
+                hintText: "e.g. 4",
+                filled: !isBreadthEnabled,
+                fillColor: isBreadthEnabled ? Colors.transparent : Colors.grey.shade200,
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
               controller: _areaController,
               enabled: isAreaEnabled,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              onChanged: _onAreaChanged,
+              onChanged: _onInputChanged,
               decoration: InputDecoration(
                 labelText: "Enter Area (A) in $_selectedUnit²",
-                hintText: "e.g. 25",
+                hintText: "e.g. 32",
                 filled: !isAreaEnabled,
                 fillColor: isAreaEnabled ? Colors.transparent : Colors.grey.shade200,
               ),

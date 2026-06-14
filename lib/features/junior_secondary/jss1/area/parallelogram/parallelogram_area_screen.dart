@@ -1,47 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'square_area_solver.dart';
-import 'square_area_models.dart';
+import 'parallelogram_area_solver.dart';
+import 'parallelogram_area_models.dart';
 
-class SquareAreaScreen extends StatefulWidget {
-  const SquareAreaScreen({super.key});
+class ParallelogramAreaScreen extends StatefulWidget {
+  const ParallelogramAreaScreen({super.key});
 
   @override
-  State<SquareAreaScreen> createState() => _SquareAreaScreenState();
+  State<ParallelogramAreaScreen> createState() => _ParallelogramAreaScreenState();
 }
 
-class _SquareAreaScreenState extends State<SquareAreaScreen> {
-  final TextEditingController _sideController = TextEditingController();
+class _ParallelogramAreaScreenState extends State<ParallelogramAreaScreen> {
+  final TextEditingController _baseController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
-  AreaResult? _result;
+
+  ParallelogramAreaResult? _result;
 
   String _selectedUnit = 'cm';
   final List<String> _units = ['mm', 'cm', 'm', 'km'];
 
-  void _onSideChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Area field dynamically
-    setState(() {});
-  }
-
-  void _onAreaChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Side field dynamically
-    setState(() {});
+  void _onInputChanged(String value) {
+    setState(() {}); // Trigger rebuild to dynamically handle locking/unlocking fields
   }
 
   void _solve() {
     FocusScope.of(context).unfocus();
-    if (_sideController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForArea(
-          _sideController.text.trim(), _selectedUnit));
-    } else if (_areaController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForSide(
-          _areaController.text.trim(), _selectedUnit));
+
+    final bText = _baseController.text.trim();
+    final hText = _heightController.text.trim();
+    final areaText = _areaController.text.trim();
+
+    if (bText.isNotEmpty && hText.isNotEmpty) {
+      setState(() => _result = ParallelogramAreaSolver.solveForArea(bText, hText, _selectedUnit));
+    } else if (areaText.isNotEmpty && hText.isNotEmpty) {
+      setState(() => _result = ParallelogramAreaSolver.solveForBase(areaText, hText, _selectedUnit));
+    } else if (areaText.isNotEmpty && bText.isNotEmpty) {
+      setState(() => _result = ParallelogramAreaSolver.solveForHeight(areaText, bText, _selectedUnit));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter any TWO values to solve.')),
+      );
     }
   }
 
   @override
   void dispose() {
-    _sideController.dispose();
+    _baseController.dispose();
+    _heightController.dispose();
     _areaController.dispose();
     super.dispose();
   }
@@ -50,32 +56,51 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Determine if fields should be enabled based on whether the OTHER field is empty
-    final bool isSideEnabled = _areaController.text.trim().isEmpty;
-    final bool isAreaEnabled = _sideController.text.trim().isEmpty;
+    // A field is enabled if the OTHER TWO fields are not completely filled out.
+    final bool isBaseEnabled = !(_areaController.text.isNotEmpty && _heightController.text.isNotEmpty);
+    final bool isHeightEnabled = !(_areaController.text.isNotEmpty && _baseController.text.isNotEmpty);
+    final bool isAreaEnabled = !(_baseController.text.isNotEmpty && _heightController.text.isNotEmpty);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Area of a Square')),
+      appBar: AppBar(title: const Text('Area of a Parallelogram')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Informational Card
+            Card(
+              elevation: 0,
+              color: Colors.blue.shade50,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(color: Colors.blue.shade200),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  '💡 For a parallelogram, Area is calculated by multiplying the base (b) by the perpendicular height (h)!',
+                  style: TextStyle(fontFamily: 'Poppins', fontSize: 13, color: Colors.blue),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   flex: 2,
                   child: TextField(
-                    controller: _sideController,
-                    enabled: isSideEnabled,
+                    controller: _baseController,
+                    enabled: isBaseEnabled,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    onChanged: _onSideChanged,
+                    onChanged: _onInputChanged,
                     decoration: InputDecoration(
-                      labelText: "Enter Length (a)",
-                      hintText: "e.g. 5",
-                      filled: !isSideEnabled,
-                      fillColor: isSideEnabled ? Colors.transparent : Colors.grey.shade200,
+                      labelText: "Enter Base (b)",
+                      hintText: "e.g. 8",
+                      filled: !isBaseEnabled,
+                      fillColor: isBaseEnabled ? Colors.transparent : Colors.grey.shade200,
                     ),
                   ),
                 ),
@@ -84,20 +109,15 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
                   flex: 1,
                   child: DropdownButtonFormField<String>(
                     value: _selectedUnit,
-                    decoration: const InputDecoration(
-                      labelText: 'Unit',
-                    ),
+                    decoration: const InputDecoration(labelText: 'Unit'),
                     items: _units.map((String unit) {
-                      return DropdownMenuItem<String>(
-                        value: unit,
-                        child: Text(unit),
-                      );
+                      return DropdownMenuItem<String>(value: unit, child: Text(unit));
                     }).toList(),
                     onChanged: (String? newValue) {
                       if (newValue != null) {
                         setState(() {
                           _selectedUnit = newValue;
-                          _result = null; // Clear previous result on unit change
+                          _result = null;
                         });
                       }
                     },
@@ -107,13 +127,26 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: _heightController,
+              enabled: isHeightEnabled,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              onChanged: _onInputChanged,
+              decoration: InputDecoration(
+                labelText: "Enter Perpendicular Height (h)",
+                hintText: "e.g. 5",
+                filled: !isHeightEnabled,
+                fillColor: isHeightEnabled ? Colors.transparent : Colors.grey.shade200,
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
               controller: _areaController,
               enabled: isAreaEnabled,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              onChanged: _onAreaChanged,
+              onChanged: _onInputChanged,
               decoration: InputDecoration(
                 labelText: "Enter Area (A) in $_selectedUnit²",
-                hintText: "e.g. 25",
+                hintText: "e.g. 40",
                 filled: !isAreaEnabled,
                 fillColor: isAreaEnabled ? Colors.transparent : Colors.grey.shade200,
               ),
@@ -179,7 +212,10 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
             child: ListTile(
               leading: CircleAvatar(child: Text('${idx + 1}')),
               title: Text(step.explanation, style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic)),
-              subtitle: Math.tex(step.workingLaTeX),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Math.tex(step.workingLaTeX),
+              ),
             ),
           );
         }),

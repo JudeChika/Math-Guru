@@ -1,47 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'square_area_solver.dart';
-import 'square_area_models.dart';
+import 'triangle_area_solver.dart';
+import 'triangle_area_models.dart';
 
-class SquareAreaScreen extends StatefulWidget {
-  const SquareAreaScreen({super.key});
+class TriangleAreaScreen extends StatefulWidget {
+  const TriangleAreaScreen({super.key});
 
   @override
-  State<SquareAreaScreen> createState() => _SquareAreaScreenState();
+  State<TriangleAreaScreen> createState() => _TriangleAreaScreenState();
 }
 
-class _SquareAreaScreenState extends State<SquareAreaScreen> {
-  final TextEditingController _sideController = TextEditingController();
+class _TriangleAreaScreenState extends State<TriangleAreaScreen> {
+  final TextEditingController _baseController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
-  AreaResult? _result;
+
+  TriangleAreaResult? _result;
 
   String _selectedUnit = 'cm';
   final List<String> _units = ['mm', 'cm', 'm', 'km'];
 
-  void _onSideChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Area field dynamically
-    setState(() {});
-  }
-
-  void _onAreaChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Side field dynamically
+  void _onInputChanged(String value) {
+    // Trigger a rebuild to dynamically lock/unlock fields based on what is populated
     setState(() {});
   }
 
   void _solve() {
     FocusScope.of(context).unfocus();
-    if (_sideController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForArea(
-          _sideController.text.trim(), _selectedUnit));
-    } else if (_areaController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForSide(
-          _areaController.text.trim(), _selectedUnit));
+
+    final bText = _baseController.text.trim();
+    final hText = _heightController.text.trim();
+    final aText = _areaController.text.trim();
+
+    if (bText.isNotEmpty && hText.isNotEmpty) {
+      setState(() => _result = TriangleAreaSolver.solveForArea(bText, hText, _selectedUnit));
+    } else if (aText.isNotEmpty && hText.isNotEmpty) {
+      setState(() => _result = TriangleAreaSolver.solveForBase(aText, hText, _selectedUnit));
+    } else if (aText.isNotEmpty && bText.isNotEmpty) {
+      setState(() => _result = TriangleAreaSolver.solveForHeight(aText, bText, _selectedUnit));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter any two values to solve.')),
+      );
     }
   }
 
   @override
   void dispose() {
-    _sideController.dispose();
+    _baseController.dispose();
+    _heightController.dispose();
     _areaController.dispose();
     super.dispose();
   }
@@ -50,12 +57,13 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Determine if fields should be enabled based on whether the OTHER field is empty
-    final bool isSideEnabled = _areaController.text.trim().isEmpty;
-    final bool isAreaEnabled = _sideController.text.trim().isEmpty;
+    // A field remains enabled as long as the OTHER TWO fields are not completely filled out.
+    final bool isBaseEnabled = !(_areaController.text.isNotEmpty && _heightController.text.isNotEmpty);
+    final bool isHeightEnabled = !(_areaController.text.isNotEmpty && _baseController.text.isNotEmpty);
+    final bool isAreaEnabled = !(_baseController.text.isNotEmpty && _heightController.text.isNotEmpty);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Area of a Square')),
+      appBar: AppBar(title: const Text('Area of a Triangle')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         child: Column(
@@ -67,15 +75,15 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
                 Expanded(
                   flex: 2,
                   child: TextField(
-                    controller: _sideController,
-                    enabled: isSideEnabled,
+                    controller: _baseController,
+                    enabled: isBaseEnabled,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    onChanged: _onSideChanged,
+                    onChanged: _onInputChanged,
                     decoration: InputDecoration(
-                      labelText: "Enter Length (a)",
-                      hintText: "e.g. 5",
-                      filled: !isSideEnabled,
-                      fillColor: isSideEnabled ? Colors.transparent : Colors.grey.shade200,
+                      labelText: "Enter Base (b)",
+                      hintText: "e.g. 6",
+                      filled: !isBaseEnabled,
+                      fillColor: isBaseEnabled ? Colors.transparent : Colors.grey.shade200,
                     ),
                   ),
                 ),
@@ -97,7 +105,7 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
                       if (newValue != null) {
                         setState(() {
                           _selectedUnit = newValue;
-                          _result = null; // Clear previous result on unit change
+                          _result = null;
                         });
                       }
                     },
@@ -107,13 +115,26 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: _heightController,
+              enabled: isHeightEnabled,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              onChanged: _onInputChanged,
+              decoration: InputDecoration(
+                labelText: "Enter Perpendicular Height (h)",
+                hintText: "e.g. 4",
+                filled: !isHeightEnabled,
+                fillColor: isHeightEnabled ? Colors.transparent : Colors.grey.shade200,
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
               controller: _areaController,
               enabled: isAreaEnabled,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              onChanged: _onAreaChanged,
+              onChanged: _onInputChanged,
               decoration: InputDecoration(
                 labelText: "Enter Area (A) in $_selectedUnit²",
-                hintText: "e.g. 25",
+                hintText: "e.g. 12",
                 filled: !isAreaEnabled,
                 fillColor: isAreaEnabled ? Colors.transparent : Colors.grey.shade200,
               ),
@@ -179,7 +200,10 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
             child: ListTile(
               leading: CircleAvatar(child: Text('${idx + 1}')),
               title: Text(step.explanation, style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic)),
-              subtitle: Math.tex(step.workingLaTeX),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Math.tex(step.workingLaTeX),
+              ),
             ),
           );
         }),

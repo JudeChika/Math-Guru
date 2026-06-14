@@ -1,47 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'square_area_solver.dart';
-import 'square_area_models.dart';
+import 'circle_area_solver.dart';
+import 'circle_area_models.dart';
 
-class SquareAreaScreen extends StatefulWidget {
-  const SquareAreaScreen({super.key});
+class CircleAreaScreen extends StatefulWidget {
+  const CircleAreaScreen({super.key});
 
   @override
-  State<SquareAreaScreen> createState() => _SquareAreaScreenState();
+  State<CircleAreaScreen> createState() => _CircleAreaScreenState();
 }
 
-class _SquareAreaScreenState extends State<SquareAreaScreen> {
-  final TextEditingController _sideController = TextEditingController();
+class _CircleAreaScreenState extends State<CircleAreaScreen> {
+  final TextEditingController _radiusController = TextEditingController();
+  final TextEditingController _diameterController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
-  AreaResult? _result;
+
+  CircleAreaResult? _result;
 
   String _selectedUnit = 'cm';
   final List<String> _units = ['mm', 'cm', 'm', 'km'];
 
-  void _onSideChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Area field dynamically
-    setState(() {});
-  }
-
-  void _onAreaChanged(String value) {
-    // Trigger a rebuild to lock/unlock the Side field dynamically
-    setState(() {});
+  void _onInputChanged(String value) {
+    setState(() {}); // Trigger rebuild to dynamically handle locking/unlocking fields
   }
 
   void _solve() {
     FocusScope.of(context).unfocus();
-    if (_sideController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForArea(
-          _sideController.text.trim(), _selectedUnit));
-    } else if (_areaController.text.trim().isNotEmpty) {
-      setState(() => _result = SquareAreaSolver.solveForSide(
-          _areaController.text.trim(), _selectedUnit));
+
+    final rText = _radiusController.text.trim();
+    final dText = _diameterController.text.trim();
+    final areaText = _areaController.text.trim();
+
+    if (rText.isNotEmpty) {
+      setState(() => _result = CircleAreaSolver.solveForAreaWithRadius(rText, _selectedUnit));
+    } else if (dText.isNotEmpty) {
+      setState(() => _result = CircleAreaSolver.solveForAreaWithDiameter(dText, _selectedUnit));
+    } else if (areaText.isNotEmpty) {
+      setState(() => _result = CircleAreaSolver.solveForRadius(areaText, _selectedUnit));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter ONE value to solve.')),
+      );
     }
   }
 
   @override
   void dispose() {
-    _sideController.dispose();
+    _radiusController.dispose();
+    _diameterController.dispose();
     _areaController.dispose();
     super.dispose();
   }
@@ -50,32 +56,57 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Determine if fields should be enabled based on whether the OTHER field is empty
-    final bool isSideEnabled = _areaController.text.trim().isEmpty;
-    final bool isAreaEnabled = _sideController.text.trim().isEmpty;
+    // Count how many fields have text
+    int filledCount = 0;
+    if (_radiusController.text.trim().isNotEmpty) filledCount++;
+    if (_diameterController.text.trim().isNotEmpty) filledCount++;
+    if (_areaController.text.trim().isNotEmpty) filledCount++;
+
+    // A field is enabled if it is the ONE field that has text, OR if NO fields have text yet
+    final bool isRadiusEnabled = _radiusController.text.trim().isNotEmpty || filledCount == 0;
+    final bool isDiameterEnabled = _diameterController.text.trim().isNotEmpty || filledCount == 0;
+    final bool isAreaEnabled = _areaController.text.trim().isNotEmpty || filledCount == 0;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Area of a Square')),
+      appBar: AppBar(title: const Text('Area of a Circle')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Informational Card
+            Card(
+              elevation: 0,
+              color: Colors.blue.shade50,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(color: Colors.blue.shade200),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  '💡 For a circle, Area is calculated using the constant \\pi (pi) and the radius (r). If you are given the diameter (d), remember that radius is half of the diameter!',
+                  style: TextStyle(fontFamily: 'Poppins', fontSize: 13, color: Colors.blue),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   flex: 2,
                   child: TextField(
-                    controller: _sideController,
-                    enabled: isSideEnabled,
+                    controller: _radiusController,
+                    enabled: isRadiusEnabled,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    onChanged: _onSideChanged,
+                    onChanged: _onInputChanged,
                     decoration: InputDecoration(
-                      labelText: "Enter Length (a)",
+                      labelText: "Enter Radius (r)",
                       hintText: "e.g. 5",
-                      filled: !isSideEnabled,
-                      fillColor: isSideEnabled ? Colors.transparent : Colors.grey.shade200,
+                      filled: !isRadiusEnabled,
+                      fillColor: isRadiusEnabled ? Colors.transparent : Colors.grey.shade200,
                     ),
                   ),
                 ),
@@ -84,20 +115,15 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
                   flex: 1,
                   child: DropdownButtonFormField<String>(
                     value: _selectedUnit,
-                    decoration: const InputDecoration(
-                      labelText: 'Unit',
-                    ),
+                    decoration: const InputDecoration(labelText: 'Unit'),
                     items: _units.map((String unit) {
-                      return DropdownMenuItem<String>(
-                        value: unit,
-                        child: Text(unit),
-                      );
+                      return DropdownMenuItem<String>(value: unit, child: Text(unit));
                     }).toList(),
                     onChanged: (String? newValue) {
                       if (newValue != null) {
                         setState(() {
                           _selectedUnit = newValue;
-                          _result = null; // Clear previous result on unit change
+                          _result = null;
                         });
                       }
                     },
@@ -106,14 +132,40 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
               ],
             ),
             const SizedBox(height: 16),
+
+            // "OR" Divider
+            Center(
+              child: Text("— OR —", style: TextStyle(color: Colors.grey.shade600, fontWeight: FontWeight.bold, fontSize: 12)),
+            ),
+            const SizedBox(height: 16),
+
+            TextField(
+              controller: _diameterController,
+              enabled: isDiameterEnabled,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              onChanged: _onInputChanged,
+              decoration: InputDecoration(
+                labelText: "Enter Diameter (d)",
+                hintText: "e.g. 10",
+                filled: !isDiameterEnabled,
+                fillColor: isDiameterEnabled ? Colors.transparent : Colors.grey.shade200,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+            Center(
+              child: Text("— OR —", style: TextStyle(color: Colors.grey.shade600, fontWeight: FontWeight.bold, fontSize: 12)),
+            ),
+            const SizedBox(height: 16),
+
             TextField(
               controller: _areaController,
               enabled: isAreaEnabled,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              onChanged: _onAreaChanged,
+              onChanged: _onInputChanged,
               decoration: InputDecoration(
                 labelText: "Enter Area (A) in $_selectedUnit²",
-                hintText: "e.g. 25",
+                hintText: "e.g. 78.54",
                 filled: !isAreaEnabled,
                 fillColor: isAreaEnabled ? Colors.transparent : Colors.grey.shade200,
               ),
@@ -179,7 +231,10 @@ class _SquareAreaScreenState extends State<SquareAreaScreen> {
             child: ListTile(
               leading: CircleAvatar(child: Text('${idx + 1}')),
               title: Text(step.explanation, style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic)),
-              subtitle: Math.tex(step.workingLaTeX),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Math.tex(step.workingLaTeX),
+              ),
             ),
           );
         }),
