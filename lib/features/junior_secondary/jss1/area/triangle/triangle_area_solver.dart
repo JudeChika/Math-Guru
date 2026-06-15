@@ -1,4 +1,7 @@
-import 'triangle_area_models.dart';
+// lib/features/junior_secondary/jss1/area/triangle/triangle_area_solver.dart
+
+import 'dart:math'; // Required for sqrt()
+import 'triangle_area_models.dart'; // Required for TriangleAreaResult and TriangleAreaStep
 
 class TriangleAreaSolver {
   // Helper to format numbers cleanly (e.g., 5.0 -> 5, 5.25 -> 5.25)
@@ -7,6 +10,10 @@ class TriangleAreaSolver {
         ? n.toInt().toString()
         : n.toStringAsFixed(2).replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "");
   }
+
+  // ==========================================
+  // STANDARD SOLVING METHODS
+  // ==========================================
 
   static TriangleAreaResult solveForArea(String bInput, String hInput, String unit) {
     try {
@@ -131,6 +138,118 @@ class TriangleAreaSolver {
       ));
 
       return TriangleAreaResult(steps: steps, finalAnswerLaTeX: "h = $hStr$u");
+    } catch (_) {
+      return TriangleAreaResult(steps: [], finalAnswerLaTeX: "", valid: false, errorMessage: "Invalid inputs.");
+    }
+  }
+
+  // ==========================================
+  // WORD PROBLEM / RELATIONSHIP SOLVING METHOD
+  // ==========================================
+
+  static TriangleAreaResult solveWithRelationship(String areaInput, String multiplierInput, bool isHeightMultipleOfBase, String unit) {
+    try {
+      double area = double.parse(areaInput.trim());
+      double x = double.parse(multiplierInput.trim());
+
+      List<TriangleAreaStep> steps = [];
+      String areaStr = _format(area);
+      String xStr = _format(x);
+      String u = "\\; \\text{$unit}";
+
+      double knownSquared;
+      double solvedPrimary;
+      double solvedSecondary;
+
+      steps.add(TriangleAreaStep(
+          workingLaTeX: "A = \\frac{1}{2} \\times b \\times h",
+          explanation: "Start with the general formula for the area of a triangle."
+      ));
+
+      if (isHeightMultipleOfBase) {
+        // Height is x times Base (h = xb)
+        knownSquared = (2 * area) / x;
+        solvedPrimary = sqrt(knownSquared); // This is Base
+        solvedSecondary = x * solvedPrimary; // This is Height
+
+        String kSqStr = _format(knownSquared);
+        String bStr = _format(solvedPrimary);
+        String hStr = _format(solvedSecondary);
+
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "h = $xStr \\times b",
+            explanation: "From the word problem, we know the height is $xStr times the base. We substitute 'h' with '$xStr b' in our formula."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "$areaStr = \\frac{1}{2} \\times b \\times ($xStr b)",
+            explanation: "Substitute the known Area ($areaStr) and our new expression for height into the formula."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "$areaStr = \\frac{$xStr}{2}b^2",
+            explanation: "Multiply 'b' by '$xStr b' to get '$xStr b²'."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "b^2 = \\frac{2 \\times $areaStr}{$xStr}",
+            explanation: "Rearrange the equation to isolate b² by multiplying the Area by 2 and dividing by $xStr."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "b^2 = $kSqStr",
+            explanation: "Calculate the value of b²."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "b = \\sqrt{$kSqStr} = $bStr$u",
+            explanation: "Take the square root of $kSqStr to find the final length of the Base (b)."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "h = $xStr \\times $bStr = $hStr$u",
+            explanation: "Now multiply the Base by $xStr to find the Height (h).",
+            isFinalAnswer: true
+        ));
+
+        return TriangleAreaResult(steps: steps, finalAnswerLaTeX: "\\text{Base } (b) = $bStr$u \\\\ \\text{Height } (h) = $hStr$u");
+
+      } else {
+        // Base is x times Height (b = xh)
+        knownSquared = (2 * area) / x;
+        solvedPrimary = sqrt(knownSquared); // This is Height
+        solvedSecondary = x * solvedPrimary; // This is Base
+
+        String kSqStr = _format(knownSquared);
+        String hStr = _format(solvedPrimary);
+        String bStr = _format(solvedSecondary);
+
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "b = $xStr \\times h",
+            explanation: "From the problem, we know the base is $xStr times the height. We substitute 'b' with '$xStr h'."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "$areaStr = \\frac{1}{2} \\times ($xStr h) \\times h",
+            explanation: "Substitute the known Area ($areaStr) and our new expression for base into the formula."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "$areaStr = \\frac{$xStr}{2}h^2",
+            explanation: "Multiply '$xStr h' by 'h' to get '$xStr h²'."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "h^2 = \\frac{2 \\times $areaStr}{$xStr}",
+            explanation: "Rearrange the equation to isolate h² by multiplying the Area by 2 and dividing by $xStr."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "h^2 = $kSqStr",
+            explanation: "Calculate the value of h²."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "h = \\sqrt{$kSqStr} = $hStr$u",
+            explanation: "Take the square root of $kSqStr to find the final length of the Height (h)."
+        ));
+        steps.add(TriangleAreaStep(
+            workingLaTeX: "b = $xStr \\times $hStr = $bStr$u",
+            explanation: "Now multiply the Height by $xStr to find the Base (b).",
+            isFinalAnswer: true
+        ));
+
+        return TriangleAreaResult(steps: steps, finalAnswerLaTeX: "\\text{Base } (b) = $bStr$u \\\\ \\text{Height } (h) = $hStr$u");
+      }
     } catch (_) {
       return TriangleAreaResult(steps: [], finalAnswerLaTeX: "", valid: false, errorMessage: "Invalid inputs.");
     }
