@@ -20,6 +20,7 @@ import 'package:math_guru/features/junior_secondary/jss1/fractions/fraction_mult
 import 'package:math_guru/features/junior_secondary/jss1/fractions/mixed_improper/mixed_improper_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/fractions/number_line/number_line_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/number_base_system/binary_conversion/binary_conversion_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/numbers_and_numeration/unit_conversion/unit_conversion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/Parallelogram/parallelogram_perimeter_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/circle/circle_perimeter_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/polygon/polygon_perimeter_screen.dart';
@@ -72,6 +73,9 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Place-value') {
       return const PlaceValueScreen();
+    }
+    if (subtopic == 'Unit Conversion') {
+      return const UnitConversionScreen();
     }
     if (subtopic == 'LCM') {
       return const LCMScreen();

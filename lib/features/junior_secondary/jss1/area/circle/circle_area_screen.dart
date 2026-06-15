@@ -114,7 +114,7 @@ class _CircleAreaScreenState extends State<CircleAreaScreen> {
                 Expanded(
                   flex: 1,
                   child: DropdownButtonFormField<String>(
-                    value: _selectedUnit,
+                    initialValue: _selectedUnit,
                     decoration: const InputDecoration(labelText: 'Unit'),
                     items: _units.map((String unit) {
                       return DropdownMenuItem<String>(value: unit, child: Text(unit));
