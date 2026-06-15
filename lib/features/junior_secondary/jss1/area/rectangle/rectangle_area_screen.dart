@@ -1,3 +1,5 @@
+// lib/features/junior_secondary/jss1/area/rectangle/rectangle_area_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'rectangle_area_solver.dart';
@@ -11,38 +13,59 @@ class RectangleAreaScreen extends StatefulWidget {
 }
 
 class _RectangleAreaScreenState extends State<RectangleAreaScreen> {
+  // Standard Controllers
   final TextEditingController _lengthController = TextEditingController();
   final TextEditingController _breadthController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
+
+  // Word Problem Controllers
+  final TextEditingController _multiplierController = TextEditingController();
 
   RectangleAreaResult? _result;
 
   String _selectedUnit = 'cm';
   final List<String> _units = ['mm', 'cm', 'm', 'km'];
 
+  // Mode Toggles
+  bool _isWordProblemMode = false;
+  bool _isLengthMultipleOfBreadth = true; // true: l = xb, false: b = xl
+
   void _onInputChanged(String value) {
-    // Trigger a rebuild to dynamically lock/unlock fields based on what is populated
-    setState(() {});
+    setState(() {}); // Trigger rebuild
   }
 
   void _solve() {
     FocusScope.of(context).unfocus();
 
-    final lText = _lengthController.text.trim();
-    final bText = _breadthController.text.trim();
-    final aText = _areaController.text.trim();
+    if (_isWordProblemMode) {
+      final areaText = _areaController.text.trim();
+      final multText = _multiplierController.text.trim();
 
-    if (lText.isNotEmpty && bText.isNotEmpty) {
-      setState(() => _result = RectangleAreaSolver.solveForArea(lText, bText, _selectedUnit));
-    } else if (aText.isNotEmpty && bText.isNotEmpty) {
-      setState(() => _result = RectangleAreaSolver.solveForLength(aText, bText, _selectedUnit));
-    } else if (aText.isNotEmpty && lText.isNotEmpty) {
-      setState(() => _result = RectangleAreaSolver.solveForBreadth(aText, lText, _selectedUnit));
+      if (areaText.isNotEmpty && multText.isNotEmpty) {
+        setState(() => _result = RectangleAreaSolver.solveWithRelationship(
+            areaText, multText, _isLengthMultipleOfBreadth, _selectedUnit));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enter Area and the Multiplier.')),
+        );
+      }
     } else {
-      // Show a snackbar if less than 2 fields are filled
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter any two values to solve.')),
-      );
+      // STANDARD SOLVING LOGIC
+      final lText = _lengthController.text.trim();
+      final bText = _breadthController.text.trim();
+      final aText = _areaController.text.trim();
+
+      if (lText.isNotEmpty && bText.isNotEmpty) {
+        setState(() => _result = RectangleAreaSolver.solveForArea(lText, bText, _selectedUnit));
+      } else if (aText.isNotEmpty && bText.isNotEmpty) {
+        setState(() => _result = RectangleAreaSolver.solveForLength(aText, bText, _selectedUnit));
+      } else if (aText.isNotEmpty && lText.isNotEmpty) {
+        setState(() => _result = RectangleAreaSolver.solveForBreadth(aText, lText, _selectedUnit));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enter any TWO values to solve.')),
+        );
+      }
     }
   }
 
@@ -51,6 +74,7 @@ class _RectangleAreaScreenState extends State<RectangleAreaScreen> {
     _lengthController.dispose();
     _breadthController.dispose();
     _areaController.dispose();
+    _multiplierController.dispose();
     super.dispose();
   }
 
@@ -58,8 +82,7 @@ class _RectangleAreaScreenState extends State<RectangleAreaScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // A field remains enabled as long as ALL THREE fields aren't competing.
-    // If the *other two* fields are filled, disable this one.
+    // Lock logic for standard mode
     final bool isLengthEnabled = !(_areaController.text.isNotEmpty && _breadthController.text.isNotEmpty);
     final bool isBreadthEnabled = !(_areaController.text.isNotEmpty && _lengthController.text.isNotEmpty);
     final bool isAreaEnabled = !(_lengthController.text.isNotEmpty && _breadthController.text.isNotEmpty);
@@ -71,76 +94,163 @@ class _RectangleAreaScreenState extends State<RectangleAreaScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: TextField(
-                    controller: _lengthController,
-                    enabled: isLengthEnabled,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    onChanged: _onInputChanged,
-                    decoration: InputDecoration(
-                      labelText: "Enter Length (l)",
-                      hintText: "e.g. 8",
-                      filled: !isLengthEnabled,
-                      fillColor: isLengthEnabled ? Colors.transparent : Colors.grey.shade200,
-                    ),
-                  ),
+            // Mode Toggle
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.deepPurple.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.deepPurple.shade200),
+              ),
+              child: SwitchListTile(
+                title: Text(
+                    "Algebra Word Problem Mode",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800, fontFamily: 'Poppins')
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  flex: 1,
-                  child: DropdownButtonFormField<String>(
-                    initialValue: _selectedUnit,
-                    decoration: const InputDecoration(
-                      labelText: 'Unit',
-                    ),
-                    items: _units.map((String unit) {
-                      return DropdownMenuItem<String>(
-                        value: unit,
-                        child: Text(unit),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _selectedUnit = newValue;
-                          _result = null;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _breadthController,
-              enabled: isBreadthEnabled,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              onChanged: _onInputChanged,
-              decoration: InputDecoration(
-                labelText: "Enter Breadth (b)",
-                hintText: "e.g. 4",
-                filled: !isBreadthEnabled,
-                fillColor: isBreadthEnabled ? Colors.transparent : Colors.grey.shade200,
+                subtitle: const Text("Enable this if one side is a multiple of the other (e.g. Length is twice the Breadth).", style: TextStyle(fontSize: 12)),
+                value: _isWordProblemMode,
+                activeColor: Colors.deepPurple,
+                onChanged: (bool value) {
+                  setState(() {
+                    _isWordProblemMode = value;
+                    _result = null; // Clear previous results
+                    _lengthController.clear();
+                    _breadthController.clear();
+                    _areaController.clear();
+                    _multiplierController.clear();
+                  });
+                },
               ),
             ),
+            const SizedBox(height: 24),
+
+            if (!_isWordProblemMode) ...[
+              // === STANDARD MODE UI ===
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      controller: _lengthController,
+                      enabled: isLengthEnabled,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      onChanged: _onInputChanged,
+                      decoration: InputDecoration(
+                        labelText: "Enter Length (l)",
+                        hintText: "e.g. 8",
+                        filled: !isLengthEnabled,
+                        fillColor: isLengthEnabled ? Colors.transparent : Colors.grey.shade200,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 1,
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedUnit,
+                      decoration: const InputDecoration(labelText: 'Unit'),
+                      items: _units.map((String unit) {
+                        return DropdownMenuItem<String>(value: unit, child: Text(unit));
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedUnit = newValue;
+                            _result = null;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _breadthController,
+                enabled: isBreadthEnabled,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                onChanged: _onInputChanged,
+                decoration: InputDecoration(
+                  labelText: "Enter Breadth (b)",
+                  hintText: "e.g. 4",
+                  filled: !isBreadthEnabled,
+                  fillColor: isBreadthEnabled ? Colors.transparent : Colors.grey.shade200,
+                ),
+              ),
+            ] else ...[
+              // === WORD PROBLEM MODE UI ===
+              DropdownButtonFormField<bool>(
+                value: _isLengthMultipleOfBreadth,
+                decoration: const InputDecoration(
+                  labelText: 'Select Relationship',
+                ),
+                items: const [
+                  DropdownMenuItem(value: true, child: Text("Length is a multiple of Breadth (l = x·b)")),
+                  DropdownMenuItem(value: false, child: Text("Breadth is a multiple of Length (b = x·l)")),
+                ],
+                onChanged: (bool? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      _isLengthMultipleOfBreadth = newValue;
+                      _result = null;
+                    });
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      controller: _multiplierController,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      onChanged: _onInputChanged,
+                      decoration: const InputDecoration(
+                        labelText: "Enter Multiplier (x)",
+                        hintText: "e.g. 2 for 'twice as long'",
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 1,
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedUnit,
+                      decoration: const InputDecoration(labelText: 'Unit'),
+                      items: _units.map((String unit) {
+                        return DropdownMenuItem<String>(value: unit, child: Text(unit));
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedUnit = newValue;
+                            _result = null;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+
             const SizedBox(height: 16),
+            // Area field is common to both modes
             TextField(
               controller: _areaController,
-              enabled: isAreaEnabled,
+              enabled: _isWordProblemMode ? true : isAreaEnabled,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               onChanged: _onInputChanged,
               decoration: InputDecoration(
                 labelText: "Enter Area (A) in $_selectedUnit²",
                 hintText: "e.g. 32",
-                filled: !isAreaEnabled,
-                fillColor: isAreaEnabled ? Colors.transparent : Colors.grey.shade200,
+                filled: !_isWordProblemMode && !isAreaEnabled,
+                fillColor: (!_isWordProblemMode && !isAreaEnabled) ? Colors.grey.shade200 : Colors.transparent,
               ),
             ),
+
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -166,9 +276,19 @@ class _RectangleAreaScreenState extends State<RectangleAreaScreen> {
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Center(
-              child: Math.tex(
-                  _result!.finalAnswerLaTeX,
-                  textStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.green.shade800, fontFamily: 'Poppins')
+              // THE FIX: Automatically split strings containing '\\' to prevent CrNode crashes
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: _result!.finalAnswerLaTeX
+                    .split(r'\\')
+                    .map((line) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Math.tex(
+                      line.trim(),
+                      textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green.shade800, fontFamily: 'Poppins')
+                  ),
+                ))
+                    .toList(),
               ),
             ),
           ),
@@ -202,7 +322,10 @@ class _RectangleAreaScreenState extends State<RectangleAreaScreen> {
             child: ListTile(
               leading: CircleAvatar(child: Text('${idx + 1}')),
               title: Text(step.explanation, style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic)),
-              subtitle: Math.tex(step.workingLaTeX),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Math.tex(step.workingLaTeX),
+              ),
             ),
           );
         }),
