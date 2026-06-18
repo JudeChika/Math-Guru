@@ -113,7 +113,7 @@ class _TrapeziumAreaScreenState extends State<TrapeziumAreaScreen> {
                 title: Text("Algebra Word Problem Mode", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800, fontFamily: 'Poppins')),
                 subtitle: const Text("Enable if one parallel side is a multiple of the other.", style: TextStyle(fontSize: 12)),
                 value: _isWordProblemMode,
-                activeColor: Colors.deepPurple,
+                activeThumbColor: Colors.deepPurple,
                 onChanged: (bool value) {
                   setState(() {
                     _isWordProblemMode = value;
@@ -153,7 +153,7 @@ class _TrapeziumAreaScreenState extends State<TrapeziumAreaScreen> {
                   Expanded(
                     flex: 1,
                     child: DropdownButtonFormField<String>(
-                      value: _selectedUnit,
+                      initialValue: _selectedUnit,
                       decoration: const InputDecoration(labelText: 'Unit'),
                       items: _units.map((String unit) => DropdownMenuItem(value: unit, child: Text(unit))).toList(),
                       onChanged: (val) { if (val != null) setState(() { _selectedUnit = val; _result = null; }); },
@@ -177,7 +177,7 @@ class _TrapeziumAreaScreenState extends State<TrapeziumAreaScreen> {
             ] else ...[
               // WORD PROBLEM UI
               DropdownButtonFormField<bool>(
-                value: _isAMultipleOfB,
+                initialValue: _isAMultipleOfB,
                 decoration: const InputDecoration(labelText: 'Select Relationship'),
                 items: const [
                   DropdownMenuItem(value: true, child: Text("Side 'a' is a multiple of 'b' (a = x·b)")),
@@ -202,7 +202,7 @@ class _TrapeziumAreaScreenState extends State<TrapeziumAreaScreen> {
                   Expanded(
                     flex: 1,
                     child: DropdownButtonFormField<String>(
-                      value: _selectedUnit,
+                      initialValue: _selectedUnit,
                       decoration: const InputDecoration(labelText: 'Unit'),
                       items: _units.map((String unit) => DropdownMenuItem(value: unit, child: Text(unit))).toList(),
                       onChanged: (val) { if (val != null) setState(() { _selectedUnit = val; _result = null; }); },

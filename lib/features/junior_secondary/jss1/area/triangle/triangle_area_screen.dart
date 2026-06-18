@@ -108,7 +108,7 @@ class _TriangleAreaScreenState extends State<TriangleAreaScreen> {
                 ),
                 subtitle: const Text("Enable this if one side is a multiple of the other (e.g. Height is twice the Base).", style: TextStyle(fontSize: 12)),
                 value: _isWordProblemMode,
-                activeColor: Colors.deepPurple,
+                activeThumbColor: Colors.deepPurple,
                 onChanged: (bool value) {
                   setState(() {
                     _isWordProblemMode = value;
@@ -148,7 +148,7 @@ class _TriangleAreaScreenState extends State<TriangleAreaScreen> {
                   Expanded(
                     flex: 1,
                     child: DropdownButtonFormField<String>(
-                      value: _selectedUnit,
+                      initialValue: _selectedUnit,
                       decoration: const InputDecoration(labelText: 'Unit'),
                       items: _units.map((String unit) {
                         return DropdownMenuItem<String>(value: unit, child: Text(unit));
@@ -181,7 +181,7 @@ class _TriangleAreaScreenState extends State<TriangleAreaScreen> {
             ] else ...[
               // === WORD PROBLEM MODE UI ===
               DropdownButtonFormField<bool>(
-                value: _isHeightMultipleOfBase,
+                initialValue: _isHeightMultipleOfBase,
                 decoration: const InputDecoration(
                   labelText: 'Select Relationship',
                 ),
@@ -218,7 +218,7 @@ class _TriangleAreaScreenState extends State<TriangleAreaScreen> {
                   Expanded(
                     flex: 1,
                     child: DropdownButtonFormField<String>(
-                      value: _selectedUnit,
+                      initialValue: _selectedUnit,
                       decoration: const InputDecoration(labelText: 'Unit'),
                       items: _units.map((String unit) {
                         return DropdownMenuItem<String>(value: unit, child: Text(unit));

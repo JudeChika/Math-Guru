@@ -29,6 +29,8 @@ import 'package:math_guru/features/junior_secondary/jss1/perimeter/rectangle/rec
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/square/square_perimeter_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/trapezium/trapezium_perimeter_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/triangle/triangle_perimeter_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/volume/cube/cube_volume_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/volume/cuboid/cuboid_volume_screen.dart';
 import 'algebra/brackets_operations/brackets_operations_screen.dart';
 import 'basic_operations_involving_binary_system/binary_addition/binary_addition_screen.dart';
 import 'factors_multiples/hcf/hcf_screen.dart';
@@ -190,6 +192,12 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic.trim() == 'Area of Circle') {
       return const CircleAreaScreen();
+    }
+    if (subtopic.trim() == 'Cube') {
+      return const CubeVolumeScreen();
+    }
+    if (subtopic.trim() == 'Cuboid') {
+      return const CuboidVolumeScreen();
     }
 
     return Scaffold(

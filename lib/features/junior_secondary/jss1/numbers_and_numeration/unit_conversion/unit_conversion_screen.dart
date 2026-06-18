@@ -87,7 +87,7 @@ class _UnitConversionScreenState extends State<UnitConversionScreen> {
           children: [
             // Category Selector
             DropdownButtonFormField<String>(
-              value: _selectedCategory,
+              initialValue: _selectedCategory,
               decoration: InputDecoration(
                 labelText: 'Measurement Category',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -117,7 +117,7 @@ class _UnitConversionScreenState extends State<UnitConversionScreen> {
                 Expanded(
                   flex: 2,
                   child: DropdownButtonFormField<String>(
-                    value: _fromUnit,
+                    initialValue: _fromUnit,
                     decoration: InputDecoration(labelText: 'From', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
                     items: currentUnits.map((u) => DropdownMenuItem(value: u, child: Text(u))).toList(),
                     onChanged: (val) => setState(() { _fromUnit = val!; _result = null; }),
@@ -130,7 +130,7 @@ class _UnitConversionScreenState extends State<UnitConversionScreen> {
                 Expanded(
                   flex: 2,
                   child: DropdownButtonFormField<String>(
-                    value: _toUnit,
+                    initialValue: _toUnit,
                     decoration: InputDecoration(labelText: 'To', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
                     items: currentUnits.map((u) => DropdownMenuItem(value: u, child: Text(u))).toList(),
                     onChanged: (val) => setState(() { _toUnit = val!; _result = null; }),
