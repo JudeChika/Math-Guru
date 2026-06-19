@@ -68,16 +68,8 @@ const Map<String, List<String>> jss1Topics = {
   'Volume': [
     'Cube',
     'Cuboid',
-  ],
-  'Capacity': [
-    'Litres',
-    'Cubic Centimeters',
-    'Millilitres',
-    'Meter Cube',
-    'Meters',
-    'Kilolitres',
-    'Volume or Capacity of Container',
-    'Volume or Capacity of Right-angled Triangular Prism',
+    'Capacity of Container',
+    'Capacity of Right-angled Triangular Prism',
   ],
   'Angles': [
     'Angle of Rotation',

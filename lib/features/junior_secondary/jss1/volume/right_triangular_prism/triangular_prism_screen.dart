@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'cuboid_volume_solver.dart';
-import 'cuboid_volume_models.dart';
+import 'triangular_prism_solver.dart';
+import 'triangular_prism_models.dart';
 
-class CuboidVolumeScreen extends StatefulWidget {
-  const CuboidVolumeScreen({super.key});
+class TriangularPrismScreen extends StatefulWidget {
+  const TriangularPrismScreen({super.key});
 
   @override
-  State<CuboidVolumeScreen> createState() => _CuboidVolumeScreenState();
+  State<TriangularPrismScreen> createState() => _TriangularPrismScreenState();
 }
 
-class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
+class _TriangularPrismScreenState extends State<TriangularPrismScreen> {
   // Input Controllers
-  final TextEditingController _lController = TextEditingController();
-  final TextEditingController _bController = TextEditingController();
-  final TextEditingController _hController = TextEditingController();
-  final TextEditingController _vController = TextEditingController();
+  final TextEditingController _bController = TextEditingController(); // Triangle Base
+  final TextEditingController _hController = TextEditingController(); // Triangle Height
+  final TextEditingController _lController = TextEditingController(); // Prism Length
+  final TextEditingController _vController = TextEditingController(); // Volume
   final TextEditingController _baController = TextEditingController(); // Base Area
 
   // Unit States
   String _targetUnit = 'cm';
-  String _lUnit = 'cm';
   String _bUnit = 'cm';
   String _hUnit = 'cm';
+  String _lUnit = 'cm';
   String _vUnit = 'cm';
   String _baUnit = 'cm';
 
   final List<String> _units = ['mm', 'cm', 'm', 'km'];
 
-  CuboidVolumeResult? _result;
+  TriangularPrismResult? _result;
   bool _isBaseAreaMode = false;
 
   void _onInputChanged(String value) {
@@ -38,36 +38,27 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
   void _solve() {
     FocusScope.of(context).unfocus();
 
-    final lText = _lController.text.trim();
     final bText = _bController.text.trim();
     final hText = _hController.text.trim();
+    final lText = _lController.text.trim();
     final vText = _vController.text.trim();
     final baText = _baController.text.trim();
 
     if (_isBaseAreaMode) {
-      // Need 2 out of 3 fields
-      int count = 0;
-      if (baText.isNotEmpty) count++;
-      if (hText.isNotEmpty) count++;
-      if (vText.isNotEmpty) count++;
-
+      // Base Area Mode: Need 2 out of 3 fields
+      int count = (baText.isNotEmpty ? 1 : 0) + (lText.isNotEmpty ? 1 : 0) + (vText.isNotEmpty ? 1 : 0);
       if (count == 2) {
-        setState(() => _result = CuboidVolumeSolver.solveBaseArea(
-            baText, _baUnit, hText, _hUnit, vText, _vUnit, _targetUnit));
+        setState(() => _result = TriangularPrismSolver.solveBaseArea(
+            baText, _baUnit, lText, _lUnit, vText, _vUnit, _targetUnit));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter exactly TWO values to solve.')));
       }
     } else {
       // Standard Mode: Need 3 out of 4 fields
-      int count = 0;
-      if (lText.isNotEmpty) count++;
-      if (bText.isNotEmpty) count++;
-      if (hText.isNotEmpty) count++;
-      if (vText.isNotEmpty) count++;
-
+      int count = (bText.isNotEmpty ? 1 : 0) + (hText.isNotEmpty ? 1 : 0) + (lText.isNotEmpty ? 1 : 0) + (vText.isNotEmpty ? 1 : 0);
       if (count == 3) {
-        setState(() => _result = CuboidVolumeSolver.solveStandard(
-            lText, _lUnit, bText, _bUnit, hText, _hUnit, vText, _vUnit, _targetUnit));
+        setState(() => _result = TriangularPrismSolver.solveStandard(
+            bText, _bUnit, hText, _hUnit, lText, _lUnit, vText, _vUnit, _targetUnit));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter exactly THREE values to solve.')));
       }
@@ -76,9 +67,9 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
 
   @override
   void dispose() {
-    _lController.dispose();
     _bController.dispose();
     _hController.dispose();
+    _lController.dispose();
     _vController.dispose();
     _baController.dispose();
     super.dispose();
@@ -89,29 +80,20 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
     final theme = Theme.of(context);
 
     // Standard Mode Locking
-    int stdCount = 0;
-    if (_lController.text.trim().isNotEmpty) stdCount++;
-    if (_bController.text.trim().isNotEmpty) stdCount++;
-    if (_hController.text.trim().isNotEmpty) stdCount++;
-    if (_vController.text.trim().isNotEmpty) stdCount++;
-
-    final bool isLEnabled = _lController.text.trim().isNotEmpty || stdCount < 3;
-    final bool isBEnabled = _bController.text.trim().isNotEmpty || stdCount < 3;
-    final bool isHStdEnabled = _hController.text.trim().isNotEmpty || stdCount < 3;
-    final bool isVStdEnabled = _vController.text.trim().isNotEmpty || stdCount < 3;
+    int stdCount = (_bController.text.isNotEmpty ? 1 : 0) + (_hController.text.isNotEmpty ? 1 : 0) + (_lController.text.isNotEmpty ? 1 : 0) + (_vController.text.isNotEmpty ? 1 : 0);
+    final bool isBEnabled = _bController.text.isNotEmpty || stdCount < 3;
+    final bool isHEnabled = _hController.text.isNotEmpty || stdCount < 3;
+    final bool isLStdEnabled = _lController.text.isNotEmpty || stdCount < 3;
+    final bool isVStdEnabled = _vController.text.isNotEmpty || stdCount < 3;
 
     // Base Area Mode Locking
-    int baCount = 0;
-    if (_baController.text.trim().isNotEmpty) baCount++;
-    if (_hController.text.trim().isNotEmpty) baCount++;
-    if (_vController.text.trim().isNotEmpty) baCount++;
-
-    final bool isBAEnabled = _baController.text.trim().isNotEmpty || baCount < 2;
-    final bool isHBaEnabled = _hController.text.trim().isNotEmpty || baCount < 2;
-    final bool isVBaEnabled = _vController.text.trim().isNotEmpty || baCount < 2;
+    int baCount = (_baController.text.isNotEmpty ? 1 : 0) + (_lController.text.isNotEmpty ? 1 : 0) + (_vController.text.isNotEmpty ? 1 : 0);
+    final bool isBAEnabled = _baController.text.isNotEmpty || baCount < 2;
+    final bool isLBaEnabled = _lController.text.isNotEmpty || baCount < 2;
+    final bool isVBaEnabled = _vController.text.isNotEmpty || baCount < 2;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Volume of a Cuboid')),
+      appBar: AppBar(title: const Text('Volume: Triangular Prism', style: TextStyle(fontSize: 18))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         child: Column(
@@ -126,18 +108,14 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
               ),
               child: SwitchListTile(
                 title: Text("Use Base Area Mode", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800, fontFamily: 'Poppins')),
-                subtitle: const Text("Enable this if the question gives you the Base Area (Floor Area) instead of Length and Breadth.", style: TextStyle(fontSize: 12)),
+                subtitle: const Text("Enable this if the question gives you the triangular cross-sectional Area directly.", style: TextStyle(fontSize: 12)),
                 value: _isBaseAreaMode,
                 activeColor: Colors.deepPurple,
                 onChanged: (bool value) {
                   setState(() {
                     _isBaseAreaMode = value;
                     _result = null;
-                    _lController.clear();
-                    _bController.clear();
-                    _hController.clear();
-                    _vController.clear();
-                    _baController.clear();
+                    _bController.clear(); _hController.clear(); _lController.clear(); _vController.clear(); _baController.clear();
                   });
                 },
               ),
@@ -173,16 +151,16 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
 
             if (!_isBaseAreaMode) ...[
               // STANDARD UI
-              _buildInputRow("Length (l)", _lController, isLEnabled, _lUnit, "", (val) => setState(() => _lUnit = val)),
+              _buildInputRow("Triangle Base (b)", _bController, isBEnabled, _bUnit, "", (val) => setState(() => _bUnit = val)),
               const SizedBox(height: 16),
-              _buildInputRow("Breadth (b)", _bController, isBEnabled, _bUnit, "", (val) => setState(() => _bUnit = val)),
+              _buildInputRow("Triangle Height (h)", _hController, isHEnabled, _hUnit, "", (val) => setState(() => _hUnit = val)),
               const SizedBox(height: 16),
-              _buildInputRow("Height (h)", _hController, isHStdEnabled, _hUnit, "", (val) => setState(() => _hUnit = val)),
+              _buildInputRow("Prism Length (l)", _lController, isLStdEnabled, _lUnit, "", (val) => setState(() => _lUnit = val)),
             ] else ...[
               // BASE AREA UI
-              _buildInputRow("Base Area", _baController, isBAEnabled, _baUnit, "²", (val) => setState(() => _baUnit = val)),
+              _buildInputRow("Triangular Base Area", _baController, isBAEnabled, _baUnit, "²", (val) => setState(() => _baUnit = val)),
               const SizedBox(height: 16),
-              _buildInputRow("Height (h)", _hController, isHBaEnabled, _hUnit, "", (val) => setState(() => _hUnit = val)),
+              _buildInputRow("Prism Length (l)", _lController, isLBaEnabled, _lUnit, "", (val) => setState(() => _lUnit = val)),
             ],
 
             const Padding(
@@ -211,7 +189,7 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
     );
   }
 
-  // Helper widget for dynamic input rows (allows appending ² or ³ to the dropdown display without breaking the solver value)
+  // Dynamic Input Row Widget
   Widget _buildInputRow(String label, TextEditingController ctrl, bool isEnabled, String currentUnit, String appendMark, Function(String) onUnitChange) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
