@@ -86,7 +86,7 @@ class _CubeVolumeScreenState extends State<CubeVolumeScreen> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<String>(
-                    value: _inputUnit,
+                    initialValue: _inputUnit,
                     decoration: InputDecoration(
                       labelText: 'Input Unit',
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -98,7 +98,7 @@ class _CubeVolumeScreenState extends State<CubeVolumeScreen> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: DropdownButtonFormField<String>(
-                    value: _targetUnit,
+                    initialValue: _targetUnit,
                     decoration: InputDecoration(
                       labelText: 'Convert Answer To',
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),

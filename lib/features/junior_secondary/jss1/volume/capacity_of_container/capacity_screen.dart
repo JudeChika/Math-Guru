@@ -46,8 +46,9 @@ class _CapacityScreenState extends State<CapacityScreen> {
     if (newMissingType != _missingType) {
       setState(() {
         _missingType = newMissingType;
-        if (_missingType == 'capacity') _targetUnit = 'l';
-        else if (_missingType == 'linear') _targetUnit = 'cm';
+        if (_missingType == 'capacity') {
+          _targetUnit = 'l';
+        } else if (_missingType == 'linear') _targetUnit = 'cm';
         else if (_missingType == 'area') _targetUnit = 'cm²';
       });
     } else {
@@ -132,7 +133,7 @@ class _CapacityScreenState extends State<CapacityScreen> {
                 title: Text("Use Base Area Mode", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800, fontFamily: 'Poppins')),
                 subtitle: const Text("Enable this if the question gives you the Base Area of the tank.", style: TextStyle(fontSize: 12)),
                 value: _isBaseAreaMode,
-                activeColor: Colors.deepPurple,
+                activeThumbColor: Colors.deepPurple,
                 onChanged: (bool value) {
                   setState(() {
                     _isBaseAreaMode = value;
@@ -168,7 +169,7 @@ class _CapacityScreenState extends State<CapacityScreen> {
                   SizedBox(
                     width: 85,
                     child: DropdownButtonFormField<String>(
-                      value: currentTargetList.contains(_targetUnit) ? _targetUnit : currentTargetList.first,
+                      initialValue: currentTargetList.contains(_targetUnit) ? _targetUnit : currentTargetList.first,
                       decoration: const InputDecoration(
                         isDense: true,
                         border: OutlineInputBorder(),
@@ -217,7 +218,7 @@ class _CapacityScreenState extends State<CapacityScreen> {
       children: [
         Expanded(flex: 2, child: TextField(controller: ctrl, enabled: isEnabled, keyboardType: const TextInputType.numberWithOptions(decimal: true), onChanged: _onInputChanged, decoration: InputDecoration(labelText: label, filled: !isEnabled, fillColor: isEnabled ? Colors.transparent : Colors.grey.shade200))),
         const SizedBox(width: 16),
-        Expanded(flex: 1, child: DropdownButtonFormField<String>(value: currentUnit, decoration: const InputDecoration(labelText: 'Unit'), items: units.map((u) => DropdownMenuItem(value: u, child: Text(u))).toList(), onChanged: (val) { if (val != null) { onUnitChange(val); _result = null; } })),
+        Expanded(flex: 1, child: DropdownButtonFormField<String>(initialValue: currentUnit, decoration: const InputDecoration(labelText: 'Unit'), items: units.map((u) => DropdownMenuItem(value: u, child: Text(u))).toList(), onChanged: (val) { if (val != null) { onUnitChange(val); _result = null; } })),
       ],
     );
   }

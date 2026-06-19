@@ -128,7 +128,7 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
                 title: Text("Use Base Area Mode", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800, fontFamily: 'Poppins')),
                 subtitle: const Text("Enable this if the question gives you the Base Area (Floor Area) instead of Length and Breadth.", style: TextStyle(fontSize: 12)),
                 value: _isBaseAreaMode,
-                activeColor: Colors.deepPurple,
+                activeThumbColor: Colors.deepPurple,
                 onChanged: (bool value) {
                   setState(() {
                     _isBaseAreaMode = value;
@@ -160,7 +160,7 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
                   SizedBox(
                     width: 100,
                     child: DropdownButtonFormField<String>(
-                      value: _targetUnit,
+                      initialValue: _targetUnit,
                       decoration: const InputDecoration(isDense: true, border: OutlineInputBorder()),
                       items: _units.map((u) => DropdownMenuItem(value: u, child: Text(u))).toList(),
                       onChanged: (val) { if (val != null) setState(() { _targetUnit = val; _result = null; }); },
@@ -234,7 +234,7 @@ class _CuboidVolumeScreenState extends State<CuboidVolumeScreen> {
         Expanded(
           flex: 1,
           child: DropdownButtonFormField<String>(
-            value: currentUnit,
+            initialValue: currentUnit,
             decoration: const InputDecoration(labelText: 'Unit'),
             items: _units.map((String unit) => DropdownMenuItem(value: unit, child: Text("$unit$appendMark"))).toList(),
             onChanged: (val) { if (val != null) { onUnitChange(val); _result = null; } },

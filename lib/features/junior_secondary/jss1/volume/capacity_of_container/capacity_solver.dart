@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'capacity_models.dart';
 
 class CapacitySolver {
