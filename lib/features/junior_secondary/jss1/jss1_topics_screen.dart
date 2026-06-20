@@ -77,7 +77,6 @@ const Map<String, List<String>> jss1Topics = {
   ],
   'Data Collection/Statistics': [
     'Decision Making',
-    'Frequency Distribution Table',
     'Bar Chart',
     'Line Graph',
     'Arithmetic Mean, Median, Mode',
