@@ -73,14 +73,7 @@ const Map<String, List<String>> jss1Topics = {
   ],
   'Angles': [
     'Angle of Rotation',
-    'Angle in Degrees',
-    'Conversion to Degrees',
-    'Conversion to Time',
-    'Vertically Opposite Angles',
-    'Angles on a Straight Line',
-    'Angles at a Point',
-    'Right Angles',
-    'Triangles',
+    'Geometry Angles',
   ],
   'Data Collection/Statistics': [
     'Decision Making',

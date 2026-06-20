@@ -173,4 +173,110 @@ class AngleRotationSolver {
       return AngleRotationResult(steps: [], finalAnswerLaTeX: "", valid: false, errorMessage: "Invalid input.");
     }
   }
+
+  // ==========================================
+  // MODE 4: ARITHMETIC (+, -, *, /)
+  // ==========================================
+  static AngleRotationResult solveArithmetic(
+      String d1In, String m1In, String op, String d2In, String m2In, String scalarIn) {
+
+    try {
+      List<AngleRotationStep> steps = [];
+
+      int d1 = int.tryParse(d1In.trim()) ?? 0;
+      double m1 = double.tryParse(m1In.trim()) ?? 0;
+
+      if (op == 'add') {
+        int d2 = int.tryParse(d2In.trim()) ?? 0;
+        double m2 = double.tryParse(m2In.trim()) ?? 0;
+
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Add Degrees: } $d1^\\circ + $d2^\\circ = ${d1 + d2}^\\circ", explanation: "First, add the degrees together."));
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Add Minutes: } ${_format(m1)}' + ${_format(m2)}' = ${_format(m1 + m2)}'", explanation: "Next, add the minutes together."));
+
+        int totalD = d1 + d2;
+        double totalM = m1 + m2;
+
+        if (totalM >= 60) {
+          int extraD = (totalM / 60).truncate();
+          double leftM = totalM % 60;
+          steps.add(AngleRotationStep(workingLaTeX: "${_format(totalM)}' = $extraD^\\circ \\; ${_format(leftM)}'", explanation: "Because the minutes are 60 or more, convert them into degrees. 60' = 1°."));
+          totalD += extraD;
+          totalM = leftM;
+          steps.add(AngleRotationStep(workingLaTeX: "\\text{Total} = $totalD^\\circ \\; ${_format(totalM)}'", explanation: "Add the carried-over degrees to the total.", isFinalAnswer: true));
+        } else {
+          steps.add(AngleRotationStep(workingLaTeX: "\\text{Total} = $totalD^\\circ \\; ${_format(totalM)}'", explanation: "Combine the results.", isFinalAnswer: true));
+        }
+        return AngleRotationResult(steps: steps, finalAnswerLaTeX: "$totalD^\\circ \\; ${_format(totalM)}'");
+
+      }
+      else if (op == 'sub') {
+        int d2 = int.tryParse(d2In.trim()) ?? 0;
+        double m2 = double.tryParse(m2In.trim()) ?? 0;
+
+        if (m1 < m2) {
+          steps.add(AngleRotationStep(workingLaTeX: "${_format(m1)}' < ${_format(m2)}'", explanation: "We cannot subtract ${_format(m2)}' from ${_format(m1)}'. We must borrow 1° from the degrees column."));
+          d1 -= 1;
+          m1 += 60;
+          steps.add(AngleRotationStep(workingLaTeX: "\\text{Borrow: } $d1^\\circ \\; (${_format(m1 - 60)}' + 60') = $d1^\\circ \\; ${_format(m1)}'", explanation: "Since 1° = 60', adding it to the minutes gives us ${_format(m1)}'. Now we can subtract."));
+        }
+
+        int finalD = d1 - d2;
+        double finalM = m1 - m2;
+
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Subtract Degrees: } $d1^\\circ - $d2^\\circ = $finalD^\\circ", explanation: "Subtract the degrees."));
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Subtract Minutes: } ${_format(m1)}' - ${_format(m2)}' = ${_format(finalM)}'", explanation: "Subtract the minutes."));
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Total} = $finalD^\\circ \\; ${_format(finalM)}'", explanation: "Combine the results.", isFinalAnswer: true));
+
+        return AngleRotationResult(steps: steps, finalAnswerLaTeX: "$finalD^\\circ \\; ${_format(finalM)}'");
+
+      }
+      else if (op == 'mul') {
+        double k = double.parse(scalarIn.trim());
+
+        int totalD = (d1 * k).truncate();
+        double totalM = m1 * k;
+
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Multiply Degrees: } $d1^\\circ \\times ${_format(k)} = $totalD^\\circ", explanation: "Multiply the degrees by ${_format(k)}."));
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Multiply Minutes: } ${_format(m1)}' \\times ${_format(k)} = ${_format(totalM)}'", explanation: "Multiply the minutes by ${_format(k)}."));
+
+        if (totalM >= 60) {
+          int extraD = (totalM / 60).truncate();
+          double leftM = totalM % 60;
+          steps.add(AngleRotationStep(workingLaTeX: "${_format(totalM)}' = $extraD^\\circ \\; ${_format(leftM)}'", explanation: "Because the minutes are 60 or more, convert them. Divide by 60."));
+          totalD += extraD;
+          totalM = leftM;
+          steps.add(AngleRotationStep(workingLaTeX: "\\text{Total} = $totalD^\\circ \\; ${_format(totalM)}'", explanation: "Add the carried-over degrees.", isFinalAnswer: true));
+        } else {
+          steps.add(AngleRotationStep(workingLaTeX: "\\text{Total} = $totalD^\\circ \\; ${_format(totalM)}'", explanation: "Combine the results.", isFinalAnswer: true));
+        }
+        return AngleRotationResult(steps: steps, finalAnswerLaTeX: "$totalD^\\circ \\; ${_format(totalM)}'");
+
+      }
+      else if (op == 'div') {
+        double k = double.parse(scalarIn.trim());
+
+        int dAns = (d1 / k).truncate();
+        double dRem = d1 % k;
+
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Divide Degrees: } $d1^\\circ \\div ${_format(k)} = $dAns^\\circ \\text{ R } ${_format(dRem)}^\\circ", explanation: "Divide the degrees by ${_format(k)}. The whole number answer is $dAns°."));
+
+        double totalM = m1;
+        if (dRem > 0) {
+          steps.add(AngleRotationStep(workingLaTeX: "${_format(dRem)}^\\circ \\times 60 = ${_format(dRem * 60)}'", explanation: "Take the remainder (${_format(dRem)}°) and convert it to minutes by multiplying by 60."));
+          totalM += (dRem * 60);
+          steps.add(AngleRotationStep(workingLaTeX: "\\text{Total Minutes} = ${_format(m1)}' + ${_format(dRem * 60)}' = ${_format(totalM)}'", explanation: "Add these new minutes to the existing minutes."));
+        }
+
+        double mAns = totalM / k;
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Divide Minutes: } ${_format(totalM)}' \\div ${_format(k)} = ${_format(mAns)}'", explanation: "Now divide the total minutes by ${_format(k)}."));
+        steps.add(AngleRotationStep(workingLaTeX: "\\text{Total} = $dAns^\\circ \\; ${_format(mAns)}'", explanation: "Combine the degrees and minutes results.", isFinalAnswer: true));
+
+        return AngleRotationResult(steps: steps, finalAnswerLaTeX: "$dAns^\\circ \\; ${_format(mAns)}'");
+      }
+
+      return AngleRotationResult(steps: [], finalAnswerLaTeX: "", valid: false);
+    } catch (_) {
+      return AngleRotationResult(steps: [], finalAnswerLaTeX: "", valid: false, errorMessage: "Invalid input.");
+    }
+  }
 }
