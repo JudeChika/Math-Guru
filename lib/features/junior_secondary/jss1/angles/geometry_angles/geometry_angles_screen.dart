@@ -93,7 +93,7 @@ class _GeometryAnglesScreenState extends State<GeometryAnglesScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DropdownButtonFormField<String>(
-              value: _selectedTheorem,
+              initialValue: _selectedTheorem,
               decoration: InputDecoration(labelText: 'Select Geometry Rule', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
               items: _theorems.keys.map((String key) => DropdownMenuItem(value: key, child: Text(key, style: const TextStyle(fontWeight: FontWeight.bold)))).toList(),
               onChanged: (String? val) {

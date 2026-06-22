@@ -34,7 +34,7 @@ class _AngleRotationScreenState extends State<AngleRotationScreen> {
   final TextEditingController _scalarController = TextEditingController();
   String _arithmeticOp = 'add'; // 'add', 'sub', 'mul', 'div'
 
-  String _handType = 'Minute';
+  final String _handType = 'Minute';
   AngleRotationResult? _result;
 
   void _onInputChanged(String value) { setState(() {}); }
@@ -61,11 +61,13 @@ class _AngleRotationScreenState extends State<AngleRotationScreen> {
     else if (_currentMode == 'Intervals') {
       if (_startController.text.isNotEmpty && _endController.text.isNotEmpty) setState(() => _result = AngleRotationSolver.solveInterval(_startController.text.trim(), _endController.text.trim()));
     } else if (_currentMode == 'TimeAngle') {
-      if (_timeController.text.isNotEmpty) setState(() => _result = AngleRotationSolver.solveTimeAndAngle(_timeController.text.trim(), _handType, true));
-      else if (_angleController.text.isNotEmpty) setState(() => _result = AngleRotationSolver.solveTimeAndAngle(_angleController.text.trim(), _handType, false));
+      if (_timeController.text.isNotEmpty) {
+        setState(() => _result = AngleRotationSolver.solveTimeAndAngle(_timeController.text.trim(), _handType, true));
+      } else if (_angleController.text.isNotEmpty) setState(() => _result = AngleRotationSolver.solveTimeAndAngle(_angleController.text.trim(), _handType, false));
     } else if (_currentMode == 'DMS') {
-      if (_degDMSController.text.isNotEmpty || _minDMSController.text.isNotEmpty) setState(() => _result = AngleRotationSolver.solveDMS(_degDMSController.text.trim(), _minDMSController.text.trim(), ""));
-      else if (_decimalController.text.isNotEmpty) setState(() => _result = AngleRotationSolver.solveDMS("", "", _decimalController.text.trim()));
+      if (_degDMSController.text.isNotEmpty || _minDMSController.text.isNotEmpty) {
+        setState(() => _result = AngleRotationSolver.solveDMS(_degDMSController.text.trim(), _minDMSController.text.trim(), ""));
+      } else if (_decimalController.text.isNotEmpty) setState(() => _result = AngleRotationSolver.solveDMS("", "", _decimalController.text.trim()));
     }
   }
 
@@ -82,7 +84,7 @@ class _AngleRotationScreenState extends State<AngleRotationScreen> {
           children: [
             // Mode Selector
             DropdownButtonFormField<String>(
-              value: _currentMode,
+              initialValue: _currentMode,
               decoration: InputDecoration(labelText: 'Select Topic Type', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
               items: const [
                 DropdownMenuItem(value: 'Intervals', child: Text("Clock Intervals (e.g. 4 to 9)")),
@@ -97,7 +99,7 @@ class _AngleRotationScreenState extends State<AngleRotationScreen> {
             // === MODE 4: ARITHMETIC ===
             if (_currentMode == 'Arithmetic') ...[
               DropdownButtonFormField<String>(
-                value: _arithmeticOp,
+                initialValue: _arithmeticOp,
                 decoration: const InputDecoration(labelText: 'Operation'),
                 items: const [
                   DropdownMenuItem(value: 'add', child: Text("Addition (+)")),

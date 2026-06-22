@@ -21,8 +21,9 @@ class GeometryAnglesSolver {
     String variable = term.replaceAll(RegExp(r'[^a-zA-Z]'), '');
     String numPart = term.replaceAll(RegExp(r'[a-zA-Z]'), '');
 
-    if (numPart.isEmpty) numPart = '1';
-    else if (numPart == '+') numPart = '1';
+    if (numPart.isEmpty) {
+      numPart = '1';
+    } else if (numPart == '+') numPart = '1';
     else if (numPart == '-') numPart = '-1';
     else if (numPart.startsWith('/')) numPart = '1$numPart';
     else if (numPart.startsWith('-/')) numPart = '-1${numPart.substring(1)}';
@@ -33,13 +34,18 @@ class GeometryAnglesSolver {
       List<String> parts = numPart.split('/');
       if (parts.length == 2) {
         val = double.parse(parts[0]) / double.parse(parts[1]);
-      } else throw const FormatException("Invalid fraction");
+      } else {
+        throw const FormatException("Invalid fraction");
+      }
     } else {
       val = double.parse(numPart);
     }
 
-    if (variable.isEmpty) return ParsedTerm(coeff: 0, constant: val, variable: '');
-    else return ParsedTerm(coeff: val, constant: 0, variable: variable);
+    if (variable.isEmpty) {
+      return ParsedTerm(coeff: 0, constant: val, variable: '');
+    } else {
+      return ParsedTerm(coeff: val, constant: 0, variable: variable);
+    }
   }
 
   // --- The Advanced Expression Parser ---

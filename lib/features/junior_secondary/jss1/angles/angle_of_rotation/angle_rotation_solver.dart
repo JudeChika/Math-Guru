@@ -151,7 +151,7 @@ class AngleRotationSolver {
         double remainder = dec - d;
 
         steps.add(AngleRotationStep(
-            workingLaTeX: "${dec}^\\circ = $d^\\circ + 0.${dec.toString().split('.')[1]}^\\circ",
+            workingLaTeX: "$dec^\\circ = $d^\\circ + 0.${dec.toString().split('.')[1]}^\\circ",
             explanation: "Separate the whole degrees from the decimal part."
         ));
 
