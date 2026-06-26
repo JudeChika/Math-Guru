@@ -79,7 +79,6 @@ const Map<String, List<String>> jss1Topics = {
     'Decision Making',
     'Bar Chart',
     'Line Graph',
-    'Arithmetic Mean, Median, Mode',
   ],
 };
 

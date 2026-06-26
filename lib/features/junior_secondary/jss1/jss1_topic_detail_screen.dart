@@ -31,7 +31,9 @@ import 'package:math_guru/features/junior_secondary/jss1/perimeter/rectangle/rec
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/square/square_perimeter_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/trapezium/trapezium_perimeter_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/perimeter/triangle/triangle_perimeter_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/statistics/bar_chart/bar_chart_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/statistics/decision_making/decision_making_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/statistics/line_graph/line_graph_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/volume/capacity_of_container/capacity_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/volume/cube/cube_volume_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/volume/cuboid/cuboid_volume_screen.dart';
@@ -218,6 +220,12 @@ class Jss1TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic.trim() == 'Decision Making') {
       return const DecisionMakingScreen();
+    }
+    if (subtopic.trim() == 'Bar Chart') {
+      return const BarChartScreen();
+    }
+    if (subtopic.trim() == 'Line Graph') {
+      return const LineGraphScreen();
     }
 
     return Scaffold(
