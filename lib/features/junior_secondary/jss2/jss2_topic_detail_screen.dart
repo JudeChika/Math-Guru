@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss2/indices_and_standard_form/indices_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/standard_form/standard_form_screen.dart';
 
 class Jss2TopicDetailScreen extends StatelessWidget {
   final String topic;
@@ -17,6 +18,9 @@ class Jss2TopicDetailScreen extends StatelessWidget {
 
     if (subtopic == 'Laws of Indices') {
       return const IndicesAndStandardFormScreen();
+    }
+    if (subtopic == 'Standard Form') {
+      return const StandardFormScreen();
     }
     return Scaffold(
       appBar: AppBar(

@@ -358,7 +358,7 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
       tooltip: tooltip,
       backgroundColor: Colors.grey.shade200,
       side: BorderSide.none,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       onPressed: () => _insertText(text),
     );
   }
