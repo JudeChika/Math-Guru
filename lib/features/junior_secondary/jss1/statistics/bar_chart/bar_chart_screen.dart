@@ -20,7 +20,7 @@ class _BarChartScreenState extends State<BarChartScreen> {
   final TextEditingController _xHeadController = TextEditingController(text: "Category");
   final TextEditingController _yHeadController = TextEditingController(text: "Frequency");
 
-  List<Map<String, TextEditingController>> _tableRows = [];
+  final List<Map<String, TextEditingController>> _tableRows = [];
   BarChartResult? _result;
 
   @override
@@ -110,7 +110,7 @@ class _BarChartScreenState extends State<BarChartScreen> {
               child: SwitchListTile(
                 title: Text("Use Pre-Organized Table", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800, fontFamily: 'Poppins')),
                 subtitle: const Text("Turn ON if you have categories and frequencies. Leave OFF to type a messy list of words.", style: TextStyle(fontSize: 12)),
-                value: !_isRawMode, activeColor: Colors.deepPurple,
+                value: !_isRawMode, activeThumbColor: Colors.deepPurple,
                 onChanged: (bool val) => setState(() { _isRawMode = !val; _result = null; }),
               ),
             ),

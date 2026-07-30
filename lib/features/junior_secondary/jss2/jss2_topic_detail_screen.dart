@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss2/indices_and_standard_form/indices_screen.dart';
 
 class Jss2TopicDetailScreen extends StatelessWidget {
   final String topic;
@@ -12,6 +13,11 @@ class Jss2TopicDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    print('topic: $topic, subtopic: "$subtopic"'); // Debug
+
+    if (subtopic == 'Laws of Indices') {
+      return const IndicesAndStandardFormScreen();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('$topic - $subtopic'),

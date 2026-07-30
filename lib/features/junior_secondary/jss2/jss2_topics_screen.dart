@@ -10,8 +10,8 @@ const Map<String, List<String>> jss2Topics = {
     'Counting',
     'Place-value',
   ],
-  'Factors & Multiples': [
-    'LCM',
+  'Indices & Standard Form': [
+    'Laws of Indices',
     'HCF',
   ],
   'Number Base System': [

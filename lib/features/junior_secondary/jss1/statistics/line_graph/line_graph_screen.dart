@@ -23,7 +23,7 @@ class _LineGraphScreenState extends State<LineGraphScreen> {
   // Added a ScrollController to explicitly show the scrollbar on the chart
   final ScrollController _chartScrollController = ScrollController();
 
-  List<Map<String, TextEditingController>> _tableRows = [];
+  final List<Map<String, TextEditingController>> _tableRows = [];
   LineGraphResult? _result;
 
   @override
@@ -114,7 +114,7 @@ class _LineGraphScreenState extends State<LineGraphScreen> {
               child: SwitchListTile(
                 title: Text("Use Pre-Organized Table", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800, fontFamily: 'Poppins')),
                 subtitle: const Text("Turn ON if you have specific labels (like Mon, Tue). Leave OFF to paste a list of numbers.", style: TextStyle(fontSize: 12)),
-                value: !_isRawMode, activeColor: Colors.deepPurple,
+                value: !_isRawMode, activeThumbColor: Colors.deepPurple,
                 onChanged: (bool val) => setState(() { _isRawMode = !val; _result = null; }),
               ),
             ),

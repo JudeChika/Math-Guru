@@ -121,7 +121,7 @@ class DecisionMakingSolver {
 
       if (n % 2 != 0) {
         int pos = (n + 1) ~/ 2;
-        steps.add(StatisticsStep(workingLaTeX: "\\text{Position} = \\frac{$n + 1}{2} = ${pos}\\text{th item}", explanation: "Since N is an odd number, the median is the value at the exact middle position."));
+        steps.add(StatisticsStep(workingLaTeX: "\\text{Position} = \\frac{$n + 1}{2} = $pos\\text{th item}", explanation: "Since N is an odd number, the median is the value at the exact middle position."));
 
         double median = _getValAtPosition(data, pos);
         steps.add(StatisticsStep(workingLaTeX: "\\text{Median} = ${_format(median)}", explanation: "Using cumulative frequency (counting down the frequency column until we reach item #$pos), we find the median.", isFinalAnswer: true));
@@ -129,7 +129,7 @@ class DecisionMakingSolver {
       } else {
         int pos1 = n ~/ 2;
         int pos2 = pos1 + 1;
-        steps.add(StatisticsStep(workingLaTeX: "\\text{Positions} = \\frac{$n}{2} \\text{ and } \\frac{$n}{2} + 1 = ${pos1}\\text{th and } ${pos2}\\text{th}", explanation: "Since N is an even number, the median is the average of the two middle positions."));
+        steps.add(StatisticsStep(workingLaTeX: "\\text{Positions} = \\frac{$n}{2} \\text{ and } \\frac{$n}{2} + 1 = $pos1\\text{th and } $pos2\\text{th}", explanation: "Since N is an even number, the median is the average of the two middle positions."));
 
         double v1 = _getValAtPosition(data, pos1);
         double v2 = _getValAtPosition(data, pos2);

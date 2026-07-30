@@ -39,8 +39,9 @@ class LineGraphSolver {
 
     // Determine a "nice" pedagogical scale step (1, 2, 5, 10, etc.)
     int stepSize = 1;
-    if (maxVal > 100) stepSize = 20;
-    else if (maxVal > 50) stepSize = 10;
+    if (maxVal > 100) {
+      stepSize = 20;
+    } else if (maxVal > 50) stepSize = 10;
     else if (maxVal > 20) stepSize = 5;
     else if (maxVal > 10) stepSize = 2;
 
