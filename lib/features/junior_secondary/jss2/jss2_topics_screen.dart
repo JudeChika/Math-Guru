@@ -12,7 +12,7 @@ const Map<String, List<String>> jss2Topics = {
   ],
   'Indices & Standard Form': [
     'Laws of Indices',
-    'HCF',
+    'Standard Form',
   ],
   'Number Base System': [
     'Counting in binary',

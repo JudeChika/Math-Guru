@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'indices_models.dart';
 
 class IndicesSolver {
@@ -33,18 +34,140 @@ class IndicesSolver {
         explanation: "Write down the given expression.",
       ));
 
-      // Loop through operations adhering to BODMAS order
+      // 1. EXPAND BRACKETS (Detailed Educational Breakdown)
+      bool hasBrackets = terms.any((t) => t is IndexTerm && t.isBracketed);
+      while (hasBrackets) {
+        int idx = terms.indexWhere((t) => t is IndexTerm && t.isBracketed);
+        IndexTerm t = terms[idx];
+
+        // Helpers for prefix/suffix surrounding the current term
+        String prefix = '';
+        for (int i = 0; i < idx; i++) {
+          prefix += '${terms[i] is IndexTerm ? (terms[i] as IndexTerm).toLatex() : terms[i].toString()} ${_getLatexOp(ops[i])} ';
+        }
+        String suffix = '';
+        for (int i = idx + 1; i < ops.length; i++) {
+          suffix += ' ${_getLatexOp(ops[i])} ${terms[i + 1] is IndexTerm ? (terms[i + 1] as IndexTerm).toLatex() : terms[i + 1].toString()}';
+        }
+
+        if (t.isFraction) {
+          // Handle fractions like (1/3)^-3
+          if (t.outerExp < 0) {
+            double posExp = t.outerExp.abs();
+            // Apply Negative Index Law: (a/b)^-n = (b/a)^n
+            IndexTerm inverted = IndexTerm(
+                coefficient: 1, base: '', exponent: 0,
+                isBracketed: true, outerSign: t.outerSign,
+                isFraction: true, fractionNum: t.fractionDen, fractionDen: t.fractionNum,
+                outerExp: posExp
+            );
+            terms[idx] = inverted;
+            mainSteps.add(IndicesSolutionStep(
+              workingLaTeX: getFullExpr(terms, ops),
+              explanation: 'Apply the Negative Index Law (\$ (a/b)^{-n} = (b/a)^n \$): Invert the fraction to make the negative power positive.',
+            ));
+            t = inverted; // Update t for the next steps
+          }
+
+          if (t.outerExp != 1 && t.outerExp != 0) {
+            // Apply Power of a Quotient Law: (a/b)^n = a^n / b^n
+            String intermediate = '${t.outerSign < 0 ? '-' : ''}\\frac{${_fmt(t.fractionNum)}^{${_fmt(t.outerExp)}}}{${_fmt(t.fractionDen)}^{${_fmt(t.outerExp)}}}';
+            mainSteps.add(IndicesSolutionStep(
+              workingLaTeX: prefix + intermediate + suffix,
+              explanation: 'Apply the Power of a Quotient Law (\$ (a/b)^n = a^n / b^n \$): Distribute the exponent to both the numerator and the denominator.',
+            ));
+
+            double numEvaluated = math.pow(t.fractionNum, t.outerExp).toDouble();
+            double denEvaluated = math.pow(t.fractionDen, t.outerExp).toDouble();
+
+            if (denEvaluated == 1) {
+              IndexTerm resolved = IndexTerm(coefficient: t.outerSign * numEvaluated, base: '', exponent: 0);
+              terms[idx] = resolved;
+              mainSteps.add(IndicesSolutionStep(
+                workingLaTeX: getFullExpr(terms, ops),
+                explanation: 'Evaluate the powers. Since the denominator is 1, it simplifies to a whole number.',
+              ));
+            } else {
+              double evaluated = numEvaluated / denEvaluated;
+              IndexTerm resolved = IndexTerm(coefficient: t.outerSign * evaluated, base: '', exponent: 0);
+              terms[idx] = resolved;
+              mainSteps.add(IndicesSolutionStep(
+                workingLaTeX: getFullExpr(terms, ops),
+                explanation: 'Evaluate the numerator and denominator, then simplify.',
+              ));
+            }
+          } else {
+            double evaluated = t.outerSign * (t.fractionNum / t.fractionDen);
+            IndexTerm resolved = IndexTerm(coefficient: evaluated, base: '', exponent: 0);
+            terms[idx] = resolved;
+            mainSteps.add(IndicesSolutionStep(
+              workingLaTeX: getFullExpr(terms, ops),
+              explanation: 'Remove the brackets.',
+            ));
+          }
+        } else {
+          // Handle standard algebraic terms like (2x)^-2
+          if (t.outerExp < 0) {
+            double posExp = t.outerExp.abs();
+            // Apply Negative Index Law: x^-n = 1/x^n
+            String intermediate = '${t.outerSign < 0 ? '-' : ''}\\frac{1}{\\left(${IndexTerm.formatSimple(t.innerCoeff, t.innerBase, t.innerExp)}\\right)^{${_fmt(posExp)}}}';
+            mainSteps.add(IndicesSolutionStep(
+              workingLaTeX: prefix + intermediate + suffix,
+              explanation: 'Apply the Negative Index Law (\$ x^{-n} = 1/x^n \$): Move the term to the denominator to make the power positive.',
+            ));
+
+            double expandedCoeff = t.outerSign * (1 / math.pow(t.innerCoeff, posExp));
+            double expandedExp = t.innerExp * posExp;
+            if (t.innerBase.isNotEmpty) expandedExp = -expandedExp; // It moves back to standard form a*b^x
+
+            IndexTerm resolved = IndexTerm(
+              coefficient: expandedCoeff,
+              base: t.innerBase,
+              exponent: t.innerBase.isEmpty ? 0 : expandedExp,
+            );
+            terms[idx] = resolved;
+
+            mainSteps.add(IndicesSolutionStep(
+              workingLaTeX: getFullExpr(terms, ops),
+              explanation: 'Apply the Power Law to the denominator, and re-express it as a single standard term to continue solving.',
+            ));
+
+          } else {
+            // Apply Power of a Product Law: (xy)^n = x^n * y^n
+            String intermediate = '${t.outerSign < 0 ? '-' : ''}${_fmt(t.innerCoeff)}^{${_fmt(t.outerExp)}}${t.innerBase.isEmpty ? '' : '${t.innerBase}^{${_fmt(t.innerExp)} \\times ${_fmt(t.outerExp)}}'}';
+            mainSteps.add(IndicesSolutionStep(
+              workingLaTeX: prefix + intermediate + suffix,
+              explanation: 'Apply the Power of a Product Law (\$ (xy)^n = x^n y^n \$): Distribute the outer exponent to both the coefficient and the variable.',
+            ));
+
+            double expandedCoeff = t.outerSign * math.pow(t.innerCoeff, t.outerExp).toDouble();
+            double expandedExp = t.innerExp * t.outerExp;
+
+            IndexTerm resolved = IndexTerm(
+              coefficient: expandedCoeff,
+              base: t.innerBase,
+              exponent: expandedExp,
+            );
+            terms[idx] = resolved;
+
+            mainSteps.add(IndicesSolutionStep(
+              workingLaTeX: getFullExpr(terms, ops),
+              explanation: 'Evaluate the powers to fully simplify the term.',
+            ));
+          }
+        }
+        hasBrackets = terms.any((t) => t is IndexTerm && t.isBracketed);
+      }
+
+      // 2. Loop through operations adhering to BODMAS order.
       while (ops.isNotEmpty) {
-        // Find Multiplication or Division first
         int idx = ops.indexWhere((op) => op == '×' || op == '*' || op == '÷' || op == '/');
-        // If no mult/div, default to the first operation (addition/subtraction left-to-right)
         if (idx == -1) idx = 0;
 
         var t1 = terms[idx];
         var t2 = terms[idx + 1];
         String op = ops[idx];
 
-        // If intermediate terms cannot be resolved mathematically, halt simplification
         if (t1 is! IndexTerm || t2 is! IndexTerm) {
           mainSteps.add(IndicesSolutionStep(
             workingLaTeX: getFullExpr(terms, ops),
@@ -65,7 +188,6 @@ class IndicesSolver {
           result = _solveAdditionSubtraction(t1, t2, op, subSteps);
         }
 
-        // Build prefix and suffix of the un-evaluated parts of the expression
         String prefix = '';
         for (int i = 0; i < idx; i++) {
           prefix += '${terms[i] is IndexTerm ? (terms[i] as IndexTerm).toLatex() : terms[i].toString()} ${_getLatexOp(ops[i])} ';
@@ -75,7 +197,6 @@ class IndicesSolver {
           suffix += ' ${_getLatexOp(ops[i])} ${terms[i + 1] is IndexTerm ? (terms[i + 1] as IndexTerm).toLatex() : terms[i + 1].toString()}';
         }
 
-        // Wrap the sub-steps in the full mathematical context so the user doesn't lose track of the whole equation
         for (var step in subSteps) {
           mainSteps.add(IndicesSolutionStep(
             workingLaTeX: prefix + step.workingLaTeX + suffix,
@@ -83,11 +204,10 @@ class IndicesSolver {
           ));
         }
 
-        // Update lists by replacing the evaluated t1, op, t2 with the new single result
-        terms.removeAt(idx); // removes t1
-        terms.removeAt(idx); // removes t2 (which shifted into t1's spot)
-        terms.insert(idx, result); // insert the resolved result
-        ops.removeAt(idx); // remove the operator
+        terms.removeAt(idx);
+        terms.removeAt(idx);
+        terms.insert(idx, result);
+        ops.removeAt(idx);
       }
 
       var finalResult = terms[0];
@@ -132,7 +252,7 @@ class IndicesSolver {
 
       steps.add(IndicesSolutionStep(
         workingLaTeX: '${_fmt(newCoeff)}$separator${t1.base}^{${_fmt(t1.exponent)} + ${_fmt(t2.exponent)}}',
-        explanation: 'Apply the Multiplication Law of Indices (\$a^m \\times a^n = a^{m+n}\$): When multiplying terms with identical bases, you add their powers.',
+        explanation: 'Apply the Multiplication Law of Indices (\$ a^m \\times a^n = a^{m+n} \$): When multiplying terms with identical bases, you add their powers.',
       ));
 
       steps.add(IndicesSolutionStep(
@@ -150,7 +270,7 @@ class IndicesSolver {
         workingLaTeX: ans,
         explanation: 'Multiply the coefficients. Because the bases are different, the Multiplication Law cannot be applied.',
       ));
-      return ans; // Returning as string halts further strict algebraic combination
+      return ans;
     }
   }
 
@@ -180,7 +300,7 @@ class IndicesSolver {
 
       steps.add(IndicesSolutionStep(
         workingLaTeX: '${_fmt(newCoeff)}$separator${t1.base}^{${_fmt(t1.exponent)} - ${_fmt(t2.exponent)}}',
-        explanation: 'Apply the Division Law of Indices (\$a^m \\div a^n = a^{m-n}\$): When dividing terms with identical bases, you subtract their powers.',
+        explanation: 'Apply the Division Law of Indices (\$ a^m \\div a^n = a^{m-n} \$): When dividing terms with identical bases, you subtract their powers.',
       ));
 
       steps.add(IndicesSolutionStep(
@@ -234,10 +354,10 @@ class IndicesSolver {
   }
 
   static String _finalizeTerm(double coeff, String base, double exp, List<IndicesSolutionStep> steps) {
-    if (exp == 0) {
+    if (exp == 0 && base.isNotEmpty) {
       steps.add(IndicesSolutionStep(
         workingLaTeX: '${_fmt(coeff)} \\times 1',
-        explanation: 'Apply the Zero Index Law (\$a^0 = 1\$): Any non-zero base raised to the power of 0 equals 1.',
+        explanation: 'Apply the Zero Index Law (\$ a^0 = 1 \$): Any non-zero base raised to the power of 0 equals 1.',
       ));
 
       steps.add(IndicesSolutionStep(
@@ -270,7 +390,7 @@ class IndicesSolver {
         e += shifts;
         steps.add(IndicesSolutionStep(
           workingLaTeX: '${_fmt(c)} \\times 10^{$shifts} \\times 10^{${_fmt(exp)}}',
-          explanation: 'Standard Form (\$A \\times 10^n\$): Adjust the coefficient so it is between 1 and 10 (\$1 \\le A < 10\$) by shifting the decimal point.',
+          explanation: 'Standard Form (\$ A \\times 10^n \$): Adjust the coefficient so it is between 1 and 10 (\$ 1 \\le A < 10 \$) by shifting the decimal point.',
         ));
 
         String ans = '${_fmt(c)} \\times 10^{$shifts + ${_fmt(exp)}}';
@@ -290,6 +410,34 @@ class IndicesSolver {
     }
 
     String finalStr = IndexTerm(coefficient: coeff, base: base, exponent: exp).toLatex();
+
+    // Evaluate if numeric base explicitly (e.g. 10^-6 or 4^2)
+    if (base.isNotEmpty && double.tryParse(base) != null && base != '10') {
+      double numericBase = double.parse(base);
+      double evaluated = coeff * math.pow(numericBase, exp);
+
+      if (exp < 0) {
+        String fractionLatex = '${coeff != 1.0 ? '${_fmt(coeff)} \\times ' : ''}\\frac{1}{$base^{${_fmt(exp.abs())}}}';
+        steps.add(IndicesSolutionStep(
+          workingLaTeX: fractionLatex,
+          explanation: 'Apply the Negative Index Law (\$ x^{-n} = 1/x^n \$): Move the term to the denominator.',
+        ));
+      }
+
+      steps.add(IndicesSolutionStep(
+        workingLaTeX: finalStr,
+        explanation: 'This is the simplified index expression.',
+      ));
+
+      String evalStr = _fmt(evaluated);
+      steps.add(IndicesSolutionStep(
+        workingLaTeX: evalStr,
+        explanation: 'Evaluate the final decimal/numeric value.',
+        isFinalAnswer: true,
+      ));
+      return evalStr;
+    }
+
     steps.add(IndicesSolutionStep(
       workingLaTeX: finalStr,
       explanation: 'This is the final simplified expression.',

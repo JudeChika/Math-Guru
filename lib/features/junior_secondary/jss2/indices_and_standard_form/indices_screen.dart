@@ -11,10 +11,10 @@ class IndicesAndStandardFormScreen extends StatefulWidget {
 }
 
 class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScreen> {
-  // Dynamic lists holding an arbitrary number of inputs
-  final List<TextEditingController> _termControllers = [TextEditingController(), TextEditingController()];
-  final List<FocusNode> _focusNodes = [FocusNode(), FocusNode()];
-  final List<String> _selectedOperators = ['×'];
+  // Start with 1 term by default
+  final List<TextEditingController> _termControllers = [TextEditingController()];
+  final List<FocusNode> _focusNodes = [FocusNode()];
+  final List<String> _selectedOperators = [];
 
   IndicesResult? _result;
   TextEditingController? _activeController;
@@ -29,13 +29,11 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
 
   void _setupFocusNodes() {
     for (int i = 0; i < _focusNodes.length; i++) {
-      // Remove old listeners to prevent memory leaks if setup is called multiple times
       _focusNodes[i].removeListener(() {});
       _focusNodes[i].addListener(() {
         if (_focusNodes[i].hasFocus) setState(() => _activeController = _termControllers[i]);
       });
     }
-    // Set default active controller
     if (_activeController == null || !_termControllers.contains(_activeController)) {
       _activeController = _termControllers.first;
     }
@@ -45,23 +43,24 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
     setState(() {
       _termControllers.add(TextEditingController());
       _focusNodes.add(FocusNode());
-      _selectedOperators.add('×'); // Default to multiplication
+      if (_termControllers.length > 1) {
+        _selectedOperators.add('×');
+      }
       _setupFocusNodes();
     });
   }
 
   void _removeTerm(int index) {
-    if (_termControllers.length > 2) {
+    if (_termControllers.length > 1) {
       setState(() {
         _termControllers[index].dispose();
         _focusNodes[index].dispose();
         _termControllers.removeAt(index);
         _focusNodes.removeAt(index);
 
-        // Remove the operator associated with this field
         if (index > 0) {
           _selectedOperators.removeAt(index - 1);
-        } else {
+        } else if (_selectedOperators.isNotEmpty) {
           _selectedOperators.removeAt(0);
         }
 
@@ -72,12 +71,8 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
 
   @override
   void dispose() {
-    for (var controller in _termControllers) {
-      controller.dispose();
-    }
-    for (var node in _focusNodes) {
-      node.dispose();
-    }
+    for (var controller in _termControllers) controller.dispose();
+    for (var node in _focusNodes) node.dispose();
     super.dispose();
   }
 
@@ -126,12 +121,11 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Enter the expressions to apply the laws of indices. You can add as many terms as you'd like!",
+              "Enter the expressions to apply the laws of indices. You can simplify a single term, or add more terms to solve complex equations!",
               style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey.shade700),
             ),
             const SizedBox(height: 16),
 
-            // Dynamic List View of fields
             _buildDynamicTermInputs(),
 
             const SizedBox(height: 12),
@@ -147,7 +141,11 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
             Wrap(
               spacing: 6,
               runSpacing: 6,
+              alignment: WrapAlignment.center,
               children: [
+                _buildMathBtn('(', 'Open Bracket'),
+                _buildMathBtn(')', 'Close Bracket'),
+                _buildMathBtn('/', 'Fraction'),
                 _buildMathBtn('^', 'Power'),
                 _buildMathBtn('x', 'Base x'),
                 _buildMathBtn('y', 'Base y'),
@@ -192,7 +190,7 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (index > 0)
+            if (index > 0 && _selectedOperators.length >= index)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Center(
@@ -228,12 +226,12 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
                       focusNode: _focusNodes[index],
                       decoration: InputDecoration(
                         labelText: "Term ${index + 1}",
-                        hintText: index == 0 ? "e.g. 5x^2" : "e.g. 2x^4",
+                        hintText: index == 0 ? "e.g. (2a)^-2 or 10^-6" : "e.g. 2x^4",
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       )
                   ),
                 ),
-                if (_termControllers.length > 2)
+                if (_termControllers.length > 1)
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: IconButton(
