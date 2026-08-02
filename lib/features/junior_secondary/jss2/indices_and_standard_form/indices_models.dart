@@ -53,13 +53,26 @@ class IndexTerm {
     }
 
     // Check for brackets: e.g. (2a)^-2 or -(1/9)^3
-    var bracketMatch = RegExp(r'^([+-])?\((.*)\)(?:\^([+-]?\d*\.?\d*))?$').firstMatch(input);
+    // Updated Regex to support fractional exponents like ^1/4
+    var bracketMatch = RegExp(r'^([+-])?\((.*)\)(?:\^(.+))?$').firstMatch(input);
 
     if (bracketMatch != null) {
       double outerSign = bracketMatch.group(1) == '-' ? -1.0 : 1.0;
       String inner = bracketMatch.group(2)!;
-      String outerExpStr = bracketMatch.group(3) ?? '1';
-      double outerExp = double.tryParse(outerExpStr) ?? 1.0;
+      String outerExpStr = bracketMatch.group(3) ?? '';
+
+      double outerExp = 1.0;
+      if (outerExpStr.isNotEmpty) {
+        String cleanExp = outerExpStr.replaceAll('(', '').replaceAll(')', '');
+        if (cleanExp.contains('/')) {
+          var parts = cleanExp.split('/');
+          double num = double.tryParse(parts[0]) ?? 1.0;
+          double den = double.tryParse(parts[1]) ?? 1.0;
+          outerExp = num / den;
+        } else {
+          outerExp = double.tryParse(cleanExp) ?? 1.0;
+        }
+      }
 
       bool isFraction = false;
       double num = 1.0;
@@ -115,7 +128,8 @@ class IndexTerm {
       );
     }
 
-    RegExp regExp = RegExp(r'^([+-]?\d*\.?\d*)?([a-zA-Z]+|\d+\.?\d*)(?:\^([+-]?\d*\.?\d*))?$');
+    // Updated Regex to support fractional exponents
+    RegExp regExp = RegExp(r'^([+-]?\d*\.?\d*)?([a-zA-Z]+|\d+\.?\d*)(?:\^(.+))?$');
     var match = regExp.firstMatch(input);
 
     if (match != null) {
@@ -129,7 +143,17 @@ class IndexTerm {
       else if (coeffStr.isNotEmpty) coeff = double.tryParse(coeffStr) ?? 1.0;
 
       double exp = 1.0;
-      if (expStr.isNotEmpty) exp = double.tryParse(expStr) ?? 1.0;
+      if (expStr.isNotEmpty) {
+        String cleanExp = expStr.replaceAll('(', '').replaceAll(')', '');
+        if (cleanExp.contains('/')) {
+          var parts = cleanExp.split('/');
+          double num = double.tryParse(parts[0]) ?? 1.0;
+          double den = double.tryParse(parts[1]) ?? 1.0;
+          exp = num / den;
+        } else {
+          exp = double.tryParse(cleanExp) ?? 1.0;
+        }
+      }
 
       return IndexTerm(coefficient: coeff, base: baseStr, exponent: exp);
     }
@@ -147,8 +171,7 @@ class IndexTerm {
         innerLatex = formatSimple(innerCoeff, innerBase, innerExp);
       }
       String signLatex = outerSign == -1.0 ? '-' : '';
-      // Use \left( and \right) so the brackets scale beautifully with the fraction inside!
-      return '$signLatex\\left($innerLatex\\right)^{${_fmt(outerExp)}}';
+      return '$signLatex\\left($innerLatex\\right)^{${fmtExp(outerExp)}}';
     }
     return formatSimple(coefficient, base, exponent);
   }
@@ -160,10 +183,10 @@ class IndexTerm {
     if (coeff == -1.0) coeffStr = '-';
     else if (coeff != 1.0) coeffStr = _fmt(coeff);
 
-    String expStr = exp != 1.0 ? '^{${_fmt(exp)}}' : '';
+    String expStr = exp != 1.0 ? '^{${fmtExp(exp)}}' : '';
 
     if (base == '10' && coeff != 1.0 && coeff != -1.0) {
-      return '${_fmt(coeff)} \\times 10^{${_fmt(exp)}}';
+      return '${_fmt(coeff)} \\times 10^{${fmtExp(exp)}}';
     }
 
     // Explicit multiplication sign if base is numeric
@@ -172,6 +195,24 @@ class IndexTerm {
     }
 
     return '$coeffStr$base$expStr';
+  }
+
+  /// Specialized formatter for exponents to display fractions cleanly
+  static String fmtExp(double v) {
+    if (v == v.toInt()) return v.toInt().toString();
+
+    double absV = v.abs();
+    String sign = v < 0 ? '-' : '';
+
+    for (int den = 2; den <= 10; den++) {
+      double num = absV * den;
+      if ((num - num.round()).abs() < 0.0001) {
+        if (num.round() == 0) return '0';
+        return '$sign\\frac{${num.round()}}{$den}';
+      }
+    }
+
+    return double.parse(v.toStringAsFixed(4)).toString();
   }
 
   static String _fmt(double v) {

@@ -8,8 +8,10 @@ plugins {
 
 android {
     namespace = "com.example.math_guru"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = "29.0.13113456"
+
+    // Use an explicit modern compile SDK and build tools to avoid missing old build-tools like 25.0.2
+    compileSdk = 33
+    buildToolsVersion = "33.0.2"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -26,7 +28,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 33
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
