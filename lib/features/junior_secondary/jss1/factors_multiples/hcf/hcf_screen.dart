@@ -110,7 +110,7 @@ class _HCFScreenState extends State<HCFScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Enter numbers separated by commas or spaces (e.g. 24, 36, 60):",
+                "Enter number(s) separated by commas or spaces (e.g. 24, or 24, 36):",
                 style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
@@ -121,7 +121,7 @@ class _HCFScreenState extends State<HCFScreen> {
                       controller: _inputController,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
-                        hintText: "e.g. 24, 36, 60",
+                        hintText: "e.g. 24, 36",
                       ),
                       onSubmitted: (_) => _calculate(),
                     ),

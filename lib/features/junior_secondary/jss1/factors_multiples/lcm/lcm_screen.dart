@@ -37,7 +37,7 @@ class _LCMScreenState extends State<LCMScreen> {
                 DataCell(Text(row.divisor == 1 ? "" : row.divisor.toString())),
                 ...row.numbers
                     .map((n) => DataCell(Text(n.toString())))
-                    ,
+                ,
               ],
             ),
         ],
@@ -86,7 +86,7 @@ class _LCMScreenState extends State<LCMScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Enter numbers separated by commas or spaces (e.g. 12, 15, 18 or 6 8 14):",
+                "Enter number(s) separated by commas or spaces (e.g. 12, or 12, 15):",
                 style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
@@ -97,7 +97,7 @@ class _LCMScreenState extends State<LCMScreen> {
                       controller: _inputController,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
-                        hintText: "e.g. 12, 15, 18",
+                        hintText: "e.g. 12, 15",
                       ),
                       onSubmitted: (_) => _calculate(),
                     ),

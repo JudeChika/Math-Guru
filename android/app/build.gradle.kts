@@ -9,17 +9,18 @@ plugins {
 android {
     namespace = "com.example.math_guru"
 
-    // Use an explicit modern compile SDK and build tools to avoid missing old build-tools like 25.0.2
-    compileSdk = 33
-    buildToolsVersion = "33.0.2"
+    // Removed the hardcoded buildToolsVersion so it naturally uses 36
+    compileSdk = 36
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        // Updated to use the Java 17 we just installed!
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        // Updated to use Java 17
+        jvmTarget = "17"
     }
 
     defaultConfig {
@@ -27,8 +28,10 @@ android {
         applicationId = "com.example.math_guru"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
+
+        // Bumped to 23 to ensure total compatibility with all Firebase plugins
         minSdk = flutter.minSdkVersion
-        targetSdk = 33
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

@@ -3,100 +3,126 @@ import 'package:go_router/go_router.dart';
 
 /// Data structure for topics and their subtopics
 const Map<String, List<String>> jss2Topics = {
-  'Numbers & Numeration': [
-    'Roman Number System',
-    'Egyptian Number System',
-    'Hindu Number System',
-    'Counting',
-    'Place-value',
+  'Whole Numbers': [
+    'Factors, Prime Factors',
+    'HCF & LCM',
+    'Rules for Divisibility',
+    'Number Patterns',
+    'Squares & Square Roots',
   ],
   'Indices & Standard Form': [
     'Laws of Indices',
     'Standard Form',
   ],
-  'Number Base System': [
-    'Counting in binary',
-    'Binary Conversion',
+  'Quadrilaterals': [
+    'Parallelogram',
+    'Rhombus',
+    'Kite',
+    'Connections Between Quadrilaterals',
+    'Patterns With Shapes',
   ],
-  'Fractions': [
-    'Conversion to decimal',
-    'Conversion to percentage',
-    'Number line',
+  'Directed Numbers': [
     'Addition & Subtraction',
     'Multiplication',
     'Division',
   ],
-  'Estimation': [
-    'Dimensions & Distances',
-    'Capacity & Mass Objects',
-    'Estimation of other things',
+  'Statistics 1': [
+    'Data Presentation',
+    'Lists and Tables',
+    'Graphs',
   ],
-  'Approximation': [
-    'Addition & Subtraction',
-    'Multiplication & Division',
-    'Rounding off Numbers',
+  'Angles 1': [
+    'Angles in a Quadrilateral',
+    'Angles in a Polygon',
   ],
-  'Basic Operations involving the Binary System': [
-    'Addition',
-    'Subtraction',
-    'Multiplication',
-    'Division',
+  'Algebraic Expressions (Expansion)': [
+    'Directed Algebraic terms',
+    'Removing Brackets',
+    'Expanding Algebraic Expressions',
   ],
-  'Algebra': [
-    'Basic Operations',
-    'Simplifying Expressions',
-    'Translation of Word Problems into Mathematical Statements',
-    'Translation of Algebraic Sentences into Words',
+  'Approximation & Estimation': [
+    'Approximation',
+    'Estimation',
   ],
-  'Perimeter of Plane Shapes': [
-    'Square',
-    'Rectangle',
-    'Triangle',
-    'Polygon',
-    'Trapezium',
-    'Parallelogram',
-    'Circle',
+  'Fractions, Proportions, Ratio, Rate': [
+    'Fractions',
+    'Proportions',
+    'Ratio',
+    'Rate',
   ],
-  'Area of Plane Shapes': [
-    'Square',
-    'Rectangle',
-    'Triangle',
-    'Polygon',
-    'Trapezium',
-    'Parallelogram',
-    'Circle',
+  'Home & Office Transactions': [
+    'Personal Arithmetic',
+    'Household Arithmetic',
+    'Civic Arithmetic',
+    'Commercial Transactions',
   ],
-  'Volume': [
-    'Cube',
-    'Cuboid',
+  'Algebra, Factors, Factorisation, Fractions': [
+    'Algebraic Factors & Multiples',
+    'Factorisation',
+    'Algebraic Fractions',
   ],
-  'Capacity': [
-    'Litres',
-    'Cubic Centimeters',
-    'Millilitres',
-    'Meter Cube',
+  'Cartesian Planes & Coordinates': [
+    'Position of Points',
+    'Cartesian Planes',
+    'Coordinates',
+    'Plotting Points',
     'Meters',
-    'Kilolitres',
-    'Volume or Capacity of Container',
-    'Volume or Capacity of Right-angled Triangular Prism',
   ],
-  'Angles': [
-    'Angle of Rotation',
-    'Angle in Degrees',
-    'Conversion to Degrees',
-    'Conversion to Time',
-    'Vertically Opposite Angles',
-    'Angles on a Straight Line',
-    'Angles at a Point',
-    'Right Angles',
-    'Triangles',
+  'Solving Equations': [
+    'Solving Equations 1',
+    'Solving Equations 2',
+    'World Problems',
   ],
-  'Data Collection/Statistics': [
-    'Decision Making',
-    'Frequency Distribution Table',
-    'Bar Chart',
-    'Line Graph',
-    'Arithmetic Mean, Median, Mode',
+  'Straight Line Graphs': [
+    'Linear Graphs',
+    'Graphs of Real Life Situations',
+    'Travel Graphs',
+  ],
+  'Triangles & Angles': [
+    'Construction of Triangles',
+    'To Bisect any Angle',
+  ],
+  'Scale Drawing': [
+    'Scale',
+    'Scale Drawing',
+    'Reading Scale Drawings',
+  ],
+  'Pythagoras Rule': [
+    'Right-Angled Triangle',
+    'Pythagoras Rule',
+    'Pythagoras in Real Life',
+  ],
+  'Statistics 2: Tables, Charts, Schedules': [
+    'Reading Tabulated Data',
+    'Timetables & Charts',
+  ],
+  'Cylinders & Cones': [
+    'Cylinders',
+    'Cones',
+    'Measuration & Estimation',
+  ],
+  'Evaluation & Depression': [
+    'Horizontal & Vertical',
+    'Elevation',
+    'Scale Drawings',
+  ],
+  'Statistics 3: Probability': [
+    'Experimental Probability',
+    'Probability as a Fraction',
+  ],
+  'Linear Inequalities': [
+    'Inequalities',
+    'Graphs of Inequalities',
+    'Solution of Inequalities',
+  ],
+  'Graphs of Linear Equations': [
+    'Linear Equations & Graphs',
+    'Properties of Linear Graphs',
+  ],
+  'Bearings & Distances': [
+    'Compass Directions',
+    'Bearings',
+    'Bearings & Distances',
   ],
 };
 

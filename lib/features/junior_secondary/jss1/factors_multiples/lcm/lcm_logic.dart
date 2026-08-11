@@ -30,7 +30,9 @@ class LCMCalculatorLogic {
           .where((e) => e.trim().isNotEmpty)
           .map((e) => int.parse(e))
           .toList();
-      if (numbers.length < 2 || numbers.any((n) => n <= 0)) return null;
+
+      // Allow single numbers (length >= 1) instead of forcing length >= 2
+      if (numbers.isEmpty || numbers.any((n) => n <= 0)) return null;
       return numbers;
     } catch (_) {
       return null;
@@ -57,7 +59,7 @@ class LCMCalculatorLogic {
         lcm: 0,
         steps: [
           LCMStepExplanation(
-            description: "Please enter at least two positive integers, separated by spaces or commas.",
+            description: "Please enter one or more positive integers, separated by spaces or commas.",
             state: [],
           ),
         ],
@@ -73,7 +75,7 @@ class LCMCalculatorLogic {
     int stepCount = 1;
 
     steps.add(LCMStepExplanation(
-      description: "Step $stepCount: Start with the input numbers: ${working.join(', ')}",
+      description: "Step $stepCount: Start with the input number(s): ${working.join(', ')}",
       state: List.from(working),
     ));
 
@@ -102,8 +104,12 @@ class LCMCalculatorLogic {
 
     final lcm = divisors.fold(1, (prev, d) => prev * d);
 
+    String finalDescription = divisors.isEmpty
+        ? "Final Step: The number is already 1."
+        : "Final Step: Multiply all divisors used: ${divisors.join(' × ')} = $lcm";
+
     steps.add(LCMStepExplanation(
-      description: "Final Step: Multiply all divisors used: ${divisors.join(' × ')} = $lcm",
+      description: finalDescription,
       state: List.from(working),
     ));
 

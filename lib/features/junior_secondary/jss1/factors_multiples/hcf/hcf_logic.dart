@@ -32,7 +32,9 @@ class HCFCalculatorLogic {
           .where((e) => e.trim().isNotEmpty)
           .map((e) => int.parse(e))
           .toList();
-      if (numbers.length < 2 || numbers.any((n) => n <= 0)) return null;
+
+      // Allow single numbers (length >= 1) instead of forcing length >= 2
+      if (numbers.isEmpty || numbers.any((n) => n <= 0)) return null;
       return numbers;
     } catch (_) {
       return null;
@@ -95,7 +97,7 @@ class HCFCalculatorLogic {
         hcf: 0,
         steps: [
           HCFSolutionStep(
-            description: "Please enter at least two positive integers, separated by spaces or commas.",
+            description: "Please enter one or more positive integers, separated by spaces or commas.",
             detail: null,
           ),
         ],
