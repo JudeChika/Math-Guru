@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:math_guru/features/junior_secondary/jss2/indices_and_standard_form/indices_screen.dart';
-import 'package:math_guru/features/junior_secondary/jss2/standard_form/standard_form_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/divisibility_rules/divisibility_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/factors_and_primes/factors_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/hcf_lcm/hcf_lcm_screen.dart';
+import 'indices_and_standard_form/laws_of_indices/indices_screen.dart';
+import 'indices_and_standard_form/standard_form/standard_form_screen.dart';
 
 class Jss2TopicDetailScreen extends StatelessWidget {
   final String topic;
@@ -21,6 +24,15 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Standard Form') {
       return const StandardFormScreen();
+    }
+    if (subtopic == 'Factors, Prime Factors') {
+      return const FactorsScreen();
+    }
+    if (subtopic == 'HCF & LCM') {
+      return const HCFLCMScreen();
+    }
+    if (subtopic == 'Rules for Divisibility') {
+      return const DivisibilityScreen();
     }
     return Scaffold(
       appBar: AppBar(
