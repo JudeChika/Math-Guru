@@ -138,8 +138,9 @@ class IndexTerm {
       String expStr = match.group(3) ?? '';
 
       double coeff = 1.0;
-      if (coeffStr == '-') coeff = -1.0;
-      else if (coeffStr == '+') coeff = 1.0;
+      if (coeffStr == '-') {
+        coeff = -1.0;
+      } else if (coeffStr == '+') coeff = 1.0;
       else if (coeffStr.isNotEmpty) coeff = double.tryParse(coeffStr) ?? 1.0;
 
       double exp = 1.0;
@@ -180,8 +181,9 @@ class IndexTerm {
     if (base.isEmpty || exp == 0) return _fmt(coeff);
 
     String coeffStr = '';
-    if (coeff == -1.0) coeffStr = '-';
-    else if (coeff != 1.0) coeffStr = _fmt(coeff);
+    if (coeff == -1.0) {
+      coeffStr = '-';
+    } else if (coeff != 1.0) coeffStr = _fmt(coeff);
 
     String expStr = exp != 1.0 ? '^{${fmtExp(exp)}}' : '';
 

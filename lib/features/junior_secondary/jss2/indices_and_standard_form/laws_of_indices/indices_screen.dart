@@ -71,8 +71,12 @@ class _IndicesAndStandardFormScreenState extends State<IndicesAndStandardFormScr
 
   @override
   void dispose() {
-    for (var controller in _termControllers) controller.dispose();
-    for (var node in _focusNodes) node.dispose();
+    for (var controller in _termControllers) {
+      controller.dispose();
+    }
+    for (var node in _focusNodes) {
+      node.dispose();
+    }
     super.dispose();
   }
 
