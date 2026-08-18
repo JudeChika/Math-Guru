@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/divisibility_rules/divisibility_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/factors_and_primes/factors_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/hcf_lcm/hcf_lcm_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/number_patterns/number_patterns_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/squares_roots/squares_roots_screen.dart';
 import 'indices_and_standard_form/laws_of_indices/indices_screen.dart';
 import 'indices_and_standard_form/standard_form/standard_form_screen.dart';
 
@@ -33,6 +35,12 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Rules for Divisibility') {
       return const DivisibilityScreen();
+    }
+    if (subtopic == 'Number Patterns') {
+      return const NumberPatternsScreen();
+    }
+    if (subtopic == 'Squares & Square Roots') {
+      return const SquaresAndRootsScreen();
     }
     return Scaffold(
       appBar: AppBar(

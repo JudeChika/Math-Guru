@@ -14,13 +14,6 @@ const Map<String, List<String>> jss2Topics = {
     'Laws of Indices',
     'Standard Form',
   ],
-  'Quadrilaterals': [
-    'Parallelogram',
-    'Rhombus',
-    'Kite',
-    'Connections Between Quadrilaterals',
-    'Patterns With Shapes',
-  ],
   'Directed Numbers': [
     'Addition & Subtraction',
     'Multiplication',
