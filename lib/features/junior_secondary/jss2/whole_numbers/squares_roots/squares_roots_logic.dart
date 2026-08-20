@@ -12,7 +12,18 @@ class SquaresRootsLogic {
   /// Calculates the square root of a whole number or fraction using the chosen method.
   static SquaresRootsResult calculateSquareRoot(String input, String method) {
     try {
-      String trimmed = input.trim();
+      // Use Regex to gracefully extract the number or fraction from word problems.
+      // Matches fractions (16/25), mixed fractions (2 1/4), or whole numbers (540).
+      RegExp mathExp = RegExp(r'\d+\s+\d+\/\d+|\d+\/\d+|\d+');
+      Iterable<RegExpMatch> matches = mathExp.allMatches(input);
+      String bestMatch = "";
+      for (var match in matches) {
+        if (match.group(0)!.length > bestMatch.length) {
+          bestMatch = match.group(0)!;
+        }
+      }
+
+      String trimmed = bestMatch.isNotEmpty ? bestMatch.trim() : input.trim();
       if (trimmed.isEmpty) throw FormatException();
 
       // Handle Mixed and Proper/Improper Fractions
@@ -49,7 +60,7 @@ class SquaresRootsLogic {
     }
   }
 
-  static SquaresRootsResult _solveWholeNumberRoot(int n, String method) {
+  static SquaresRootsResult _solveWholeNumberRoot(int n, String method, {bool allowMultiplier = true}) {
     bool useDivisibilityRules = method == 'Divisibility Rules';
     bool usePerfectSquare = method == 'Perfect Square';
 
@@ -68,7 +79,7 @@ class SquaresRootsLogic {
       return SquaresRootsResult(finalAnswerLaTeX: "1", workingsLaTeX: workings, steps: steps);
     }
 
-    // 1. Prime Factorization & LCM Table setup
+    // 1. Prime Factorization
     List<int> factors = [];
     List<int> lcmDivisors = [];
     List<int> lcmQuotients = [n];
@@ -112,7 +123,16 @@ class SquaresRootsLogic {
     // Add the LCM Table to the visual Workings section
     workings.add(lcmTableLatex);
 
-    // Count prime factors to check if it's a perfect square
+    if (!useDivisibilityRules) {
+      steps.add(SquareRootStep(
+          explanation: "Step 1: Use the continuous division (LCM) method to break $n down into its prime factors.",
+          mathLaTeX: lcmTableLatex
+      ));
+    } else {
+      steps.addAll(divisibilitySteps);
+    }
+
+    // Check if it's a perfect square
     Map<int, int> counts = {};
     for (var f in factors) {
       counts[f] = (counts[f] ?? 0) + 1;
@@ -127,39 +147,116 @@ class SquaresRootsLogic {
       }
     }
 
+    List<String> indexForm = [];
+    counts.forEach((prime, count) {
+      indexForm.add(count == 1 ? "$prime" : "$prime^{$count}");
+    });
+
+    if (usePerfectSquare) {
+      workings.add("$n = ${indexForm.join(' \\times ')}");
+      steps.add(SquareRootStep(
+          explanation: "Step 2: Write out $n in index form by grouping identical prime factors together.",
+          mathLaTeX: "$n = ${indexForm.join(' \\times ')}"
+      ));
+    } else if (!useDivisibilityRules) {
+      workings.add("$n = ${factors.join(' \\times ')}");
+      steps.add(SquareRootStep(
+          explanation: "Step 2: Write out $n as a product of these prime factors.",
+          mathLaTeX: "$n = ${factors.join(' \\times ')}"
+      ));
+    } else {
+      workings.add("$n = ${factors.join(' \\times ')}");
+      steps.add(SquareRootStep(
+          explanation: "Write out $n as a product of the prime factors we just found.",
+          mathLaTeX: "$n = ${factors.join(' \\times ')}"
+      ));
+    }
+
     if (!isPerfect) {
-      double root = math.sqrt(n);
-      String msg = "$n is not a perfect square.";
-      if (usePerfectSquare) {
-        msg = "$n is not a perfect square because its prime factor(s) ${oddPowers.join(' and ')} have an odd power.";
+      if (usePerfectSquare && allowMultiplier) {
+        steps.add(SquareRootStep(
+          explanation: "Step 3: Check if all the powers are even. Here, $n is NOT a perfect square because the prime factor(s) \$${oddPowers.join('\$ and \$')}\$ have an ODD power.",
+        ));
+        steps.add(SquareRootStep(
+          explanation: "The Golden Rule: To make a number a perfect square, EVERY prime factor must have an EVEN power. We need to multiply the expression by one more of each prime that has an odd power.",
+        ));
+
+        List<int> missingPrimes = [];
+        List<String> newIndexForm = [];
+        counts.forEach((prime, count) {
+          if (count % 2 != 0) {
+            missingPrimes.add(prime);
+            newIndexForm.add("$prime^{${count + 1}}");
+          } else {
+            newIndexForm.add(count == 1 ? "$prime" : "$prime^{$count}");
+          }
+        });
+
+        int multiplier = missingPrimes.fold(1, (a, b) => a * b);
+
+        if (missingPrimes.length > 1) {
+          workings.add("\\text{Missing Primes} = ${missingPrimes.join(' \\times ')}");
+        }
+        workings.add("\\text{Multiplier} = $multiplier");
+
+        steps.add(SquareRootStep(
+            explanation: "Step 4: The missing primes we need are ${missingPrimes.join(' and ')}. Multiply them together to get the smallest multiplier.",
+            mathLaTeX: "\\text{Multiplier} = ${missingPrimes.join(' \\times ')} = $multiplier"
+        ));
+
+        int newSquare = n * multiplier;
+        int newRoot = math.sqrt(newSquare).toInt();
+
+        workings.add("\\text{Check: } $n \\times $multiplier = $newSquare");
+
+        steps.add(SquareRootStep(
+            explanation: "Step 5: Let's verify! If we multiply $n by our multiplier ($multiplier), we get a new perfect square ($newSquare).",
+            mathLaTeX: "$n \\times $multiplier = $newSquare"
+        ));
+
+        workings.add("$newSquare = ${newIndexForm.join(' \\times ')}");
+        steps.add(SquareRootStep(
+            explanation: "The prime factors of $newSquare now all have even powers (\$ $newSquare = ${newIndexForm.join(' \\times ')} \$), making it a perfect square!",
+            mathLaTeX: "$newSquare = ${newIndexForm.join(' \\times ')}"
+        ));
+
+        workings.add("\\sqrt{$newSquare} = $newRoot");
+        steps.add(SquareRootStep(
+            explanation: "We can easily find its square root by halving the even powers.",
+            mathLaTeX: "\\sqrt{$newSquare} = $newRoot"
+        ));
+
+        return SquaresRootsResult(
+            finalAnswerLaTeX: "$multiplier",
+            workingsLaTeX: workings,
+            steps: steps
+        );
+      } else {
+        double root = math.sqrt(n);
+        String msg = "$n is not a perfect square.";
+        if (usePerfectSquare) {
+          msg = "$n is not a perfect square because its prime factor(s) ${oddPowers.join(' and ')} have an odd power.";
+        }
+        return SquaresRootsResult(
+          valid: false,
+          finalAnswerLaTeX: "", workingsLaTeX: [], steps: [],
+          errorMessage: "$msg Its square root is a decimal (approx ${_fmt(double.parse(root.toStringAsFixed(3)))}).",
+        );
       }
-      return SquaresRootsResult(
-        valid: false,
-        finalAnswerLaTeX: "", workingsLaTeX: [], steps: [],
-        errorMessage: "$msg Its square root is a decimal (approx ${_fmt(double.parse(root.toStringAsFixed(3)))}).",
-      );
     }
 
     if (usePerfectSquare) {
-      List<String> indexForm = [];
       List<String> halvedForm = [];
       List<int> halvedValues = [];
 
       counts.forEach((prime, count) {
-        indexForm.add(count == 1 ? "$prime" : "$prime^{$count}");
         halvedForm.add(count ~/ 2 == 1 ? "$prime" : "$prime^{${count ~/ 2}}");
         halvedValues.add(math.pow(prime, count ~/ 2).toInt());
       });
 
-      workings.add("$n = ${indexForm.join(' \\times ')}");
-      steps.add(SquareRootStep(
-          explanation: "Step 1: Use the continuous division (LCM) method to find the prime factors, then write $n in index form.",
-          mathLaTeX: "$n = ${indexForm.join(' \\times ')}"
-      ));
-
       workings.add("\\sqrt{${indexForm.join(' \\times ')}}");
       steps.add(SquareRootStep(
-          explanation: "Step 2: To find the square root, check if all the powers are even. Since they are, $n is a perfect square! We halve the powers and remove the square root symbol.",
+          explanation: "Step 3: To find the square root, check if all the powers are even. Since they are, $n is a perfect square! We halve the powers and remove the square root symbol.",
           mathLaTeX: "\\sqrt{${indexForm.join(' \\times ')}} = ${halvedForm.join(' \\times ')}"
       ));
 
@@ -169,7 +266,7 @@ class SquaresRootsLogic {
       if (needsExpansion) {
         workings.add(halvedValues.join(' \\times '));
         steps.add(SquareRootStep(
-            explanation: "Step 3: Evaluate the powers.",
+            explanation: "Step 4: Evaluate the powers.",
             mathLaTeX: halvedValues.join(' \\times ')
         ));
       }
@@ -178,7 +275,7 @@ class SquaresRootsLogic {
       if (halvedValues.length > 1 || needsExpansion) {
         workings.add(_fmt(result));
         steps.add(SquareRootStep(
-            explanation: "Step ${needsExpansion ? 4 : 3}: Multiply the numbers together to get your final answer.",
+            explanation: "Step ${needsExpansion ? 5 : 4}: Multiply the numbers together to get your final answer.",
             mathLaTeX: _fmt(result)
         ));
       }
@@ -190,22 +287,9 @@ class SquaresRootsLogic {
       );
     }
 
-    if (!useDivisibilityRules) {
-      steps.add(SquareRootStep(
-          explanation: "Step 1: Use the continuous division (LCM) method to find the prime factors of $n.",
-          mathLaTeX: lcmTableLatex
-      ));
-      steps.add(SquareRootStep(
-          explanation: "Now write out $n as a product of these prime factors.",
-          mathLaTeX: "$n = ${factors.join(' \\times ')}"
-      ));
-    } else {
-      steps.addAll(divisibilitySteps);
-    }
-
     workings.add("\\sqrt{${factors.join(' \\times ')}}");
 
-    // Group into identical pairs
+    // Group into pairs
     List<String> pairs = [];
     List<int> singles = [];
     counts.forEach((prime, count) {
@@ -248,7 +332,6 @@ class SquaresRootsLogic {
     List<String> workings = [];
     List<SquareRootStep> steps = [];
 
-    // Process mixed fractions first
     if (originalWhole != null && originalNum != null) {
       String mixedStr = "$originalWhole \\frac{$originalNum}{$den}";
       workings.add("\\sqrt{$mixedStr}");
@@ -285,7 +368,7 @@ class SquaresRootsLogic {
 
       // If it simplified to a whole number, redirect to the whole number solver
       if (simpDen == 1) {
-        final wholeResult = _solveWholeNumberRoot(simpNum, method);
+        final wholeResult = _solveWholeNumberRoot(simpNum, method, allowMultiplier: false);
         if (!wholeResult.valid) return wholeResult;
 
         workings.addAll(wholeResult.workingsLaTeX.skip(1));
@@ -306,14 +389,14 @@ class SquaresRootsLogic {
     ));
 
     // Solve numerator
-    final numResult = _solveWholeNumberRoot(simpNum, method);
+    final numResult = _solveWholeNumberRoot(simpNum, method, allowMultiplier: false);
     if (!numResult.valid) {
       double root = math.sqrt(simpNum / simpDen);
       return SquaresRootsResult(valid: false, finalAnswerLaTeX: "", workingsLaTeX: [], steps: [], errorMessage: "The simplified fraction $simpNum/$simpDen is not a perfect square. Its square root is a decimal (approx ${_fmt(double.parse(root.toStringAsFixed(3)))}).");
     }
 
     // Solve denominator
-    final denResult = _solveWholeNumberRoot(simpDen, method);
+    final denResult = _solveWholeNumberRoot(simpDen, method, allowMultiplier: false);
     if (!denResult.valid) {
       double root = math.sqrt(simpNum / simpDen);
       return SquaresRootsResult(valid: false, finalAnswerLaTeX: "", workingsLaTeX: [], steps: [], errorMessage: "The simplified fraction $simpNum/$simpDen is not a perfect square. Its square root is a decimal (approx ${_fmt(double.parse(root.toStringAsFixed(3)))}).");
@@ -414,7 +497,6 @@ class SquaresRootsLogic {
       String clean = input.toLowerCase().replaceAll(' ', '').replaceAll('xn', '').replaceAll('*n', '').replaceAll('=n', '');
       if (clean.endsWith('n')) clean = clean.substring(0, clean.length - 1); // strip trailing n
       if (clean.endsWith('x') || clean.endsWith('*')) clean = clean.substring(0, clean.length - 1);
-      if (clean.endsWith('=')) clean = clean.substring(0, clean.length - 1);
 
       if (clean.isEmpty) throw FormatException();
 
@@ -424,69 +506,19 @@ class SquaresRootsLogic {
       List<String> workings = [];
       List<SquareRootStep> steps = [];
 
-      // Format initial expression display safely
-      List<String> rawTermsDisplay = [];
-      for (String term in terms) {
-        if (term.contains('^')) {
-          final parts = term.split('^');
-          rawTermsDisplay.add("${parts[0]}^{${parts[1]}}");
-        } else {
-          rawTermsDisplay.add(term);
-        }
-      }
-      workings.add("${rawTermsDisplay.join(' \\times ')} \\times n");
+      workings.add("${terms.join(' \\times ')} \\times n");
 
       steps.add(SquareRootStep(
-        explanation: "We need to find the smallest whole number 'n' that makes the given expression a perfect square.",
+        explanation: "Step 1: To find 'n', we first need to look at the prime factorization of the given expression.",
       ));
 
-      // Identify and factorize composites to show step-by-step
-      Map<int, List<int>> compositeFactors = {};
-      for (String term in terms) {
-        int val = term.contains('^') ? int.parse(term.split('^')[0]) : int.parse(term);
-        List<int> factors = _getPrimeFactors(val);
-        // If length > 1, it's a composite number or a power of a prime, we should show its factorization.
-        if (factors.length > 1 && !compositeFactors.containsKey(val)) {
-          compositeFactors[val] = factors;
-
-          List<int> divs = [];
-          List<int> quots = [val];
-          int current = val;
-          int d = 2;
-          while (current > 1) {
-            while (current % d == 0) {
-              divs.add(d);
-              current ~/= d;
-              quots.add(current);
-            }
-            d++;
-            if (d * d > current && current > 1) {
-              divs.add(current);
-              current ~/= current;
-              quots.add(current);
-              break;
-            }
-          }
-          String tableLatex = "\\begin{array}{r|l}\n";
-          for (int i = 0; i < divs.length; i++) {
-            tableLatex += "${divs[i]} & ${quots[i]} \\\\\n\\hline\n";
-          }
-          tableLatex += " & ${quots.last} \n\\end{array}";
-
-          workings.add("\\text{Factors of } $val: \\quad $tableLatex");
-          steps.add(SquareRootStep(
-              explanation: "Notice that $val is a composite number. Use the continuous division method to find its prime factors.",
-              mathLaTeX: "$val = ${factors.join(' \\times ')}"
-          ));
-        }
-      }
-
-      // Parse each term and accumulate prime factors
+      // Parse each term and factorize
       for (String term in terms) {
         if (term.contains('^')) {
           final parts = term.split('^');
           int base = int.parse(parts[0]);
           int exp = int.parse(parts[1]);
+          // Factorize the base in case they entered a non-prime like 4^3
           List<int> baseFactors = _getPrimeFactors(base);
           for (int f in baseFactors) {
             primeCounts[f] = (primeCounts[f] ?? 0) + exp;
@@ -500,77 +532,70 @@ class SquaresRootsLogic {
         }
       }
 
-      // Sort primes for neatness
-      var sortedPrimes = primeCounts.keys.toList()..sort();
-
       // Build combined index form for workings
       List<String> indexFormTerms = [];
-      for (var prime in sortedPrimes) {
-        int count = primeCounts[prime]!;
+      primeCounts.forEach((prime, count) {
         indexFormTerms.add(count == 1 ? "$prime" : "$prime^{$count}");
-      }
+      });
 
       String combinedIndex = indexFormTerms.join(' \\times ');
-
-      // Show combined index form step if we actually combined things
-      if (terms.length > 1 || compositeFactors.isNotEmpty) {
-        workings.add("$combinedIndex \\times n");
-        steps.add(SquareRootStep(
-            explanation: "Express the entire sequence as a single product of prime factors in index form.",
-            mathLaTeX: combinedIndex
-        ));
-      }
+      workings.add("$combinedIndex \\times n");
 
       steps.add(SquareRootStep(
-        explanation: "The Golden Rule: For any number to be a perfect square, EVERY prime factor must have an EVEN power (like 2, 4, or 6).",
+          explanation: "Step 2: Combine all the terms into a single prime index form.",
+          mathLaTeX: combinedIndex
+      ));
+
+      steps.add(SquareRootStep(
+        explanation: "Step 3: The Golden Rule! For any number to be a perfect square, EVERY prime factor must have an EVEN power (like 2, 4, 6).",
       ));
 
       List<int> missingPrimes = [];
       List<String> oddTerms = [];
+      List<String> newIndexForm = [];
 
-      for (var prime in sortedPrimes) {
-        int count = primeCounts[prime]!;
+      primeCounts.forEach((prime, count) {
         if (count % 2 != 0) {
           missingPrimes.add(prime);
           oddTerms.add(count == 1 ? "$prime" : "$prime^{$count}");
+          newIndexForm.add("$prime^{${count + 1}}");
+        } else {
+          newIndexForm.add(count == 1 ? "$prime" : "$prime^{$count}");
         }
-      }
+      });
 
       if (missingPrimes.isEmpty) {
-        workings.add("n = 1");
-        steps.add(SquareRootStep(
-            explanation: "Since all prime factors already have EVEN powers, the expression is ALREADY a perfect square! So, n = 1.",
-            mathLaTeX: "n = 1"
-        ));
         return SquaresRootsResult(
-            finalAnswerLaTeX: "1",
-            workingsLaTeX: workings,
-            steps: steps
+          valid: false, finalAnswerLaTeX: "", workingsLaTeX: [], steps: [],
+          errorMessage: "The given expression is ALREADY a perfect square! (n = 1)",
         );
       }
 
       steps.add(SquareRootStep(
-        explanation: "Identify the prime factors that currently have an ODD power. Here, these are: ${oddTerms.join(' and ')}.",
+        explanation: "Identify the prime factors that have an ODD power. In our expression, these are: \$${oddTerms.join('\$ and \$')}\$.",
       ));
 
       steps.add(SquareRootStep(
-        explanation: "To make these powers even, we must multiply the expression by one more of each of these primes.",
+        explanation: "To make these powers even, we need to multiply the expression by one more of each prime that has an odd power.",
       ));
 
-      workings.add("n = ${missingPrimes.join(' \\times ')}");
-      steps.add(SquareRootStep(
-          explanation: "Therefore, 'n' is the product of these missing primes.",
-          mathLaTeX: "n = ${missingPrimes.join(' \\times ')}"
-      ));
+      if (missingPrimes.length > 1) {
+        workings.add("\\text{Missing Primes} = ${missingPrimes.join(' \\times ')}");
+      }
 
       int nValue = missingPrimes.fold(1, (a, b) => a * b);
-      if (missingPrimes.length > 1) {
-        workings.add("n = $nValue");
-        steps.add(SquareRootStep(
-            explanation: "Multiply them together to get the smallest value of n.",
-            mathLaTeX: "n = $nValue"
-        ));
-      }
+      workings.add("n = $nValue");
+
+      steps.add(SquareRootStep(
+          explanation: "Step 5: The missing primes we need are ${missingPrimes.join(' and ')}. Multiply them together to find 'n'.",
+          mathLaTeX: "n = ${missingPrimes.join(' \\times ')} = $nValue"
+      ));
+
+      workings.add("\\text{New Perfect Square} = ${newIndexForm.join(' \\times ')}");
+      steps.add(SquareRootStep(
+          explanation: "If we multiply the original expression by 'n', all the powers become even, creating a perfect square!",
+          mathLaTeX: "${newIndexForm.join(' \\times ')}"
+      ));
 
       return SquaresRootsResult(
           finalAnswerLaTeX: "$nValue",
@@ -581,7 +606,7 @@ class SquaresRootsLogic {
     } catch (e) {
       return SquaresRootsResult(
         valid: false, finalAnswerLaTeX: "", workingsLaTeX: [], steps: [],
-        errorMessage: "Invalid format. Use numbers or index form (e.g. 2^3 x 5 x n or 24).",
+        errorMessage: "Invalid format. Use numbers or index form (e.g. 2^3 x 5 x n).",
       );
     }
   }

@@ -95,8 +95,8 @@ class _SquaresAndRootsScreenState extends State<SquaresAndRootsScreen> {
       return TextField(
         controller: _findNController,
         decoration: InputDecoration(
-          labelText: "Enter Expression",
-          hintText: "e.g. 2^3 x 5^2 x 11 x n or 24",
+          labelText: "Enter Expression or Word Problem",
+          hintText: "e.g. 540 or 2^3 x 5^2 x n",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           prefixIcon: const Icon(Icons.search, color: Colors.deepPurple),
         ),
@@ -120,7 +120,7 @@ class _SquaresAndRootsScreenState extends State<SquaresAndRootsScreen> {
       );
     }
 
-    String finalLabel = _selectedMode == 0 ? "Square Root" : "Smallest value of n";
+    String finalLabel = _selectedMode == 0 ? "Square Root" : "Smallest Multiplier (n)";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -191,7 +191,7 @@ class _SquaresAndRootsScreenState extends State<SquaresAndRootsScreen> {
               foregroundColor: Colors.deepPurple,
               child: Text('${e.key+1}', style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
-            title: Text(e.value.explanation, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+            title: _buildExplanationText(e.value.explanation),
             subtitle: e.value.mathLaTeX != null
                 ? Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -209,6 +209,26 @@ class _SquaresAndRootsScreenState extends State<SquaresAndRootsScreen> {
         const SizedBox(height: 40),
       ],
     );
+  }
+
+  Widget _buildExplanationText(String text) {
+    final parts = text.split('\$');
+    if (parts.length <= 1) {
+      return Text(text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500));
+    }
+
+    List<Widget> children = [];
+    for (int i = 0; i < parts.length; i++) {
+      if (i % 2 == 1) {
+        children.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+          child: Math.tex(parts[i], textStyle: const TextStyle(fontSize: 15, color: Colors.deepPurple, fontWeight: FontWeight.bold)),
+        ));
+      } else if (parts[i].isNotEmpty) {
+        children.add(Text(parts[i], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)));
+      }
+    }
+    return Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: children);
   }
 
   @override
