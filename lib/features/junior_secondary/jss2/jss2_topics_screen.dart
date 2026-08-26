@@ -15,14 +15,12 @@ const Map<String, List<String>> jss2Topics = {
     'Standard Form',
   ],
   'Directed Numbers': [
-    'Addition & Subtraction',
-    'Multiplication',
-    'Division',
+    'Basic Operations',
   ],
   'Statistics 1': [
-    'Data Presentation',
-    'Lists and Tables',
-    'Graphs',
+    'Frequency Distribution Table',
+    'Bar Chart',
+    'Pie Chart',
   ],
   'Angles 1': [
     'Angles in a Quadrilateral',

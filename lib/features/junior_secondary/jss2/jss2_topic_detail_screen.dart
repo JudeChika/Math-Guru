@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/divisibility_rules/divisibility_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/factors_and_primes/factors_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/hcf_lcm/hcf_lcm_screen.dart';
@@ -41,6 +42,9 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Squares & Square Roots') {
       return const SquaresAndRootsScreen();
+    }
+    if (subtopic == 'Basic Operations') {
+      return const DirectedNumbersScreen();
     }
     return Scaffold(
       appBar: AppBar(
