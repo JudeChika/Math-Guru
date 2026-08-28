@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'dart:math' as math;
 import 'geometry_angles_models.dart';
@@ -497,7 +496,7 @@ class TriangleParallelsPainter extends CustomPainter {
     canvas.drawLine(Offset(0, y1), Offset(size.width, y1), paint);
     canvas.drawLine(Offset(0, y2), Offset(size.width, y2), paint);
 
-    // Draw Triangle Transversals intersecting at top line
+    // Draw Triangle Transverses intersecting at top line
     canvas.drawLine(Offset(size.width * 0.75, 0), Offset(size.width * 0.1, size.height), transPaint);
     canvas.drawLine(Offset(size.width * 0.25, 0), Offset(size.width * 0.9, size.height), transPaint);
 

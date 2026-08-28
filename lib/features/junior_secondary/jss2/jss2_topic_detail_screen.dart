@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:math_guru/features/junior_secondary/jss1/angles/geometry_angles/angles_rules_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/statistics/bar_chart/bar_chart_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/angles_between_lines/geometry_angles_screen.dart' hide GeometryAnglesScreen;
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';

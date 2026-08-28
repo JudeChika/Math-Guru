@@ -58,8 +58,11 @@ class _NumberPatternsScreenState extends State<NumberPatternsScreen> {
       }
       final res = NumberPatternsLogic.calculateMultiples(_rangeController.text, _multipleOfController.text);
       setState(() {
-        if (!res.valid) _errorMessage = res.errorMessage;
-        else _multiplesResult = res;
+        if (!res.valid) {
+          _errorMessage = res.errorMessage;
+        } else {
+          _multiplesResult = res;
+        }
       });
     } else if (_selectedMode == 1) {
       if (_sequenceController.text.isEmpty || _nthTermController.text.isEmpty) {

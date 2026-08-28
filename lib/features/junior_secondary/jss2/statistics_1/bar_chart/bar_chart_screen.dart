@@ -338,8 +338,9 @@ class BarChartPainter extends CustomPainter {
 
     // Calculate a good scale step (e.g. going up by 1s, 2s, 5s, or 10s depending on max size)
     int ySteps = 5;
-    if (maxFrequency <= 5) ySteps = maxFrequency;
-    else if (maxFrequency <= 10) ySteps = 5;
+    if (maxFrequency <= 5) {
+      ySteps = maxFrequency;
+    } else if (maxFrequency <= 10) ySteps = 5;
     else if (maxFrequency <= 20) ySteps = 4;
     else ySteps = 5;
 

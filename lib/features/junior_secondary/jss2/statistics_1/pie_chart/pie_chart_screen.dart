@@ -129,8 +129,8 @@ class _PieChartScreenState extends State<PieChartScreen> {
             ),
             child: Column(
               children: [
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Expanded(child: Text("Item / Category", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple))),
                     SizedBox(width: 12),
                     Expanded(child: Text("Frequency", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple))),

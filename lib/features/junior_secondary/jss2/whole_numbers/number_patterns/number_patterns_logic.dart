@@ -98,7 +98,7 @@ class NumberPatternsLogic {
   static SequenceResult calculateNextTerms(String sequenceInput, String nInput) {
     try {
       final n = int.parse(nInput.trim());
-      if (n <= 0) throw FormatException();
+      if (n <= 0) throw const FormatException();
 
       final rawTerms = sequenceInput.split(RegExp(r'[, ]+')).where((s) => s.isNotEmpty).toList();
       if (rawTerms.length < 3) {

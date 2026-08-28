@@ -24,7 +24,7 @@ class SquaresRootsLogic {
       }
 
       String trimmed = bestMatch.isNotEmpty ? bestMatch.trim() : input.trim();
-      if (trimmed.isEmpty) throw FormatException();
+      if (trimmed.isEmpty) throw const FormatException();
 
       // Handle Mixed and Proper/Improper Fractions
       if (trimmed.contains('/')) {
@@ -34,14 +34,14 @@ class SquaresRootsLogic {
           final fracParts = parts[1].split('/');
           int fracNum = int.parse(fracParts[0]);
           int den = int.parse(fracParts[1]);
-          if (whole <= 0 || fracNum < 0 || den <= 0) throw FormatException();
+          if (whole <= 0 || fracNum < 0 || den <= 0) throw const FormatException();
           int num = (whole * den) + fracNum;
           return _solveFractionRoot(num, den, method, originalWhole: whole, originalNum: fracNum);
         } else {
           final parts = trimmed.split('/');
           int num = int.parse(parts[0]);
           int den = int.parse(parts[1]);
-          if (num <= 0 || den <= 0) throw FormatException("Numbers must be positive.");
+          if (num <= 0 || den <= 0) throw const FormatException("Numbers must be positive.");
           return _solveFractionRoot(num, den, method);
         }
       }
@@ -49,7 +49,7 @@ class SquaresRootsLogic {
       // Handle Whole Numbers
       final cleanInput = trimmed.replaceAll(' ', '');
       final number = int.parse(cleanInput);
-      if (number <= 0) throw FormatException("Number must be positive.");
+      if (number <= 0) throw const FormatException("Number must be positive.");
       return _solveWholeNumberRoot(number, method);
 
     } catch (e) {
@@ -498,7 +498,7 @@ class SquaresRootsLogic {
       if (clean.endsWith('n')) clean = clean.substring(0, clean.length - 1); // strip trailing n
       if (clean.endsWith('x') || clean.endsWith('*')) clean = clean.substring(0, clean.length - 1);
 
-      if (clean.isEmpty) throw FormatException();
+      if (clean.isEmpty) throw const FormatException();
 
       List<String> terms = clean.split(RegExp(r'[x\*]'));
       Map<int, int> primeCounts = {};
@@ -594,7 +594,7 @@ class SquaresRootsLogic {
       workings.add("\\text{New Perfect Square} = ${newIndexForm.join(' \\times ')}");
       steps.add(SquareRootStep(
           explanation: "If we multiply the original expression by 'n', all the powers become even, creating a perfect square!",
-          mathLaTeX: "${newIndexForm.join(' \\times ')}"
+          mathLaTeX: newIndexForm.join(' \\times ')
       ));
 
       return SquaresRootsResult(

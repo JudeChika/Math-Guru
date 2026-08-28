@@ -24,8 +24,9 @@ class AnglesRulesSolver {
     String res = "";
     if (t.coeff != 0) {
       String cStr = "";
-      if (t.coeff == 1) cStr = "";
-      else if (t.coeff == -1) cStr = "-";
+      if (t.coeff == 1) {
+        cStr = "";
+      } else if (t.coeff == -1) cStr = "-";
       else cStr = _fmt(t.coeff);
       res += "$cStr${t.variable}";
     }
@@ -306,9 +307,9 @@ class AnglesRulesSolver {
         }
       });
 
-      ['top', 'right', 'bottom', 'left'].forEach((k) {
+      for (var k in ['top', 'right', 'bottom', 'left']) {
         finalAngles["Angle ${k.toUpperCase()}"] = "${_fmt(solved[k]!)}°";
-      });
+      }
 
       return AnglesRuleResult(diagramType: 'Intersecting Lines', finalAngles: finalAngles, workings: workings, steps: steps);
 

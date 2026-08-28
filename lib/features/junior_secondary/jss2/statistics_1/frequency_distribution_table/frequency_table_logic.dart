@@ -124,7 +124,7 @@ class FrequencyTableLogic {
       List<String> modes = tableRows.where((r) => r.frequency == maxFreq).map((r) => r.value).toList();
 
       if (modes.length == tableRows.length) {
-        interpretations.add("Mode (Most Frequent): All items appear exactly ${maxFreq} time(s). There is no specific mode!");
+        interpretations.add("Mode (Most Frequent): All items appear exactly $maxFreq time(s). There is no specific mode!");
       } else {
         String modeStr = modes.join(', ');
         interpretations.add("Mode (Most Frequent): [$modeStr] appeared the most, showing up $maxFreq time(s).");
