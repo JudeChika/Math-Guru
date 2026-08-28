@@ -1,4 +1,4 @@
-import 'geometry_angles_models.dart';
+import 'angles_rules_models.dart';
 
 class GeometryAnglesSolver {
   static String _format(double n) {

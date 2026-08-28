@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss1/angles/geometry_angles/angles_rules_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/statistics/bar_chart/bar_chart_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/angles_between_lines/geometry_angles_screen.dart' hide GeometryAnglesScreen;
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/statistics_1/frequency_distribution_table/frequency_table_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/statistics_1/pie_chart/pie_chart_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/divisibility_rules/divisibility_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/factors_and_primes/factors_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/hcf_lcm/hcf_lcm_screen.dart';
@@ -45,6 +50,18 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Basic Operations') {
       return const DirectedNumbersScreen();
+    }
+    if (subtopic == 'Frequency Distribution Table') {
+      return const FrequencyTableScreen();
+    }
+    if (subtopic == 'Bar Chart') {
+      return const BarChartScreen();
+    }
+    if (subtopic == 'Pie Chart') {
+      return const PieChartScreen();
+    }
+    if (subtopic == 'Angles Between Lines') {
+      return const AnglesRulesScreen();
     }
     return Scaffold(
       appBar: AppBar(

@@ -22,9 +22,10 @@ const Map<String, List<String>> jss2Topics = {
     'Bar Chart',
     'Pie Chart',
   ],
-  'Angles 1': [
+  'Angles 1: Angles in a Polygon': [
+    'Angles Between Lines',
+    'Angles in a Triangle',
     'Angles in a Quadrilateral',
-    'Angles in a Polygon',
   ],
   'Algebraic Expressions (Expansion)': [
     'Directed Algebraic terms',

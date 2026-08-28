@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'geometry_angles_solver.dart';
-import 'geometry_angles_models.dart';
+import 'angles_rules_solver.dart';
+import 'angles_rules_models.dart';
 
 class GeometryAnglesScreen extends StatefulWidget {
   const GeometryAnglesScreen({super.key});

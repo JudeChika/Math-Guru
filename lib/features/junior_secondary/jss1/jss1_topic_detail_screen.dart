@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss1/algebra/basic_operations/algebra_operations_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/algebra/world_problems/algebra_input_and_solution_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/angles/angle_of_rotation/angle_rotation_screen.dart';
-import 'package:math_guru/features/junior_secondary/jss1/angles/geometry_angles/geometry_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss1/angles/geometry_angles/angles_rules_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/addition_subtraction/addition_subtraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/multiplication_division/approximation_mul_div_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss1/approximation/rounding_off_numbers/rounding_screen.dart';
