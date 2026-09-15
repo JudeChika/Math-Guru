@@ -26,8 +26,11 @@ class AnglesRulesSolver {
       String cStr = "";
       if (t.coeff == 1) {
         cStr = "";
-      } else if (t.coeff == -1) cStr = "-";
-      else cStr = _fmt(t.coeff);
+      } else if (t.coeff == -1) {
+        cStr = "-";
+      } else {
+        cStr = _fmt(t.coeff);
+      }
       res += "$cStr${t.variable}";
     }
     if (t.constant > 0 && t.coeff != 0) {

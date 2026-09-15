@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss1/statistics/bar_chart/bar_chart_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/angles_between_lines/geometry_angles_screen.dart' hide GeometryAnglesScreen;
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/heptagon_angles/heptagon_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/hexagon_angles/hexagon_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/n_gon_angles/n_gon_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/octagon_angles/octagon_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/pentagon_angles/pentagon_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/quadrilateral_angles/quadrilateral_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/triangle_angles/triangle_angles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/frequency_distribution_table/frequency_table_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/pie_chart/pie_chart_screen.dart';
@@ -61,6 +68,27 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Angles Between Lines') {
       return const AnglesRulesScreen();
+    }
+    if (subtopic == 'Angles in a Triangle') {
+      return const TriangleAnglesScreen();
+    }
+    if (subtopic == 'Angles in a Quadrilateral') {
+      return const QuadrilateralAnglesScreen();
+    }
+    if (subtopic == 'Angles in a Pentagon') {
+      return const PentagonAnglesScreen();
+    }
+    if (subtopic == 'Angles in a Hexagon') {
+      return const HexagonAnglesScreen();
+    }
+    if (subtopic == 'Angles in a Heptagon') {
+      return const HeptagonAnglesScreen();
+    }
+    if (subtopic == 'Angles in an Octagon') {
+      return const OctagonAnglesScreen();
+    }
+    if (subtopic == 'n-gon Angles') {
+      return const NSidedPolygonScreen();
     }
     return Scaffold(
       appBar: AppBar(

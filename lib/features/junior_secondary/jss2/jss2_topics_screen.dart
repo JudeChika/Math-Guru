@@ -26,6 +26,11 @@ const Map<String, List<String>> jss2Topics = {
     'Angles Between Lines',
     'Angles in a Triangle',
     'Angles in a Quadrilateral',
+    'Angles in a Pentagon',
+    'Angles in a Hexagon',
+    'Angles in a Heptagon',
+    'Angles in an Octagon',
+    'n-gon Angles',
   ],
   'Algebraic Expressions (Expansion)': [
     'Directed Algebraic terms',
