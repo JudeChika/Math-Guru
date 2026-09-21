@@ -365,8 +365,9 @@ class EqualRule extends HeptagonRule {
               String subLatex = "${pos.toUpperCase()} = ${HeptagonAnglesSolver._toAlgStr(term)}";
 
               String constStr = "";
-              if (term.constant > 0) constStr = " + ${fmt(term.constant)}";
-              else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
+              if (term.constant > 0) {
+                constStr = " + ${fmt(term.constant)}";
+              } else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
 
               String subLatex2 = "";
               if (term.isPureVariable) {
@@ -437,8 +438,9 @@ class HeptagonAnglesSolver {
     String res = "";
     if (t.coeff != 0) {
       String cStr = "";
-      if (t.coeff == 1) cStr = "";
-      else if (t.coeff == -1) cStr = "-";
+      if (t.coeff == 1) {
+        cStr = "";
+      } else if (t.coeff == -1) cStr = "-";
       else cStr = _fmt(t.coeff);
       res += "$cStr${t.variable}";
     }
@@ -470,8 +472,9 @@ class HeptagonAnglesSolver {
       if (match != null) {
         variable = match.group(2)!;
         String cStr = match.group(1)!;
-        if (cStr == '' || cStr == '+') coeff += 1;
-        else if (cStr == '-') coeff -= 1;
+        if (cStr == '' || cStr == '+') {
+          coeff += 1;
+        } else if (cStr == '-') coeff -= 1;
         else coeff += double.parse(cStr);
       } else if (RegExp(r'^[+-]?\d*\.?\d+$').hasMatch(p)) {
         constant += double.parse(p);

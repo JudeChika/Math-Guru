@@ -48,11 +48,11 @@ class SumRule extends OctagonRule {
       double val = target - sum;
       solved[missingPos!] = val;
 
-      String formula = positions.map((p) => p.toUpperCase()).join(' + ') + " = ${fmt(target)}^\\circ";
-      String substitution = positions.map((p) => p == missingPos ? missingPos!.toUpperCase() : "${fmt(solved[p]!)}^\\circ").join(' + ') + " = ${fmt(target)}^\\circ";
-      String simplification = "${fmt(sum)}^\\circ + ${missingPos!.toUpperCase()} = ${fmt(target)}^\\circ";
-      String isolation = "${missingPos!.toUpperCase()} = ${fmt(target)}^\\circ - ${fmt(sum)}^\\circ";
-      String result = "${missingPos!.toUpperCase()} = ${fmt(val)}^\\circ";
+      String formula = "${positions.map((p) => p.toUpperCase()).join(' + ')} = ${fmt(target)}^\\circ";
+      String substitution = "${positions.map((p) => p == missingPos ? missingPos!.toUpperCase() : "${fmt(solved[p]!)}^\\circ").join(' + ')} = ${fmt(target)}^\\circ";
+      String simplification = "${fmt(sum)}^\\circ + ${missingPos.toUpperCase()} = ${fmt(target)}^\\circ";
+      String isolation = "${missingPos.toUpperCase()} = ${fmt(target)}^\\circ - ${fmt(sum)}^\\circ";
+      String result = "${missingPos.toUpperCase()} = ${fmt(val)}^\\circ";
 
       workings.addAll([formula, substitution, simplification, isolation, result]);
       workings.add(""); // Add empty line after calculation block
@@ -75,7 +75,7 @@ class SumRule extends OctagonRule {
       ));
 
       steps.add(OctagonAnglesStep(
-          title: "Step 3: Solve for Angle ${missingPos!.toUpperCase()}",
+          title: "Step 3: Solve for Angle ${missingPos.toUpperCase()}",
           description: "Finally, we subtract our total from ${fmt(target)}° to find the missing angle.",
           mathLaTeX: "$isolation \\Rightarrow $result"
       ));
@@ -113,8 +113,8 @@ class SumRule extends OctagonRule {
       if (coeffSum != 0) {
         double xVal = (target - constSum) / coeffSum;
 
-        String formula = positions.map((p) => p.toUpperCase()).join(' + ') + " = ${fmt(target)}^\\circ";
-        String eq1 = exprs.join(' + ') + " = ${fmt(target)}^\\circ";
+        String formula = "${positions.map((p) => p.toUpperCase()).join(' + ')} = ${fmt(target)}^\\circ";
+        String eq1 = "${exprs.join(' + ')} = ${fmt(target)}^\\circ";
 
         workings.add(formula);
         workings.add(eq1);
@@ -365,8 +365,9 @@ class EqualRule extends OctagonRule {
               String subLatex = "${pos.toUpperCase()} = ${OctagonAnglesSolver._toAlgStr(term)}";
 
               String constStr = "";
-              if (term.constant > 0) constStr = " + ${fmt(term.constant)}";
-              else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
+              if (term.constant > 0) {
+                constStr = " + ${fmt(term.constant)}";
+              } else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
 
               String subLatex2 = "";
               if (term.isPureVariable) {
@@ -437,8 +438,9 @@ class OctagonAnglesSolver {
     String res = "";
     if (t.coeff != 0) {
       String cStr = "";
-      if (t.coeff == 1) cStr = "";
-      else if (t.coeff == -1) cStr = "-";
+      if (t.coeff == 1) {
+        cStr = "";
+      } else if (t.coeff == -1) cStr = "-";
       else cStr = _fmt(t.coeff);
       res += "$cStr${t.variable}";
     }
@@ -470,8 +472,9 @@ class OctagonAnglesSolver {
       if (match != null) {
         variable = match.group(2)!;
         String cStr = match.group(1)!;
-        if (cStr == '' || cStr == '+') coeff += 1;
-        else if (cStr == '-') coeff -= 1;
+        if (cStr == '' || cStr == '+') {
+          coeff += 1;
+        } else if (cStr == '-') coeff -= 1;
         else coeff += double.parse(cStr);
       } else if (RegExp(r'^[+-]?\d*\.?\d+$').hasMatch(p)) {
         constant += double.parse(p);

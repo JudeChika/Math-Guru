@@ -34,6 +34,7 @@ const Map<String, List<String>> jss2Topics = {
   ],
   'Algebraic Expressions (Expansion)': [
     'Directed Algebraic terms',
+    'Substitution',
     'Removing Brackets',
     'Expanding Algebraic Expressions',
   ],

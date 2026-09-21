@@ -50,9 +50,9 @@ class SumRule extends PentagonRule {
 
       String formula = "${positions.map((p) => p.toUpperCase()).join(' + ')} = ${fmt(target)}^\\circ";
       String substitution = "${positions.map((p) => p == missingPos ? missingPos!.toUpperCase() : "${fmt(solved[p]!)}^\\circ").join(' + ')} = ${fmt(target)}^\\circ";
-      String simplification = "${fmt(sum)}^\\circ + ${missingPos!.toUpperCase()} = ${fmt(target)}^\\circ";
-      String isolation = "${missingPos!.toUpperCase()} = ${fmt(target)}^\\circ - ${fmt(sum)}^\\circ";
-      String result = "${missingPos!.toUpperCase()} = ${fmt(val)}^\\circ";
+      String simplification = "${fmt(sum)}^\\circ + ${missingPos.toUpperCase()} = ${fmt(target)}^\\circ";
+      String isolation = "${missingPos.toUpperCase()} = ${fmt(target)}^\\circ - ${fmt(sum)}^\\circ";
+      String result = "${missingPos.toUpperCase()} = ${fmt(val)}^\\circ";
 
       workings.addAll([formula, substitution, simplification, isolation, result]);
       workings.add(""); // Add empty line after calculation block
@@ -75,7 +75,7 @@ class SumRule extends PentagonRule {
       ));
 
       steps.add(PentagonAnglesStep(
-          title: "Step 3: Solve for Angle ${missingPos!.toUpperCase()}",
+          title: "Step 3: Solve for Angle ${missingPos.toUpperCase()}",
           description: "Finally, we subtract our total from ${fmt(target)}° to find the missing angle.",
           mathLaTeX: "$isolation \\Rightarrow $result"
       ));
@@ -194,8 +194,9 @@ class SumRule extends PentagonRule {
             String subLatex = "${pos.toUpperCase()} = ${PentagonAnglesSolver._toAlgStr(term)}";
 
             String constStr = "";
-            if (term.constant > 0) constStr = " + ${fmt(term.constant)}";
-            else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
+            if (term.constant > 0) {
+              constStr = " + ${fmt(term.constant)}";
+            } else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
 
             String subLatex2 = "";
             if (term.isPureVariable) {
@@ -376,8 +377,9 @@ class EqualRule extends PentagonRule {
               String subLatex = "${pos.toUpperCase()} = ${PentagonAnglesSolver._toAlgStr(term)}";
 
               String constStr = "";
-              if (term.constant > 0) constStr = " + ${fmt(term.constant)}";
-              else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
+              if (term.constant > 0) {
+                constStr = " + ${fmt(term.constant)}";
+              } else if (term.constant < 0) constStr = " - ${fmt(term.constant.abs())}";
 
               String subLatex2 = "";
               if (term.isPureVariable) {

@@ -413,8 +413,9 @@ class NSidedPolygonSolver {
           String subLatex = "\\text{Angle } ${i+1} = ${_toAlgStr(term)}";
 
           String constStr = "";
-          if (term.constant > 0) constStr = " + ${_fmt(term.constant)}";
-          else if (term.constant < 0) constStr = " - ${_fmt(term.constant.abs())}";
+          if (term.constant > 0) {
+            constStr = " + ${_fmt(term.constant)}";
+          } else if (term.constant < 0) constStr = " - ${_fmt(term.constant.abs())}";
 
           String subLatex2 = "";
           if (term.isPureVariable) {

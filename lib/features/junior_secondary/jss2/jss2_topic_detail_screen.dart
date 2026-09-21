@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss1/statistics/bar_chart/bar_chart_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/algebraic_expressions/directed_algebraic_terms/directed_algebra_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/algebraic_expressions/expanding_expressions/expanding_expressions_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/algebraic_expressions/removing_brackets/removing_brackets_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/algebraic_expressions/substitution/substitution_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/angles_between_lines/geometry_angles_screen.dart' hide GeometryAnglesScreen;
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/heptagon_angles/heptagon_angles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/hexagon_angles/hexagon_angles_screen.dart';
@@ -8,6 +12,8 @@ import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/oct
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/pentagon_angles/pentagon_angles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/quadrilateral_angles/quadrilateral_angles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/triangle_angles/triangle_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/approximation/approximation_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/estimation/estimation_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/frequency_distribution_table/frequency_table_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/pie_chart/pie_chart_screen.dart';
@@ -89,6 +95,24 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'n-gon Angles') {
       return const NSidedPolygonScreen();
+    }
+    if (subtopic == 'Directed Algebraic terms') {
+      return const DirectedAlgebraScreen();
+    }
+    if (subtopic == 'Substitution') {
+      return const SubstitutionScreen();
+    }
+    if (subtopic == 'Removing Brackets') {
+      return const RemovingBracketsScreen();
+    }
+    if (subtopic == 'Expanding Algebraic Expressions') {
+      return const ExpandingExpressionsScreen();
+    }
+    if (subtopic == 'Approximation') {
+      return const ApproximationScreen();
+    }
+    if (subtopic == 'Estimation') {
+      return const EstimationScreen();
     }
     return Scaffold(
       appBar: AppBar(
