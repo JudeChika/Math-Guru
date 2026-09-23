@@ -43,7 +43,7 @@ const Map<String, List<String>> jss2Topics = {
     'Estimation',
   ],
   'Fractions, Proportions, Ratio, Rate': [
-    'Fractions',
+    'Fractions & Percentages',
     'Proportions',
     'Ratio',
     'Rate',

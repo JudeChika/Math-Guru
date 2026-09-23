@@ -14,7 +14,11 @@ import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/qua
 import 'package:math_guru/features/junior_secondary/jss2/angles_in_a_polygon/triangle_angles/triangle_angles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/approximation/approximation_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/estimation/estimation_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/rate/rate_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/ratio/ratio_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/fractions_percentages/fractions_percentages_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/proportion/proportion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/frequency_distribution_table/frequency_table_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/pie_chart/pie_chart_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/divisibility_rules/divisibility_screen.dart';
@@ -113,6 +117,18 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Estimation') {
       return const EstimationScreen();
+    }
+    if (subtopic == 'Fractions & Percentages') {
+      return const FractionsPercentagesScreen();
+    }
+    if (subtopic == 'Proportions') {
+      return const ProportionScreen();
+    }
+    if (subtopic == 'Ratio') {
+      return const RatioScreen();
+    }
+    if (subtopic == 'Rate') {
+      return const RateScreen();
     }
     return Scaffold(
       appBar: AppBar(
