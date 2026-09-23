@@ -88,9 +88,9 @@ class _RateScreenState extends State<RateScreen> {
       
       RULES:
       1. Return ONLY a valid JSON object. No markdown, no backticks, no explanations.
-      2. If it is a price reduction/discount problem, set "type" to "reduction" and extract "oldPrice" and "newPrice" as pure numbers.
+      2. If it is a price reduction/discount problem, set "type" to "reduction" and extract "oldPrice" and "newPrice" INCLUDING their currency symbols (e.g. "\\\$400", "₦360").
       3. If it is a speed, wage, consumption, or general rate problem, set "type" to "standard".
-         - Extract the quantity to be divided as "numQty" (e.g. 160) and its unit as "numUnit" (e.g. km, ₦).
+         - Extract the quantity to be divided as "numQty" (e.g. 160) and its exact unit as "numUnit" (e.g. km, \\\$, ₦).
          - Extract the base quantity/time as "denQty" (e.g. 2) and its unit as "denUnit" (e.g. h, days).
       
       JSON FORMAT EXACTLY LIKE THIS:
@@ -179,8 +179,8 @@ class _RateScreenState extends State<RateScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(color: Colors.amber.shade50, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.amber.shade200)),
-            child: Row(
-              children: const [
+            child: const Row(
+              children: [
                 Icon(Icons.auto_awesome, color: Colors.amber),
                 SizedBox(width: 12),
                 Expanded(child: Text("Paste your word problem below. The AI will extract the quantities and automatically find the rate!", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13))),
@@ -237,16 +237,16 @@ class _RateScreenState extends State<RateScreen> {
                 const Text("For  ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 Expanded(flex: 2, child: _buildSmallField(_denQtyController, "e.g. 2")),
                 const SizedBox(width: 8),
-                Expanded(flex: 3, child: _buildSmallField(_denUnitController, "hours (h)")),
+                Expanded(flex: 3, child: _buildSmallField(_denUnitController, "measuring unit")),
               ],
             ),
             const SizedBox(height: 12),
             Row(
               children: [
                 const Text("The value is  ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Expanded(flex: 2, child: _buildSmallField(_numQtyController, "e.g. 160")),
+                Expanded(flex: 2, child: _buildSmallField(_numQtyController, "e.g. 160 or 12000")),
                 const SizedBox(width: 8),
-                Expanded(flex: 3, child: _buildSmallField(_numUnitController, "km")),
+                Expanded(flex: 3, child: _buildSmallField(_numUnitController, "measuring unit")),
               ],
             ),
           ] else ...[
@@ -254,17 +254,17 @@ class _RateScreenState extends State<RateScreen> {
             const SizedBox(height: 8),
             Row(
               children: [
-                const Text("Old Price: ₦", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text("Old Price: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(width: 8),
-                Expanded(child: _buildSmallField(_oldPriceController, "e.g. 400")),
+                Expanded(child: _buildSmallField(_oldPriceController, "e.g. \$400 or ₦400")),
               ],
             ),
             const SizedBox(height: 12),
             Row(
               children: [
-                const Text("New Price: ₦", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text("New Price: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(width: 8),
-                Expanded(child: _buildSmallField(_newPriceController, "e.g. 360")),
+                Expanded(child: _buildSmallField(_newPriceController, "e.g. \$360 or ₦360")),
               ],
             ),
           ],
