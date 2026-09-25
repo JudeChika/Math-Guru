@@ -89,11 +89,11 @@ class ProportionLogic {
         // Handle standard numeric requests
         double finalAnsNum = 0;
         if (isDirect) {
-          finalAnsNum = oneUnitValue * newQtyNum!;
+          finalAnsNum = oneUnitValue * newQtyNum;
           finalEq = "${_fmt(newQtyNum)} \\times ${_fmt(oneUnitValue)}";
           step3Desc = "Now we find the final amount. In direct proportion, more units mean more $targetUnit, so we MULTIPLY our 1-unit rate by ${_fmt(newQtyNum)}.";
         } else {
-          finalAnsNum = oneUnitValue / newQtyNum!;
+          finalAnsNum = oneUnitValue / newQtyNum;
           finalEq = "${_fmt(oneUnitValue)} \\div ${_fmt(newQtyNum)}";
           step3Desc = "Now we find the final amount. In inverse proportion, more units mean less $targetUnit, so we DIVIDE our 1-unit rate by ${_fmt(newQtyNum)}.";
         }
@@ -106,7 +106,7 @@ class ProportionLogic {
           description: step3Desc,
           mathLaTeX: isVariable
               ? "$variableName \\text{ $givenUnit} = $finalEq = $finalAnswerStr"
-              : "${_fmt(newQtyNum!)} \\text{ $givenUnit} = $finalEq = $finalAnswerStr"
+              : "${_fmt(newQtyNum)} \\text{ $givenUnit} = $finalEq = $finalAnswerStr"
       ));
 
       return ProportionResult(
@@ -114,7 +114,7 @@ class ProportionLogic {
         givenUnit: givenUnit,
         givenTarget: _fmt(givenTgt),
         targetUnit: targetUnit,
-        newQuantity: isVariable ? variableName : _fmt(newQtyNum!),
+        newQuantity: isVariable ? variableName : _fmt(newQtyNum),
         isDirect: isDirect,
         finalAnswerLaTeX: "$finalAnswerStr \\text{ $targetUnit}",
         workingsLaTeX: workings,

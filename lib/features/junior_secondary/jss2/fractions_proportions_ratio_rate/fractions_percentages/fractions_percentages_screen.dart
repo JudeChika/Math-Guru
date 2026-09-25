@@ -140,11 +140,11 @@ class _FractionsPercentagesScreenState extends State<FractionsPercentagesScreen>
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(color: Colors.amber.shade50, borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.amber.shade200)),
-              child: Row(
+              child: const Row(
                 children: [
-                  const Icon(Icons.lightbulb, color: Colors.amber),
-                  const SizedBox(width: 12),
-                  const Expanded(child: Text("Enter a Decimal, Fraction, or Percentage. We will automatically convert it into the other two formats!", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13))),
+                  Icon(Icons.lightbulb, color: Colors.amber),
+                  SizedBox(width: 12),
+                  Expanded(child: Text("Enter a Decimal, Fraction, or Percentage. We will automatically convert it into the other two formats!", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13))),
                 ],
               ),
             ),
@@ -200,7 +200,7 @@ class _FractionsPercentagesScreenState extends State<FractionsPercentagesScreen>
               const Divider(thickness: 2),
               const SizedBox(height: 24),
 
-              ..._result!.conversions.map((path) => _buildConversionPath(path, theme)).toList(),
+              ..._result!.conversions.map((path) => _buildConversionPath(path, theme)),
             ]
           ],
         ),

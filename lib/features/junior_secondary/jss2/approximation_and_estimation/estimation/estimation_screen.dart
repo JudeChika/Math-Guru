@@ -75,7 +75,10 @@ class _EstimationScreenState extends State<EstimationScreen> {
       const apiKey = 'AQ.Ab8RN6KkjCtOzLWqngmHJauciZcFBcOm0yrBvlw5O_-NEU_A9w';
 
       // Updated to Google's active model for 2026!
-      final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: apiKey);
+      final model = GenerativeModel(
+          model: 'gemini-3.8-flash',
+          apiKey: apiKey
+      );
 
       // Strict Prompt Engineering: Force the AI to output ONLY math, so our Dart parser doesn't crash.
       final prompt = '''

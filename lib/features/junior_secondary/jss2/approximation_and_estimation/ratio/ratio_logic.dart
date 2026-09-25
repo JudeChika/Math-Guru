@@ -149,10 +149,10 @@ class RatioLogic {
         ans = (a * d!) / c!;
         crossMath = "x = \\frac{${_fmt(a)} \\times ${_fmt(d)}}{${_fmt(c)}}";
       } else if (c == null) {
-        ans = (a * d!) / b!;
+        ans = (a * d!) / b;
         crossMath = "x = \\frac{${_fmt(a)} \\times ${_fmt(d)}}{${_fmt(b)}}";
       } else if (d == null) {
-        ans = (b! * c) / a;
+        ans = (b * c) / a;
         crossMath = "x = \\frac{${_fmt(b)} \\times ${_fmt(c)}}{${_fmt(a)}}";
       }
 

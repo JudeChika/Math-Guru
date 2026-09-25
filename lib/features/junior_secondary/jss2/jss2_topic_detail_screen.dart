@@ -19,6 +19,10 @@ import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estim
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/fractions_percentages/fractions_percentages_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/proportion/proportion_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/civic_arithmetic/civic_arithmetic_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/commercial_transactions/commercial_transactions_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/household_arithmetic/household_arithmetic_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/personal_arithmetic/personal_arithmetic_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/frequency_distribution_table/frequency_table_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/pie_chart/pie_chart_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/divisibility_rules/divisibility_screen.dart';
@@ -129,6 +133,18 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Rate') {
       return const RateScreen();
+    }
+    if (subtopic == 'Personal Arithmetic') {
+      return const PersonalArithmeticScreen();
+    }
+    if (subtopic == 'Household Arithmetic') {
+      return const HouseholdArithmeticScreen();
+    }
+    if (subtopic == 'Civic Arithmetic') {
+      return const CivicArithmeticScreen();
+    }
+    if (subtopic == 'Commercial Transactions') {
+      return const CommercialTransactionsScreen();
     }
     return Scaffold(
       appBar: AppBar(

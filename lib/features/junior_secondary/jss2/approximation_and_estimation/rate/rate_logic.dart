@@ -1,5 +1,4 @@
 import 'rate_models.dart';
-import 'dart:math' as math;
 
 class RateLogic {
 

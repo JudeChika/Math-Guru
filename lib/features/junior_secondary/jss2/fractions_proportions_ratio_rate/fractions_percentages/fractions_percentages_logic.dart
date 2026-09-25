@@ -18,8 +18,12 @@ class FractionsPercentagesLogic {
   static bool _isTerminating(int den) {
     if (den == 0) return false;
     int d = den.abs();
-    while (d % 2 == 0) d ~/= 2;
-    while (d % 5 == 0) d ~/= 5;
+    while (d % 2 == 0) {
+      d ~/= 2;
+    }
+    while (d % 5 == 0) {
+      d ~/= 5;
+    }
     return d == 1;
   }
 
@@ -27,7 +31,7 @@ class FractionsPercentagesLogic {
   static FractionsPercentagesResult solve(String input) {
     try {
       String clean = input.toLowerCase().replaceAll(' ', '');
-      if (clean.isEmpty) throw FormatException();
+      if (clean.isEmpty) throw const FormatException();
 
       bool isPercentage = clean.endsWith('%');
       if (isPercentage) clean = clean.substring(0, clean.length - 1);
@@ -162,7 +166,7 @@ class FractionsPercentagesLogic {
       originalLatex = "\\frac{$num}{$den}";
     }
 
-    if (den == 0) throw FormatException();
+    if (den == 0) throw const FormatException();
 
     String improperLatex = "\\frac{$num}{$den}";
     List<ConversionPath> conversions = [];

@@ -147,8 +147,9 @@ class _RatioScreenState extends State<RatioScreen> {
           }
         } else if (type.startsWith('percentage')) {
           _mainMode = 3;
-          if (type == 'percentage_find_val') _pctMode = 0;
-          else if (type == 'percentage_express') _pctMode = 1;
+          if (type == 'percentage_find_val') {
+            _pctMode = 0;
+          } else if (type == 'percentage_express') _pctMode = 1;
           else if (type == 'percentage_find_whole') _pctMode = 2;
 
           _pctVal1Ctrl.text = parsedJson['pctVal1']?.toString() ?? "";
