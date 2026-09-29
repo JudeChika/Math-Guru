@@ -59,6 +59,13 @@ class SeniorSection extends ConsumerWidget {
                       context.push('/sss3');
                     },
                   ),
+                  const SizedBox(height: 50),
+                  Center(
+                    child: Image.asset(
+                      "assets/images/math_guru_logo.png",
+                      width: 180,
+                    ),
+                  ),
                 ],
               ),
             ),

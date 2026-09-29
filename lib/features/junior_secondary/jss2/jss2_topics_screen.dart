@@ -64,7 +64,6 @@ const Map<String, List<String>> jss2Topics = {
     'Cartesian Planes',
     'Coordinates',
     'Plotting Points',
-    'Meters',
   ],
   'Solving Equations': [
     'Solving Equations 1',

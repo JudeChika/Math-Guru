@@ -19,6 +19,10 @@ import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estim
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/estimation/estimation_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/rate/rate_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/ratio/ratio_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/cartesian_plane/cartesian_intro_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/coordinates/coordinates_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/plotting_points/plotting_points_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/position_of_points/position_of_points_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/fractions_percentages/fractions_percentages_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/proportion/proportion_screen.dart';
@@ -157,6 +161,18 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Algebraic Fractions') {
       return const AlgebraicFractionsScreen();
+    }
+    if (subtopic == 'Position of Points') {
+      return const PositionOfPointsScreen();
+    }
+    if (subtopic == 'Cartesian Planes') {
+      return const CartesianIntroScreen();
+    }
+    if (subtopic == 'Coordinates') {
+      return const CoordinatesScreen();
+    }
+    if (subtopic == 'Plotting Points') {
+      return const PlottingPointsScreen();
     }
     return Scaffold(
       appBar: AppBar(

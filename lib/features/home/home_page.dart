@@ -225,6 +225,13 @@ class _HomeSection extends ConsumerWidget {
             subtitle: "Mathematics topics",
             onTap: () => ref.read(homeTabIndexProvider.notifier).state = 2,
           ),
+          const SizedBox(height: 100),
+          Center(
+            child: Image.asset(
+                "assets/images/math_guru_logo.png",
+              width: 180,
+            ),
+          ),
         ],
       ),
     );

@@ -58,6 +58,13 @@ class JuniorSection extends ConsumerWidget {
                       context.push('/jss3');
                     },
                   ),
+                  const SizedBox(height: 50),
+                  Center(
+                    child: Image.asset(
+                      "assets/images/math_guru_logo.png",
+                      width: 180,
+                    ),
+                  ),
                 ],
               ),
             ),
