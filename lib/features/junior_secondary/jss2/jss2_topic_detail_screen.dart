@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:math_guru/features/junior_secondary/jss1/statistics/bar_chart/bar_chart_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/algebra/algebraic_fractions/algebraic_fractions_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/algebra/factorisation_of_binomials/factorisation_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/algebra/factors_and_factorisation/algebraic_factors_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/algebraic_expressions/directed_algebraic_terms/directed_algebra_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/algebraic_expressions/expanding_expressions/expanding_expressions_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/algebraic_expressions/removing_brackets/removing_brackets_screen.dart';
@@ -145,6 +148,15 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Commercial Transactions') {
       return const CommercialTransactionsScreen();
+    }
+    if (subtopic == 'Algebraic Factors & Multiples') {
+      return const AlgebraicFactorsScreen();
+    }
+    if (subtopic == 'Factorisation') {
+      return const FactorisationScreen();
+    }
+    if (subtopic == 'Algebraic Fractions') {
+      return const AlgebraicFractionsScreen();
     }
     return Scaffold(
       appBar: AppBar(

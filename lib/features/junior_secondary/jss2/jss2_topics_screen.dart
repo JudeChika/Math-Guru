@@ -54,7 +54,7 @@ const Map<String, List<String>> jss2Topics = {
     'Civic Arithmetic',
     'Commercial Transactions',
   ],
-  'Algebra, Factors, Factorisation, Fractions': [
+  'Algebra: Factors, Factorisation, Fractions': [
     'Algebraic Factors & Multiples',
     'Factorisation',
     'Algebraic Fractions',
