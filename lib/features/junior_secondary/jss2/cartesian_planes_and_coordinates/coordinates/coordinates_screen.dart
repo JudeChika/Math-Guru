@@ -11,7 +11,7 @@ class CoordinatesScreen extends StatefulWidget {
 }
 
 class _CoordinatesScreenState extends State<CoordinatesScreen> {
-  List<Map<String, TextEditingController>> _pointControllers = [];
+  final List<Map<String, TextEditingController>> _pointControllers = [];
   CoordinateResult? _result;
   final TransformationController _graphTransformController = TransformationController();
 
@@ -161,13 +161,13 @@ class _CoordinatesScreenState extends State<CoordinatesScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 32),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Expanded(child: Text("1. Coordinate Trace Graph:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple, fontSize: 18))),
-            const SizedBox(width: 8),
-            const Padding(
+            Expanded(child: Text("1. Coordinate Trace Graph:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple, fontSize: 18))),
+            SizedBox(width: 8),
+            Padding(
               padding: EdgeInsets.only(top: 4.0),
               child: Text("💡 Drag to Pan, Pinch to Zoom", style: TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic)),
             ),

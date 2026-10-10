@@ -1,5 +1,4 @@
 import 'coordinates_models.dart';
-import 'coordinates_models.dart';
 
 class CoordinatesLogic {
 

@@ -21,20 +21,20 @@ class AuthScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 0),
 
                   // Logo + App Name
                   Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(30),
+                        padding: const EdgeInsets.all(0),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.transparent,
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Image.asset(
                           'assets/images/math_guru_logo.png',
-                          height: 100,
+                          height: 180,
                         ),
                       ),
                       const SizedBox(height: 15),

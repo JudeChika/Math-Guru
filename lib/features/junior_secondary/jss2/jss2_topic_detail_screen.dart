@@ -23,6 +23,8 @@ import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_co
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/coordinates/coordinates_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/plotting_points/plotting_points_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/position_of_points/position_of_points_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/constructions/bisect_angles/bisect_angle_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/constructions/construction_of_triangles/construct_triangles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/fractions_percentages/fractions_percentages_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/proportion/proportion_screen.dart';
@@ -30,8 +32,15 @@ import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transac
 import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/commercial_transactions/commercial_transactions_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/household_arithmetic/household_arithmetic_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/personal_arithmetic/personal_arithmetic_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/pythagoras/pythagoras_rule/pythagoras_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/solving_equations/solving_equations_1/solving_equations_1_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/solving_equations/solving_equations_2/solving_equations_2_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/solving_equations/word_problems/word_problems_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/frequency_distribution_table/frequency_table_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/pie_chart/pie_chart_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/straightline_graphs/linear_graphs/linear_graphs_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/straightline_graphs/real_life_graphs/real_life_graphs_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/straightline_graphs/travel_graphs/travel_graphs_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/divisibility_rules/divisibility_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/factors_and_primes/factors_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/whole_numbers/hcf_lcm/hcf_lcm_screen.dart';
@@ -173,6 +182,33 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Plotting Points') {
       return const PlottingPointsScreen();
+    }
+    if (subtopic == 'Solving Equations 1') {
+      return const SolvingEquationsScreen();
+    }
+    if (subtopic == 'Solving Equations 2') {
+      return const SolvingEquations2Screen();
+    }
+    if (subtopic == 'World Problems') {
+      return const WordProblemsScreen();
+    }
+    if (subtopic == 'Linear Graphs') {
+      return const LinearGraphsScreen();
+    }
+    if (subtopic == 'Graphs of Real Life Situations') {
+      return const RealLifeGraphsScreen();
+    }
+    if (subtopic == 'Travel Graphs') {
+      return const TravelGraphsScreen();
+    }
+    if (subtopic == 'Construction of Triangles') {
+      return const ConstructTrianglesScreen();
+    }
+    if (subtopic == 'To Bisect any Angle') {
+      return const BisectAngleScreen();
+    }
+    if (subtopic == 'Pythagoras Rule') {
+      return const PythagorasScreen();
     }
     return Scaffold(
       appBar: AppBar(

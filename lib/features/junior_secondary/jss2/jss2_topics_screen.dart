@@ -79,13 +79,7 @@ const Map<String, List<String>> jss2Topics = {
     'Construction of Triangles',
     'To Bisect any Angle',
   ],
-  'Scale Drawing': [
-    'Scale',
-    'Scale Drawing',
-    'Reading Scale Drawings',
-  ],
   'Pythagoras Rule': [
-    'Right-Angled Triangle',
     'Pythagoras Rule',
     'Pythagoras in Real Life',
   ],

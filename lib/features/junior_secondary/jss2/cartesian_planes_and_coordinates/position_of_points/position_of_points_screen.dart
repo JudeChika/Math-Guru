@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/position_of_points/position_of_points_logic.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/position_of_points/position_of_points_models.dart';
-import 'dart:math' as math;
 
 class PositionOfPointsScreen extends StatefulWidget {
   const PositionOfPointsScreen({super.key});
