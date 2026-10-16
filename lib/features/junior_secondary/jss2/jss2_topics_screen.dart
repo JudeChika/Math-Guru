@@ -81,7 +81,6 @@ const Map<String, List<String>> jss2Topics = {
   ],
   'Pythagoras Rule': [
     'Pythagoras Rule',
-    'Pythagoras in Real Life',
   ],
   'Statistics 2: Tables, Charts, Schedules': [
     'Reading Tabulated Data',

@@ -38,6 +38,10 @@ import 'package:math_guru/features/junior_secondary/jss2/solving_equations/solvi
 import 'package:math_guru/features/junior_secondary/jss2/solving_equations/word_problems/word_problems_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/frequency_distribution_table/frequency_table_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/statistics_1/pie_chart/pie_chart_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/statistics_2/reading_tabulated_data/reading_tabulated_data_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/statistics_2/timetables_and_charts/timetables_and_charts_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/statistics_3/experimental_probability/experimental_probability_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/statistics_3/probability_as_a_fraction/probability_as_a_fraction_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/straightline_graphs/linear_graphs/linear_graphs_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/straightline_graphs/real_life_graphs/real_life_graphs_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/straightline_graphs/travel_graphs/travel_graphs_screen.dart';
@@ -209,6 +213,18 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Pythagoras Rule') {
       return const PythagorasScreen();
+    }
+    if (subtopic == 'Reading Tabulated Data') {
+      return const ReadingTabulatedDataScreen();
+    }
+    if (subtopic == 'Timetables & Charts') {
+      return const TimetablesAndChartsScreen();
+    }
+    if (subtopic == 'Experimental Probability') {
+      return const ExperimentalProbabilityScreen();
+    }
+    if (subtopic == 'Probability as a Fraction') {
+      return const ProbabilityAsAFractionScreen();
     }
     return Scaffold(
       appBar: AppBar(
