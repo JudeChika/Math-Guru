@@ -464,7 +464,7 @@ class _ConstructTrianglesScreenState extends State<ConstructTrianglesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('15-1 Construction of Triangles')),
+      appBar: AppBar(title: const Text('Construction of Triangles')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(

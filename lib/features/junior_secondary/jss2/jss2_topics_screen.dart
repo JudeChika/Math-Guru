@@ -89,11 +89,9 @@ const Map<String, List<String>> jss2Topics = {
   'Cylinders & Cones': [
     'Cylinders',
     'Cones',
-    'Measuration & Estimation',
+    'Mensuration & Estimation',
   ],
-  'Evaluation & Depression': [
-    'Horizontal & Vertical',
-    'Elevation',
+  'Angles 2: Elevation & Depression': [
     'Scale Drawings',
   ],
   'Statistics 3: Probability': [
@@ -103,7 +101,6 @@ const Map<String, List<String>> jss2Topics = {
   'Linear Inequalities': [
     'Inequalities',
     'Graphs of Inequalities',
-    'Solution of Inequalities',
   ],
   'Graphs of Linear Equations': [
     'Linear Equations & Graphs',

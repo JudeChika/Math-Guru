@@ -19,19 +19,30 @@ import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estim
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/estimation/estimation_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/rate/rate_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/approximation_and_estimation/ratio/ratio_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/bearings_and_distances/bearings/bearings_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/bearings_and_distances/bearings_and_distances/bearings_and_distances_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/bearings_and_distances/compass_directions/compass_directions_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/cartesian_plane/cartesian_intro_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/coordinates/coordinates_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/plotting_points/plotting_points_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/cartesian_planes_and_coordinates/position_of_points/position_of_points_screen.dart';
-import 'package:math_guru/features/junior_secondary/jss2/constructions/bisect_angles/bisect_angle_screen.dart';
-import 'package:math_guru/features/junior_secondary/jss2/constructions/construction_of_triangles/construct_triangles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/graphs_3/linear_equations_graphs/linear_equations_graphs_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/graphs_3/properties_of_linear_graphs/properties_of_linear_graphs_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/triangles_and_angles/bisect_angles/bisect_angle_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/triangles_and_angles/construction_of_triangles/construct_triangles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/cylinders_and_cones/cones/cones_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/cylinders_and_cones/cylinders/cylinders_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/cylinders_and_cones/mensuration_estimation/mensuration_estimation_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/directed_numbers/basic_operations/directed_numbers_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/elevation_and_depression/scale_drawings/scale_drawings_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/fractions_percentages/fractions_percentages_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/fractions_proportions_ratio_rate/proportion/proportion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/civic_arithmetic/civic_arithmetic_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/commercial_transactions/commercial_transactions_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/household_arithmetic/household_arithmetic_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/home_and_office_transactions/personal_arithmetic/personal_arithmetic_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/linear_inequalities/graphs_of_inequalities/graphs_of_inequalities_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss2/linear_inequalities/inequalities/inequalities_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/pythagoras/pythagoras_rule/pythagoras_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/solving_equations/solving_equations_1/solving_equations_1_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss2/solving_equations/solving_equations_2/solving_equations_2_screen.dart';
@@ -220,11 +231,44 @@ class Jss2TopicDetailScreen extends StatelessWidget {
     if (subtopic == 'Timetables & Charts') {
       return const TimetablesAndChartsScreen();
     }
+    if (subtopic == 'Cylinders') {
+      return const CylindersScreen();
+    }
+    if (subtopic == 'Cones') {
+      return const ConesScreen();
+    }
+    if (subtopic == 'Mensuration & Estimation') {
+      return const MensurationEstimationScreen();
+    }
+    if (subtopic == 'Scale Drawings') {
+      return const ScaleDrawingsScreen();
+    }
     if (subtopic == 'Experimental Probability') {
       return const ExperimentalProbabilityScreen();
     }
     if (subtopic == 'Probability as a Fraction') {
       return const ProbabilityAsAFractionScreen();
+    }
+    if (subtopic == 'Inequalities') {
+      return const InequalitiesScreen();
+    }
+    if (subtopic == 'Graphs of Inequalities') {
+      return const GraphsOfInequalitiesScreen();
+    }
+    if (subtopic == 'Linear Equations & Graphs') {
+      return const LinearEquationsGraphsScreen();
+    }
+    if (subtopic == 'Properties of Linear Graphs') {
+      return const PropertiesOfLinearGraphsScreen();
+    }
+    if (subtopic == 'Compass Directions') {
+      return const CompassDirectionsScreen();
+    }
+    if (subtopic == 'Bearings') {
+      return const BearingsScreen();
+    }
+    if (subtopic == 'Bearings & Distances') {
+      return const BearingsAndDistancesScreen();
     }
     return Scaffold(
       appBar: AppBar(

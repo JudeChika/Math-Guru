@@ -33,18 +33,19 @@ class AuthScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Image.asset(
-                          'assets/images/math_guru_logo.png',
-                          height: 180,
+                          'assets/images/Math Guru Logo_white.png',
+                          height: 350,
                         ),
                       ),
                       const SizedBox(height: 15),
-                      Text(
+                      /*Text(
                         'MATH',
                         style: textTheme.headlineLarge?.copyWith(
+                          //fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                           fontSize: 40,
-                          height: 1.0, // Reduces line height
+                          height: 1.0,
                         ),
                       ),
                       Text(
@@ -55,7 +56,7 @@ class AuthScreen extends StatelessWidget {
                           fontSize: 80,
                           height: 1.0,
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
 
@@ -102,7 +103,7 @@ class AuthScreen extends StatelessWidget {
                           color: Colors.deepPurple,
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 100),
                     ],
                   )
                 ],
