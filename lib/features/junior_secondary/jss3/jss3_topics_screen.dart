@@ -3,100 +3,115 @@ import 'package:go_router/go_router.dart';
 
 /// Data structure for topics and their subtopics
 const Map<String, List<String>> jss3Topics = {
-  'Numbers & Numeration': [
-    'Roman Number System',
-    'Egyptian Number System',
-    'Hindu Number System',
-    'Counting',
-    'Place-value',
+  'Binary number system': [
+    'Conversion of Binary to Base 10',
+    'Conversion of other number bases to Binary',
+    'Application of Binary numbers to computers',
+    'Punch Tape',
+    'Flow Chart',
   ],
-  'Factors & Multiples': [
-    'LCM',
-    'HCF',
+  'Word problems': [
+    'Sum and difference',
+    'Product',
+    'Sums and differences combined with products',
+    'Word problems involving fractions',
+    'Changing numerical expressions into words',
+    'Problems involving equations',
   ],
-  'Number Base System': [
-    'Counting in binary',
-    'Binary Conversion',
+  'Proportion': [
+    'Direct proportion',
+    'Indirect proportion',
+    'Reciprocals',
+    'Reciprocals from the calculator',
   ],
-  'Fractions': [
-    'Conversion to decimal',
-    'Conversion to percentage',
-    'Number line',
-    'Addition & Subtraction',
-    'Multiplication',
-    'Division',
+  'Compound interest': [
+    'Simple interest',
+    'Compound interest',
   ],
-  'Estimation': [
-    'Dimensions & Distances',
-    'Capacity & Mass Objects',
-    'Estimation of other things',
+  'Rational and non-rational numbers': [
+    'Rational numbers',
+    'Non-rational numbers',
+    'Square roots',
   ],
-  'Approximation': [
-    'Addition & Subtraction',
-    'Multiplication & Division',
-    'Rounding off Numbers',
+  'Basic operations involving binary numbers': [
+    'Addition and subtraction of binary numbers',
+    'Multiplication and division in base 2',
   ],
-  'Basic Operations involving the Binary System': [
-    'Addition',
-    'Subtraction',
-    'Multiplication',
-    'Division',
+  'Factorisation of simple algebraic expression': [
+    'Expansion of algebraic expressions',
+    'HCF of algebraic expressions',
+    'Factorisation by taking out common factors',
+    'Simplifying calculations by factorisation',
+    'Factorisation by grouping like terms',
   ],
-  'Algebra': [
-    'Basic Operations',
-    'Simplifying Expressions',
-    'Translation of Word Problems into Mathematical Statements',
-    'Translation of Algebraic Sentences into Words',
+  'Factorisation of quadratic expressions': [
+    'Expansion of algebraic expression',
+    'Coefficients of terms',
+    'Factorisation of quadratic expression',
+    'Perfect squares',
+    'Factorisation of quadratic expression',
+    'Difference of two squares',
   ],
-  'Perimeter of Plane Shapes': [
-    'Square',
-    'Rectangle',
-    'Triangle',
-    'Polygon',
-    'Trapezium',
-    'Parallelogram',
-    'Circle',
+  'Equations involving fractions': [
+    'Solving simple equations involving fractions',
+    'Simple equations with monomial denominators',
+    'Simple equations with binomial denominators',
+    'Word problems involving algebraic fractions',
   ],
-  'Area of Plane Shapes': [
-    'Square',
-    'Rectangle',
-    'Triangle',
-    'Polygon',
-    'Trapezium',
-    'Parallelogram',
-    'Circle',
+  'Simultaneous linear equations': [
+    'Simultaneous linear equations',
+    'Graphical method',
+    'Substitution method',
+    'Elimination method',
   ],
-  'Volume': [
-    'Cube',
-    'Cuboid',
+  'Substitution and change of subject of formulae': [
+    'Formulae and substitution',
+    'Changing the subject of a formula',
   ],
-  'Capacity': [
-    'Litres',
-    'Cubic Centimeters',
-    'Millilitres',
-    'Meter Cube',
-    'Meters',
-    'Kilolitres',
-    'Volume or Capacity of Container',
-    'Volume or Capacity of Right-angled Triangular Prism',
+  'Similar figures': [
+    'Similar figures',
+    'Similar triangles',
+    'Enlargement and scale factors',
   ],
-  'Angles': [
-    'Angle of Rotation',
-    'Angle in Degrees',
-    'Conversion to Degrees',
-    'Conversion to Time',
-    'Vertically Opposite Angles',
-    'Angles on a Straight Line',
-    'Angles at a Point',
-    'Right Angles',
-    'Triangles',
+  'Areas and volumes of similar shapes': [
+    'Areas of similar plane shapes',
+    'Volumes of similar solid shapes',
   ],
-  'Data Collection/Statistics': [
-    'Decision Making',
-    'Frequency Distribution Table',
-    'Bar Chart',
-    'Line Graph',
-    'Arithmetic Mean, Median, Mode',
+  'Tangent of acute angle': [
+    'Finding the tangent of an acute angle',
+    'Finding tangent of acute angles by measurement',
+    'Use of the tangent ratio',
+    'Use of tangent table',
+    'Application of tangents of angles in solving practical problems',
+  ],
+  'Sine and cosine of an acute angle': [
+    'Sine and cosine of an acute angle',
+    'Sines and cosines of acute angles by drawing and measurement',
+    'Use of sine and cosine tables',
+    'Using sine and cosine to solve right-angled triangle problems',
+    'Applications of sines and cosines of acute angles to solve word problems',
+  ],
+  'Areas of plane shapes': [
+    'Area of plane shapes',
+    'Areas of plane shapes, using trigonometry',
+    'Concentric circles and sectors of circle',
+    'Real life activities involving area',
+  ],
+  'Geometrical constructions': [
+    'Construction',
+    'Constructions of plane shapes',
+  ],
+  'Measures of central tendency': [
+    'Averages',
+    'The mean',
+    'Finding the mean from a frequency table',
+    'The median',
+    'The mode',
+    'The range',
+  ],
+  'Data presentation': [
+    'Bar charts',
+    'Pie charts',
   ],
 };
 

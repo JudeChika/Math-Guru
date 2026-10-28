@@ -1258,7 +1258,7 @@ class _ScaleDrawingsScreenState extends State<ScaleDrawingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '20-3 Scale Drawings',
+          'Scale Drawings',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.deepPurple,
