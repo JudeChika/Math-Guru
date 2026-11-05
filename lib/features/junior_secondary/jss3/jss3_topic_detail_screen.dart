@@ -23,6 +23,9 @@ import 'package:math_guru/features/junior_secondary/jss3/proportion/reciprocals/
 import 'package:math_guru/features/junior_secondary/jss3/rational_and_nonrational_numbers/non_rational_numbers/non_rational_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/rational_and_nonrational_numbers/rational_numbers/rational_numbers_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/rational_and_nonrational_numbers/square_roots/square_roots_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/similar_figures/enlargement_scale_factor/enlargement_scale_factor_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/similar_figures/similar_figures/similar_figures_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/similar_figures/similar_triangles/similar_triangles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/simple_equations_involving_fractions/binomial_denominators/binomial_denominators_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/simple_equations_involving_fractions/monomial_denominators/monomial_denominators_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/simple_equations_involving_fractions/simple_equations_fractions/simple_equations_fractions_screen.dart';
@@ -180,6 +183,15 @@ class Jss3TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Changing the subject of a formula') {
       return const FormulaeSubstitutionScreen();
+    }
+    if (subtopic == 'Similar figures') {
+      return const SimilarFiguresScreen();
+    }
+    if (subtopic == 'Similar triangles') {
+      return const SimilarTrianglesScreen();
+    }
+    if (subtopic == 'Enlargement and scale factors') {
+      return const EnlargementScaleFactorScreen();
     }
 
 
