@@ -106,7 +106,7 @@ class _FractionWordProblemsScreenState
 
     try {
       const apiKey = 'AQ.Ab8RN6KkjCtOzLWqngmHJauciZcFBcOm0yrBvlw5O_-NEU_A9w';
-      final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
+      final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
       You are a strict JSON data extractor for JSS3 Chapter 2: Word Problems Involving Fractions (Pages 25–28, Examples 8–12 & Exercise 2.4).

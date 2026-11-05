@@ -565,7 +565,7 @@ class _GraphsOfInequalitiesScreenState
                 ),
                 CupertinoSwitch(
                   value: _isReversedInput,
-                  activeColor: Colors.deepPurple,
+                  activeTrackColor: Colors.deepPurple,
                   onChanged: (v) => setState(() => _isReversedInput = v),
                 ),
               ],

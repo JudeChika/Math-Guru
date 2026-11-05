@@ -585,7 +585,7 @@ class _BearingsAndDistancesScreenState
             ),
             CupertinoSwitch(
               value: _autoScale,
-              activeColor: Colors.deepPurple,
+              activeTrackColor: Colors.deepPurple,
               onChanged: (v) => setState(() => _autoScale = v),
             ),
           ],

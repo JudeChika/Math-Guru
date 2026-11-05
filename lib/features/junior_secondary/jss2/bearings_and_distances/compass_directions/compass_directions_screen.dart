@@ -1206,7 +1206,7 @@ class CompassRosePainter extends CustomPainter {
         _drawArrowHead(canvas, tip, rad, Colors.black87, len: 8.0);
       }
 
-      final double labelR = outerR + 20.0;
+      const double labelR = outerR + 20.0;
       final Offset lblPos = Offset(
         center.dx + labelR * math.cos(rad),
         center.dy + labelR * math.sin(rad),

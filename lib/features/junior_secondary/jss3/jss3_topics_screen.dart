@@ -22,7 +22,6 @@ const Map<String, List<String>> jss3Topics = {
     'Direct proportion',
     'Indirect proportion',
     'Reciprocals',
-    'Reciprocals from the calculator',
   ],
   'Compound interest': [
     'Simple interest',
@@ -49,7 +48,6 @@ const Map<String, List<String>> jss3Topics = {
     'Coefficients of terms',
     'Factorisation of quadratic expression',
     'Perfect squares',
-    'Factorisation of quadratic expression',
     'Difference of two squares',
   ],
   'Equations involving fractions': [
@@ -63,6 +61,7 @@ const Map<String, List<String>> jss3Topics = {
     'Graphical method',
     'Substitution method',
     'Elimination method',
+    'Word problems involving simultaneous linear equations',
   ],
   'Substitution and change of subject of formulae': [
     'Formulae and substitution',

@@ -1793,7 +1793,7 @@ class BearingsDiagramPainter extends CustomPainter {
     // Draw Clockwise Forward Bearing Arc at Point 2 (Purple)
     final double actualRad2To1 =
     math.atan2(pos1.dy - pos2.dy, pos1.dx - pos2.dx);
-    final double northRad = -math.pi / 2;
+    const double northRad = -math.pi / 2;
     double cwSweep2 = actualRad2To1 - northRad;
     if (cwSweep2 < 0) cwSweep2 += 2 * math.pi;
 

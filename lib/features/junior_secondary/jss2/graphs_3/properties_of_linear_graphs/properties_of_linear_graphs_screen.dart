@@ -534,7 +534,7 @@ class _PropertiesOfLinearGraphsScreenState
                 ),
                 CupertinoSwitch(
                   value: _drawParallelOrigin,
-                  activeColor: Colors.deepPurple,
+                  activeTrackColor: Colors.deepPurple,
                   onChanged: (v) => setState(() => _drawParallelOrigin = v),
                 ),
               ],

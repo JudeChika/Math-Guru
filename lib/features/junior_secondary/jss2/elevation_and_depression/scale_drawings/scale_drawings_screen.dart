@@ -746,7 +746,7 @@ class _ScaleDrawingsScreenState extends State<ScaleDrawingsScreen> {
               ),
               CupertinoSwitch(
                 value: _autoSmartScale,
-                activeColor: Colors.deepPurple,
+                activeTrackColor: Colors.deepPurple,
                 onChanged: (v) => setState(() => _autoSmartScale = v),
               ),
             ],
@@ -1343,7 +1343,7 @@ class ScaleDrawingPainter extends CustomPainter {
     math.min(260.0 / maxPaperX, 200.0 / maxPaperY).clamp(14.0, 48.0);
 
     final double basePx = basePaperCm * pxPerPaperCm;
-    final Offset gH = const Offset(startX, groundY);
+    const Offset gH = Offset(startX, groundY);
     final Offset baseH = Offset(startX + basePx, groundY);
 
     final Paint stroke = Paint()
@@ -1554,16 +1554,16 @@ class ScaleDrawingPainter extends CustomPainter {
     final double rad1 = theta1 * math.pi / 180.0;
     final double rad2 = theta2 * math.pi / 180.0;
 
-    final double drawX_Cm =
+    final double drawxCm =
         (paperSepCm * math.tan(rad2)) / (math.tan(rad2) - math.tan(rad1));
-    final double drawHeightCm = drawX_Cm * math.tan(rad1);
+    final double drawHeightCm = drawxCm * math.tan(rad1);
 
     final double pxPerPaperCm = math
-        .min(310.0 / math.max(drawX_Cm, 1.0), 205.0 / math.max(drawHeightCm, 1.0))
+        .min(310.0 / math.max(drawxCm, 1.0), 205.0 / math.max(drawHeightCm, 1.0))
         .clamp(12.0, 38.0);
 
     final double basePx = paperSepCm * pxPerPaperCm;
-    final double pxX = drawX_Cm * pxPerPaperCm;
+    final double pxX = drawxCm * pxPerPaperCm;
     final double pxH = drawHeightCm * pxPerPaperCm;
 
     const Offset ptA = Offset(startX, groundY);

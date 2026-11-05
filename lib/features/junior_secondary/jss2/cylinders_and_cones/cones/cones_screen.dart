@@ -88,13 +88,13 @@ class _ConesScreenState extends State<ConesScreen> {
   XFile? _selectedImage;
   final ImagePicker _picker = ImagePicker();
 
-  // Shared Primary Dimension Controllers
+  // Shared Primary Dimension Controllers (Initialized EMPTY on Launch!)
   bool _isRadius = true;
-  final TextEditingController _dimCtrl = TextEditingController(text: '5');
+  final TextEditingController _dimCtrl = TextEditingController();
   String _dimUnit = 'cm';
-  final TextEditingController _secondCtrl = TextEditingController(text: '12');
+  final TextEditingController _secondCtrl = TextEditingController();
   String _secondUnit = 'cm';
-  final TextEditingController _thirdCtrl = TextEditingController(text: '24');
+  final TextEditingController _thirdCtrl = TextEditingController();
   String _thirdUnit = 'cm';
   String _targetUnit = 'cm';
 
@@ -103,10 +103,8 @@ class _ConesScreenState extends State<ConesScreen> {
 
   // Mode 1: Sector Net <-> Cone Converter
   int _sectorSubMode = 0; // 0: Bend Sector into Cone, 1: Unfold Cone into Net
-  final TextEditingController _sectorRadiusCtrl =
-  TextEditingController(text: '10');
-  final TextEditingController _sectorAngleCtrl =
-  TextEditingController(text: '216');
+  final TextEditingController _sectorRadiusCtrl = TextEditingController();
+  final TextEditingController _sectorAngleCtrl = TextEditingController();
 
   // Mode 2: Volume, Capacity & Mass
   bool _isVerticalHeight = true;
@@ -117,7 +115,7 @@ class _ConesScreenState extends State<ConesScreen> {
 
   // Mode 4: Cone vs Cylinder Comparison & Reverse Volume
   int _revSubMode = 0; // 0: Equal Volume Cylinder Height, 1: Given V & r -> Find h, 2: Given V & h -> Find r
-  final TextEditingController _volCtrl = TextEditingController(text: '308');
+  final TextEditingController _volCtrl = TextEditingController();
 
   ConeResult? _result;
   final TransformationController _canvasTransformController =
@@ -1792,10 +1790,10 @@ class _ConesScreenState extends State<ConesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Cones',
+          '19-2 Cones',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: Colors.deepPurple,
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.deepPurple),
@@ -1850,10 +1848,10 @@ class ConeVisualizerPainter extends CustomPainter {
     const double rx = 74.0;
     const double ry = 22.0;
 
-    const Offset apex = Offset(coneCx, apexY);
-    const Offset baseCenter = Offset(coneCx, baseCy);
-    const Offset baseRight = Offset(coneCx + rx, baseCy);
-    const Offset baseLeft = Offset(coneCx - rx, baseCy);
+    final Offset apex = const Offset(coneCx, apexY);
+    final Offset baseCenter = const Offset(coneCx, baseCy);
+    final Offset baseRight = const Offset(coneCx + rx, baseCy);
+    final Offset baseLeft = const Offset(coneCx - rx, baseCy);
 
     final Path coneBody = Path()
       ..moveTo(apex.dx, apex.dy)
@@ -2290,7 +2288,7 @@ class ConeVisualizerPainter extends CustomPainter {
     const double cylTopY = botY - cylH;
 
     canvas.drawRect(
-      const Rect.fromLTWH(cylCx - rx, cylTopY, rx * 2, cylH),
+      Rect.fromLTWH(cylCx - rx, cylTopY, rx * 2, cylH),
       Paint()..color = Colors.deepPurple.shade100,
     );
     canvas.drawOval(

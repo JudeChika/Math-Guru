@@ -413,15 +413,17 @@ class FractionWordProblemsLogic {
             ? "+ ${b.displayPlain}"
             : "− ${b.displayPlain.replaceFirst('-', '')}";
 
-        final String eqLaTeX =
-        b.num == 0 ? "$fxLaTeX = ${c.improperLaTeX}" : "$fxLaTeX $bTermLaTeX = ${c.improperLaTeX}";
-        final String eqPlain =
-        b.num == 0 ? "$fxPlain = ${c.displayPlain}" : "$fxPlain $bTermPlain = ${c.displayPlain}";
+        final String eqLaTeX = b.num == 0
+            ? "$fxLaTeX = ${c.improperLaTeX}"
+            : "$fxLaTeX $bTermLaTeX = ${c.improperLaTeX}";
+        final String eqPlain = b.num == 0
+            ? "$fxPlain = ${c.displayPlain}"
+            : "$fxPlain $bTermPlain = ${c.displayPlain}";
 
-        // STEP 1: Form the Fractional Equation
+        // STEP 1: Form the Fractional Equation (Keeping all \frac expressions OUTSIDE \text{...}!)
         final List<String> step1Lines = [
           "\\text{Let the unknown number be } x.",
-          "\\text{'${f.displayLaTeX} of the number' means } ${f.improperLaTeX} \\times x = $fxLaTeX.",
+          "${f.displayLaTeX} \\text{ of the number means } ${f.improperLaTeX} \\times x = $fxLaTeX.",
           "\\text{Form the equation:}",
           "\\mathbf{$eqLaTeX}",
         ];
@@ -655,7 +657,6 @@ class FractionWordProblemsLogic {
         }
 
         final Map<String, String> xFmt = formatRational(netConst, netX);
-        final double exactX = netConst / netX;
 
         final String lhsLaTeX =
             "${formatFracCoeffXLaTeX(f1)} ${b.num == 0 ? '' : (b.value > 0 ? '+ ${b.improperLaTeX}' : '- ${b.improperLaTeX.replaceFirst('-', '')}')}";
@@ -1438,7 +1439,7 @@ class FractionWordProblemsLogic {
         workings.addAll(step1Lines);
         workings.add("");
         workings.add(
-            "\\text{\\textbf{Step 2: Equate Remaining Fraction to ${remGiven.displayLaTeX} and Solve for }} x");
+            "\\text{\\textbf{Step 2: Equate Remaining Fraction to }} \\mathbf{${remGiven.displayLaTeX}} \\text{\\textbf{ and Solve for }} x");
         workings.addAll(step2Lines);
         workings.add("");
         workings.add(

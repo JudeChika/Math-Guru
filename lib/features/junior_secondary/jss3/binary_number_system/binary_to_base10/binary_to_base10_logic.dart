@@ -788,12 +788,12 @@ class BinaryToBase10Logic {
       if (!hasFraction && isExactRationalSquare) {
         // Exact Whole-Number Square Root (Matches Example 3a: √36 = 6, Example 3b: √81 = 9, Ex 1.2 #4a–d, f)
         final int root10 = numRoot;
-        rootBase10Display = "${root10}₁₀";
+        rootBase10Display = "$root10₁₀";
         divRows = buildDivisionBy2Table(root10);
         final String binDigits =
         divRows.reversed.map((r) => r.remainder.toString()).join('');
         final String groupedBinRoot = formatGroupedLaTeX(binDigits);
-        rootBase2Display = "${binDigits}₂";
+        rootBase2Display = "$binDigits₂";
 
         workings.add(
             "\\sqrt{${exp.wholeSum}_{\\text{ten}}} = \\sqrt{$root10 \\times $root10} = \\mathbf{${root10}_{\\text{ten}}}");
@@ -815,7 +815,7 @@ class BinaryToBase10Logic {
           title:
           "Step 2: Find the Square Root of ${exp.wholeSum}₁₀ in Base 10",
           description:
-          "Since $root10 × $root10 = ${exp.wholeSum}, the square root of ${exp.wholeSum}₁₀ is ${root10}₁₀.",
+          "Since $root10 × $root10 = ${exp.wholeSum}, the square root of ${exp.wholeSum}₁₀ is $root10₁₀.",
           mathLaTeX:
           "\\sqrt{${exp.wholeSum}_{\\text{ten}}} = \\sqrt{$root10 \\times $root10} = \\mathbf{${root10}_{\\text{ten}}}",
         ));
@@ -827,17 +827,17 @@ class BinaryToBase10Logic {
 
         steps.add(BinaryToBase10Step(
           title:
-          "Step 3: Convert ${root10}₁₀ Back to Base 2 Using Repeated Division by 2",
+          "Step 3: Convert $root10₁₀ Back to Base 2 Using Repeated Division by 2",
           description:
           "Divide $root10 repeatedly by 2, recording the remainder (0 or 1) at each stage until the quotient becomes 0:\n"
               "$divExplainLines\n"
-              "• Read the remainders from bottom to top (upwards ↑): ${binDigits}₂!",
+              "• Read the remainders from bottom to top (upwards ↑): $binDigits₂!",
           mathLaTeX:
           "${formatDivisionTableLaTeX(root10, divRows)} \\implies \\boxed{\\sqrt{${exp.groupedDisplay}_{\\text{two}}} = ${groupedBinRoot}_{\\text{two}} \\; (${root10}_{\\text{ten}})}",
         ));
 
-        answers["Square Root (Base 10)"] = "${root10}₁₀";
-        answers["Square Root (Base 2)"] = "${binDigits}₂";
+        answers["Square Root (Base 10)"] = "$root10₁₀";
+        answers["Square Root (Base 2)"] = "$binDigits₂";
       } else if (hasFraction && isExactRationalSquare) {
         // Exact Fractional Binary Square Root (Matches Exercise 1.2 #4e: √0.0001_two = √(1/16) = 1/4 = 0.25_ten = 0.01_two)
         final Map<String, String> rootMix =
@@ -874,7 +874,7 @@ class BinaryToBase10Logic {
         final String finalBinStr = fracBinBuf.isEmpty
             ? wholeBin
             : '$wholeBin.${fracBinBuf.toString()}';
-        rootBase2Display = "${finalBinStr}₂";
+        rootBase2Display = "$finalBinStr₂";
 
         workings.add(
             "\\sqrt{\\frac{${exp.simpFracNum}}{${exp.simpFracDen}}_{\\text{ten}}} = \\frac{\\sqrt{${exp.simpFracNum}}}{\\sqrt{${exp.simpFracDen}}} = \\mathbf{\\frac{$numRoot}{$denRoot}_{\\text{ten}}} = \\mathbf{${fmtDec(rootDec)}_{\\text{ten}}}");
@@ -903,14 +903,14 @@ class BinaryToBase10Logic {
           title:
           "Step 3: Convert $numRoot/$denRoot (${fmtDec(rootDec)}₁₀) Back to Base 2",
           description:
-          "• Using negative powers of 2 (or repeated multiplication of the fractional part by 2), $numRoot/$denRoot = ${finalBinStr}₂.",
+          "• Using negative powers of 2 (or repeated multiplication of the fractional part by 2), $numRoot/$denRoot = $finalBinStr₂.",
           mathLaTeX:
           "\\frac{$numRoot}{$denRoot}_{\\text{ten}} = \\boxed{${finalBinStr}_{\\text{two}}}",
         ));
 
         answers["Square Root (Base 10)"] =
         "${rootMix['plain']}₁₀ (${fmtDec(rootDec)}₁₀)";
-        answers["Square Root (Base 2)"] = "${finalBinStr}₂";
+        answers["Square Root (Base 2)"] = "$finalBinStr₂";
       } else {
         // Non-perfect square fallback
         final double approxRoot = math.sqrt(exp.exactDecimal);
@@ -1025,7 +1025,7 @@ class BinaryToBase10Logic {
             description: hasFrac
                 ? "• Write ${exp.mixedFractionPlain} as the improper fraction ${exp.improperNum}/${exp.simpFracDen} (or decimal ${exp.exactDecimalPlain}).\n"
                 "• Raise both numerator and denominator to the power of $k: (${exp.improperNum}/${exp.simpFracDen})$kSup = $powNum/$powDen = ${powMixed['plain']}₁₀ (or ${fmtDec(powDec)}₁₀)!"
-                : "• Multiply ${exp.wholeSum}₁₀ by itself $k times: (${exp.wholeSum})$kSup = ${powNum}₁₀.",
+                : "• Multiply ${exp.wholeSum}₁₀ by itself $k times: (${exp.wholeSum})$kSup = $powNum₁₀.",
             mathLaTeX: workings.sublist(workings.length - (hasFrac ? 3 : 1)).join('\n'),
           ),
         ];
@@ -1041,7 +1041,7 @@ class BinaryToBase10Logic {
               "Result (Fraction in Base 10)": "${powMixed['plain']}₁₀",
               "Result (Decimal in Base 10)": "${fmtDec(powDec)}₁₀",
             } else
-              "Result in Base 10": "${powNum}₁₀",
+              "Result in Base 10": "$powNum₁₀",
           },
           workingsLaTeX: workings,
           steps: steps,
@@ -1051,11 +1051,11 @@ class BinaryToBase10Logic {
             baseWord: 'two',
             primaryCells: exp.cells,
             headerBadge:
-            "(${exp.cleanedNumber}₂)$kSup  =  (${exp.exactDecimalPlain}₁₀)$kSup  =  ${hasFrac ? '${powMixed['plain']}₁₀ (${fmtDec(powDec)}₁₀)' : '${powNum}₁₀'}",
+            "(${exp.cleanedNumber}₂)$kSup  =  (${exp.exactDecimalPlain}₁₀)$kSup  =  ${hasFrac ? '${powMixed['plain']}₁₀ (${fmtDec(powDec)}₁₀)' : '$powNum₁₀'}",
             subBadge:
             "Step 1: Expand ${exp.cleanedNumber}₂ to Base 10   |   Step 2: Raise Base 10 Value to Power $k",
             bottomSummaryBanner:
-            "Final Value in Base 10 = ${hasFrac ? '${powMixed['plain']}₁₀ = ${fmtDec(powDec)}₁₀' : '${powNum}₁₀'}",
+            "Final Value in Base 10 = ${hasFrac ? '${powMixed['plain']}₁₀ = ${fmtDec(powDec)}₁₀' : '$powNum₁₀'}",
           ),
         );
       } else {
@@ -1143,7 +1143,7 @@ class BinaryToBase10Logic {
           "Step ${expansions.length + 1}: Add All Base 10 Values Together",
           description:
           "Add the base 10 equivalents of all ${expansions.length} binary numbers:\n"
-              "• Decimal addition: $base10DecTerms = ${sumDecStr}₁₀."
+              "• Decimal addition: $base10DecTerms = $sumDecStr₁₀."
               "${sumHasFraction ? '\n• Mixed fraction form: ${sumMixed['plain']}₁₀.' : ''}",
           mathLaTeX:
           "$termsLatexSum = $base10DecTerms = \\boxed{${sumHasFraction ? '${sumMixed['latex']}_{\\text{ten}} \\text{ or } ${sumDecStr}_{\\text{ten}}' : '${sumDecStr}_{\\text{ten}}'}}",
@@ -1151,9 +1151,9 @@ class BinaryToBase10Logic {
 
         if (sumHasFraction) {
           answers["Total Sum (Fraction)"] = "${sumMixed['plain']}₁₀";
-          answers["Total Sum (Decimal)"] = "${sumDecStr}₁₀";
+          answers["Total Sum (Decimal)"] = "$sumDecStr₁₀";
         } else {
-          answers["Total Sum in Base 10"] = "${sumDecStr}₁₀";
+          answers["Total Sum in Base 10"] = "$sumDecStr₁₀";
         }
 
         return BinaryToBase10Result(
@@ -1168,11 +1168,11 @@ class BinaryToBase10Logic {
             baseWord: 'two',
             primaryCells: expansions.first.cells,
             headerBadge:
-            "${expansions.map((e) => '${e.cleanedNumber}₂').join(' + ')}  =  ${sumHasFraction ? '${sumMixed['plain']}₁₀ (${sumDecStr}₁₀)' : '${sumDecStr}₁₀'}",
+            "${expansions.map((e) => '${e.cleanedNumber}₂').join(' + ')}  =  ${sumHasFraction ? '${sumMixed['plain']}₁₀ ($sumDecStr₁₀)' : '$sumDecStr₁₀'}",
             subBadge:
             "Place-Value Breakdown of 1st Term (${expansions.first.cleanedNumber}₂ = ${expansions.first.exactDecimalPlain}₁₀)",
             bottomSummaryBanner:
-            "Combined Base 10 Sum: $base10DecTerms = ${sumDecStr}₁₀",
+            "Combined Base 10 Sum: $base10DecTerms = $sumDecStr₁₀",
           ),
         );
       }

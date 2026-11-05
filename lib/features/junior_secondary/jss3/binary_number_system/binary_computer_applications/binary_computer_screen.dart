@@ -368,7 +368,7 @@ class _BinaryComputerScreenState extends State<BinaryComputerScreen> {
                 ),
                 CupertinoSwitch(
                   value: _includeFullTable1_1,
-                  activeColor: Colors.deepPurple,
+                  activeTrackColor: Colors.deepPurple,
                   onChanged: (v) => setState(() => _includeFullTable1_1 = v),
                 ),
               ],

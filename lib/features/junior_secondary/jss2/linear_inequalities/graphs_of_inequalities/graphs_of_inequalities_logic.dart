@@ -172,7 +172,7 @@ class GraphsOfInequalitiesLogic {
         final String sign = whole < 0 ? "-" : "";
         final int absW = whole.abs();
         final String disp = n == 1 && d == 2
-            ? "$sign${absW}½"
+            ? "$sign$absW½"
             : "$sign$absW $n/$d";
         return {
           'value': val,
@@ -233,7 +233,7 @@ class GraphsOfInequalitiesLogic {
       final int w = n ~/ d;
       final int rem = n % d;
       final String disp = (rem == 1 && d == 2)
-          ? "$sign${w}½"
+          ? "$sign$w½"
           : "$sign$w $rem/$d";
       return {
         'value': val,
@@ -241,7 +241,7 @@ class GraphsOfInequalitiesLogic {
         'display': disp,
       };
     }
-    final String disp = (n == 1 && d == 2) ? "${sign}½" : "$sign$n/$d";
+    final String disp = (n == 1 && d == 2) ? "$sign½" : "$sign$n/$d";
     return {
       'value': val,
       'latex': '$sign\\frac{$n}{$d}',

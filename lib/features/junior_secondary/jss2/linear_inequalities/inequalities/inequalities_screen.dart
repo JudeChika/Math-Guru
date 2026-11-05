@@ -835,7 +835,7 @@ class _InequalitiesScreenState extends State<InequalitiesScreen> {
                   ),
                   CupertinoSwitch(
                     value: _convertHoursToMins,
-                    activeColor: Colors.deepPurple,
+                    activeTrackColor: Colors.deepPurple,
                     onChanged: (v) =>
                         setState(() => _convertHoursToMins = v),
                   ),
@@ -1524,7 +1524,7 @@ class InequalityVisualizerPainter extends CustomPainter {
     final double rightX = size.width - 70.0;
 
     canvas.drawLine(
-      Offset(leftX, lineY),
+      const Offset(leftX, lineY),
       Offset(rightX, lineY),
       Paint()
         ..color = Colors.black87
@@ -1602,7 +1602,7 @@ class InequalityVisualizerPainter extends CustomPainter {
 
     // Base number line
     canvas.drawLine(
-      Offset(leftX, lineY),
+      const Offset(leftX, lineY),
       Offset(rightX, lineY),
       Paint()
         ..color = Colors.black87
@@ -1683,7 +1683,7 @@ class InequalityVisualizerPainter extends CustomPainter {
     final double midX = size.width / 2;
 
     canvas.drawLine(
-      Offset(leftX, lineY),
+      const Offset(leftX, lineY),
       Offset(rightX, lineY),
       Paint()
         ..color = Colors.black87
@@ -1709,7 +1709,7 @@ class InequalityVisualizerPainter extends CustomPainter {
     const double p1Y = lineY - 38.0;
     canvas.drawLine(
       Offset(midX, p1Y),
-      Offset(leftX + 20, p1Y),
+      const Offset(leftX + 20, p1Y),
       Paint()
         ..color = Colors.orange.shade800
         ..strokeWidth = 3.5,

@@ -185,8 +185,8 @@ class PunchTapeLogic {
         "\\bullet \\; \\mathbf{\\text{${row.letter}} = ${n}_{\\text{ten}}}: \\quad ${divStepsLaTeX.join(', \\; ')} \\; (\\uparrow) \\implies \\mathbf{${row.groupedBinaryLaTeX}_{\\text{two}}} \\quad \\left(\\text{Punch hole(s) at } ${activeCols.join(' + ')} = $n\\right)";
 
     final String plainLine =
-        "• ${row.letter} = ${n}₁₀:  ${divStepsPlain.join('  ➔  ')} (Read remainders upwards ↑ = ${row.groupedBinaryPlain}₂).\n"
-        "  – Punch card/tape holes (●) at place-value column(s): ${activeCols.join(' + ')} = ${n}₁₀.";
+        "• ${row.letter} = $n₁₀:  ${divStepsPlain.join('  ➔  ')} (Read remainders upwards ↑ = ${row.groupedBinaryPlain}₂).\n"
+        "  – Punch card/tape holes (●) at place-value column(s): ${activeCols.join(' + ')} = $n₁₀.";
 
     return {
       'latex': latexLine,
@@ -540,7 +540,7 @@ class PunchTapeLogic {
         final int base10Val = int.parse(cleanBin, radix: 2);
         if (base10Val < 1 || base10Val > 26) {
           throw FormatException(
-            "Binary code '$cleanBin₂' equals ${base10Val}₁₀, which is outside the alphabet range 1 to 26 (A = 1₁₀ to Z = 26₁₀)!",
+            "Binary code '$cleanBin₂' equals $base10Val₁₀, which is outside the alphabet range 1 to 26 (A = 1₁₀ to Z = 26₁₀)!",
           );
         }
 
@@ -571,7 +571,7 @@ class PunchTapeLogic {
         workings.add(lineTex);
         step1LaTeX.add(lineTex);
         step1Plain.add(
-          "• ${row.groupedBinaryPlain}₂ = ${evalTerms.join(' + ')} = ${base10Val}₁₀  ➔  Letter '$ch'",
+          "• ${row.groupedBinaryPlain}₂ = ${evalTerms.join(' + ')} = $base10Val₁₀  ➔  Letter '$ch'",
         );
       }
 

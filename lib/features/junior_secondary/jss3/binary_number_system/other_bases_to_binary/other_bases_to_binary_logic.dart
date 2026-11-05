@@ -389,7 +389,7 @@ class OtherBasesToBinaryLogic {
 
       steps.add(OtherBasesToBinaryStep(
         title:
-        "Fractional Part — Textbook Method 2 (Convert Numerator $simpNum₁₀ & Denominator ${simpDen}₁₀ to Binary)",
+        "Fractional Part — Textbook Method 2 (Convert Numerator $simpNum₁₀ & Denominator $simpDen₁₀ to Binary)",
         description:
         "As shown at the top of page 11 in the textbook:\n"
             "1. Convert the numerator $simpNum₁₀ to binary by dividing repeatedly by 2:\n"
@@ -463,7 +463,7 @@ class OtherBasesToBinaryLogic {
         description:
         "Because the denominator ($simpDen) is not a power of 2, multiply the fraction repeatedly by 2 and record the whole-number part (0 or 1) at each step from top to bottom:\n"
             "${multPlain.join('\n')}\n"
-            "• Reading the integer bits from top to bottom gives 0.${groupedBitsPlain}₂.",
+            "• Reading the integer bits from top to bottom gives 0.$groupedBitsPlain₂.",
         mathLaTeX:
         "${multLatex.join('\n')}\n\\left(\\frac{$simpNum}{$simpDen}\\right)_{\\text{ten}} = \\boxed{0.${groupedBitsLaTeX}_{\\text{two}}}",
       ));
@@ -865,7 +865,7 @@ class OtherBasesToBinaryLogic {
         steps.add(OtherBasesToBinaryStep(
           title: "Final Step: Combine Whole and Fractional Binary Parts",
           description:
-          "Join the binary whole-number part ($wholeBinGroupedPlain₂) and the binary fractional part (0.${fracGroupedPlain}₂) at the binary point:\n"
+          "Join the binary whole-number part ($wholeBinGroupedPlain₂) and the binary fractional part (0.$fracGroupedPlain₂) at the binary point:\n"
               "• $inputDispPlain = $finalBinPlain.",
           mathLaTeX: "$inputDispLaTeX = \\boxed{$finalBinLaTeX}",
         ));
@@ -972,7 +972,7 @@ class OtherBasesToBinaryLogic {
         description:
         "Now convert the base 10 whole-number part ($wholeSum₁₀) to binary by dividing repeatedly by 2 down to quotient 0:\n"
             "$divExplainPlain\n"
-            "• Reading the remainders upwards from bottom to top (↑) gives: $wholeSum₁₀ = ${wholeBinGroupedPlain}₂.",
+            "• Reading the remainders upwards from bottom to top (↑) gives: $wholeSum₁₀ = $wholeBinGroupedPlain₂.",
         mathLaTeX:
         "${formatDivisionTableLaTeX(wholeRows)} \\implies ${wholeSum}_{\\text{ten}} = \\boxed{${wholeBinGroupedLaTeX}_{\\text{two}}}",
       ));
@@ -1118,7 +1118,7 @@ class OtherBasesToBinaryLogic {
           "Step ${steps.length + 1}: Evaluate ($cleanNum$bSub)$kSup in Base 10",
           description:
           "Multiply $base10Val₁₀ by itself $k times to find the value of ($cleanNum$bSub)$kSup in base 10:\n"
-              "• ($base10Val₁₀)$kSup = ${List.filled(k, base10Val.toString()).join(' × ')} = ${poweredBase10}₁₀.",
+              "• ($base10Val₁₀)$kSup = ${List.filled(k, base10Val.toString()).join(' × ')} = $poweredBase10₁₀.",
           mathLaTeX:
           "(${cleanNum}_{\\text{$bWord}})^$k = $repeatedMult = ${poweredBase10}_{\\text{ten}}",
         ));

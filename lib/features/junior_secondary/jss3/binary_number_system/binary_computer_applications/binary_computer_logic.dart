@@ -166,7 +166,7 @@ class BinaryComputerLogic {
         "\\quad \\text{Check by powers of 2: } $n = ${evaluatedPowerTerms.join(' + ')} = ${activePowerTermsLaTeX.join(' + ')} = \\mathbf{${row.groupedBinaryLaTeX}_{\\text{two}}}";
 
     final String plainSummary =
-        "• ${row.letter} = ${n}₁₀:\n"
+        "• ${row.letter} = $n₁₀:\n"
         "  – By repeated division by 2: ${divStepsPlain.join('  ➔  ')} (Read remainders upwards ↑ = ${row.groupedBinaryPlain}₂).\n"
         "  – Check by powers of 2: ${evaluatedPowerTerms.join(' + ')} = ${row.groupedBinaryPlain}₂.";
 
@@ -672,7 +672,7 @@ class BinaryComputerLogic {
         final int base10Val = int.parse(cleanBin, radix: 2);
         if (base10Val < 1 || base10Val > 26) {
           throw FormatException(
-            "Binary code '$cleanBin₂' equals ${base10Val}₁₀, which is outside the alphabet range 1 to 26 (A = 1₁₀ to Z = 26₁₀ = 11 010₂)!",
+            "Binary code '$cleanBin₂' equals $base10Val₁₀, which is outside the alphabet range 1 to 26 (A = 1₁₀ to Z = 26₁₀ = 11 010₂)!",
           );
         }
 
@@ -703,7 +703,7 @@ class BinaryComputerLogic {
         workings.add(lineLatex);
         step1LinesLaTeX.add(lineLatex);
         step1LinesPlain.add(
-          "• ${row.groupedBinaryPlain}₂ = ${evalTermsLaTeX.join(' + ')} = ${base10Val}₁₀  ➔  Letter '$ch'",
+          "• ${row.groupedBinaryPlain}₂ = ${evalTermsLaTeX.join(' + ')} = $base10Val₁₀  ➔  Letter '$ch'",
         );
       }
 

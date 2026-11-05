@@ -92,11 +92,11 @@ class _CylindersScreenState extends State<CylindersScreen> {
   XFile? _selectedImage;
   final ImagePicker _picker = ImagePicker();
 
-  // Shared Primary Dimension Controllers
+  // Shared Primary Dimension Controllers (Initialized EMPTY on Launch!)
   bool _isRadius = true;
-  final TextEditingController _dimCtrl = TextEditingController(text: '7');
+  final TextEditingController _dimCtrl = TextEditingController();
   String _dimUnit = 'cm';
-  final TextEditingController _hCtrl = TextEditingController(text: '10');
+  final TextEditingController _hCtrl = TextEditingController();
   String _hUnit = 'cm';
   String _targetUnit = 'cm';
 
@@ -106,25 +106,25 @@ class _CylindersScreenState extends State<CylindersScreen> {
 
   // Mode 1: Net & Winding
   int _netSubMode = 0; // 0: Net from Cylinder, 1: Roll Strip, 2: Winding Turns
-  final TextEditingController _stripLCtrl = TextEditingController(text: '22');
-  final TextEditingController _stripWCtrl = TextEditingController(text: '5');
-  final TextEditingController _nTurnsCtrl = TextEditingController(text: '8');
+  final TextEditingController _stripLCtrl = TextEditingController();
+  final TextEditingController _stripWCtrl = TextEditingController();
+  final TextEditingController _nTurnsCtrl = TextEditingController();
 
   // Mode 2: Volume, Capacity & Mass
-  final TextEditingController _qtyCtrl = TextEditingController(text: '1');
+  final TextEditingController _qtyCtrl = TextEditingController();
   final TextEditingController _densityCtrl = TextEditingController();
 
   // Mode 3: Reverse Mensuration
   int _revSubMode = 0; // 0: Find Height/Depth (h), 1: Find Radius (r)
-  final TextEditingController _volCtrl = TextEditingController(text: '88');
+  final TextEditingController _volCtrl = TextEditingController();
   bool _isLitres = true;
 
   // Mode 4: Pouring & Leaking Tank
   int _transSubMode = 0; // 0: Pouring (Cyl 1 -> Cyl 2), 1: Leaking Tank
   bool _isRadius2 = false;
-  final TextEditingController _dim2Ctrl = TextEditingController(text: '20');
-  final TextEditingController _dropCtrl = TextEditingController(text: '20');
-  final TextEditingController _rateCtrl = TextEditingController(text: '10');
+  final TextEditingController _dim2Ctrl = TextEditingController();
+  final TextEditingController _dropCtrl = TextEditingController();
+  final TextEditingController _rateCtrl = TextEditingController();
 
   CylinderResult? _result;
   final TransformationController _canvasTransformController =
@@ -1658,16 +1658,30 @@ class _CylindersScreenState extends State<CylindersScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                for (final line in _result!.workingsLaTeX)
-                  if (line.isEmpty)
-                    const SizedBox(height: 14)
+                for (int i = 0; i < _result!.workingsLaTeX.length; i++)
+                  if (_result!.workingsLaTeX[i].isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Divider(
+                        color: Colors.deepPurple.shade100,
+                        thickness: 1.2,
+                        height: 1,
+                      ),
+                    )
                   else
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
+                      padding: EdgeInsets.only(
+                        top: _result!.workingsLaTeX[i].contains('\\textbf') &&
+                            i > 0 &&
+                            _result!.workingsLaTeX[i - 1].isNotEmpty
+                            ? 14.0
+                            : 5.0,
+                        bottom: 5.0,
+                      ),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Math.tex(
-                          line,
+                          _result!.workingsLaTeX[i],
                           textStyle: const TextStyle(
                               fontSize: 17, color: Colors.deepPurple),
                         ),
@@ -1685,6 +1699,12 @@ class _CylindersScreenState extends State<CylindersScreen> {
                 fontSize: 18)),
         const SizedBox(height: 8),
         ..._result!.steps.asMap().entries.map((e) {
+          final List<String> mathLines = e.value.mathLaTeX
+              .split('\n')
+              .map((l) => l.trim())
+              .where((l) => l.isNotEmpty)
+              .toList();
+
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 6),
             elevation: 1,
@@ -1715,7 +1735,7 @@ class _CylindersScreenState extends State<CylindersScreen> {
                         fontSize: 14,
                         height: 1.45),
                   ),
-                  if (e.value.mathLaTeX.isNotEmpty) ...[
+                  if (mathLines.isNotEmpty) ...[
                     const SizedBox(height: 12),
                     Container(
                       width: double.infinity,
@@ -1725,15 +1745,25 @@ class _CylindersScreenState extends State<CylindersScreen> {
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.deepPurple.shade100),
                       ),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Math.tex(
-                          e.value.mathLaTeX,
-                          textStyle: const TextStyle(
-                              fontSize: 16.5,
-                              color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final mLine in mathLines)
+                            Padding(
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 4.0),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Math.tex(
+                                  mLine,
+                                  textStyle: const TextStyle(
+                                      fontSize: 16.5,
+                                      color: Colors.deepPurple,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ]
@@ -1752,7 +1782,7 @@ class _CylindersScreenState extends State<CylindersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Cylinders',
+          '19-1 Cylinders',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.deepPurple,
@@ -1831,7 +1861,7 @@ class CylinderVisualizerPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     canvas.drawRect(
-      const Rect.fromLTWH(cylCx - rx, cylCy - cylH / 2, rx * 2, cylH),
+      Rect.fromLTWH(cylCx - rx, cylCy - cylH / 2, rx * 2, cylH),
       bodyFill,
     );
     canvas.drawOval(
@@ -1841,15 +1871,15 @@ class CylinderVisualizerPainter extends CustomPainter {
         topOval, Paint()..color = Colors.deepPurple.shade100);
     canvas.drawOval(topOval, strokePaint);
 
-    canvas.drawLine(const Offset(cylCx - rx, cylCy - cylH / 2),
-        const Offset(cylCx - rx, cylCy + cylH / 2), strokePaint);
-    canvas.drawLine(const Offset(cylCx + rx, cylCy - cylH / 2),
-        const Offset(cylCx + rx, cylCy + cylH / 2), strokePaint);
+    canvas.drawLine(Offset(cylCx - rx, cylCy - cylH / 2),
+        Offset(cylCx - rx, cylCy + cylH / 2), strokePaint);
+    canvas.drawLine(Offset(cylCx + rx, cylCy - cylH / 2),
+        Offset(cylCx + rx, cylCy + cylH / 2), strokePaint);
 
     // Radius line on top face
     canvas.drawLine(
       const Offset(cylCx, cylCy - cylH / 2),
-      const Offset(cylCx + rx, cylCy - cylH / 2),
+      Offset(cylCx + rx, cylCy - cylH / 2),
       Paint()
         ..color = Colors.green.shade700
         ..strokeWidth = 2.5,
@@ -1891,9 +1921,9 @@ class CylinderVisualizerPainter extends CustomPainter {
         ..style = PaintingStyle.stroke,
     );
 
-    const Offset topCircleCenter =
+    final Offset topCircleCenter =
     Offset(netCx, netCy - rectH / 2 - circleR);
-    const Offset botCircleCenter =
+    final Offset botCircleCenter =
     Offset(netCx, netCy + rectH / 2 + circleR);
 
     for (final c in [topCircleCenter, botCircleCenter]) {
@@ -1939,9 +1969,9 @@ class CylinderVisualizerPainter extends CustomPainter {
     const double drumH = 145.0;
     const double liquidH = 95.0;
 
-    const double topY = cy - drumH / 2;
-    const double botY = cy + drumH / 2;
-    const double liqTopY = botY - liquidH;
+    final double topY = cy - drumH / 2;
+    final double botY = cy + drumH / 2;
+    final double liqTopY = botY - liquidH;
 
     // Liquid Fill
     canvas.drawRect(

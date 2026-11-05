@@ -1148,7 +1148,7 @@ class ConesLogic {
         workings.add(
             "h_{\\text{cyl}} = \\frac{1}{3}h_{\\text{cone}} = \\frac{${fmt(hCone)}}{3} = ${fmt(hCyl)}\\text{ $unit}");
 
-        steps.add(ConeStep(
+        steps.add(const ConeStep(
           title:
           "Step 1: Recall the 1 : 3 Cone-to-Cylinder Volume Ratio (Ex 19f #4–5)",
           description:

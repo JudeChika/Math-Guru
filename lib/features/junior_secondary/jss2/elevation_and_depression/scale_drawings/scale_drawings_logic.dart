@@ -644,32 +644,32 @@ class ScaleDrawingsLogic {
     final double rad1 = farAngle * math.pi / 180.0;
     final double rad2 = closeAngle * math.pi / 180.0;
 
-    final double paperAB_Cm = separationM * cmPerM;
+    final double paperabCm = separationM * cmPerM;
     // Exact geometry for the intersection point P and perpendicular drop PN
-    final double paperAN_Cm =
-        (paperAB_Cm * math.tan(rad2)) / (math.tan(rad2) - math.tan(rad1));
-    final double paperBN_Cm = paperAN_Cm - paperAB_Cm;
-    final double paperPN_Cm = paperAN_Cm * math.tan(rad1);
+    final double paperanCm =
+        (paperabCm * math.tan(rad2)) / (math.tan(rad2) - math.tan(rad1));
+    final double paperbnCm = paperanCm - paperabCm;
+    final double paperpnCm = paperanCm * math.tan(rad1);
 
-    final double realHeightM = paperPN_Cm * mPerCm;
-    final double realBN_M = paperBN_Cm * mPerCm;
+    final double realHeightM = paperpnCm * mPerCm;
+    final double realbnM = paperbnCm * mPerCm;
     final Map<String, String> rounded = applyRoundingRule(realHeightM, roundRule);
 
     final List<String> workings = [
       "\\text{\\textbf{Step 1: Convert Separation Distance }} AB \\text{\\textbf{ Using Scale}}",
       "\\text{Scale: } 1\\text{ cm represents } ${fmt(mPerCm)}\\text{ m}",
-      "\\text{Baseline segment } AB = \\frac{${fmt(separationM)}\\text{ m}}{${fmt(mPerCm)}} = ${fmt(paperAB_Cm)}\\text{ cm}",
+      "\\text{Baseline segment } AB = \\frac{${fmt(separationM)}\\text{ m}}{${fmt(mPerCm)}} = ${fmt(paperabCm)}\\text{ cm}",
       "",
       "\\text{\\textbf{Step 2: Construct the Two Sight-Lines from }} A \\text{\\textbf{ and }} B",
-      "\\text{1. Draw horizontal ground line starting at } A, \\text{ mark } B \\text{ at } AB = ${fmt(paperAB_Cm)}\\text{ cm, and extend the line to the right.}",
+      "\\text{1. Draw horizontal ground line starting at } A, \\text{ mark } B \\text{ at } AB = ${fmt(paperabCm)}\\text{ cm, and extend the line to the right.}",
       "\\text{2. At point } A, \\text{ use a protractor to draw a sight-line at } \\theta_1 = ${fmt(farAngle)}^\\circ \\text{ above the horizontal.}",
       "\\text{3. At point } B, \\text{ use a protractor to draw a second sight-line in the same direction at } \\theta_2 = ${fmt(closeAngle)}^\\circ.",
       "\\text{4. Mark the point where the two sight-lines cross as the aircraft } P.",
       "",
       "\\text{\\textbf{Step 3: Drop Perpendicular }} PN \\text{\\textbf{ and Measure in cm}}",
       "\\text{From } P, \\text{ use a set-square to drop a vertical line } (90^\\circ) \\text{ straight down to the extended baseline at } N.",
-      "\\text{Measured vertical height on paper } (PN) = ${fmt(paperPN_Cm)}\\text{ cm}",
-      "\\text{Actual Height above Ground} = ${fmt(paperPN_Cm)} \\times ${fmt(mPerCm)}\\text{ m} = ${fmt(realHeightM)}\\text{ m}",
+      "\\text{Measured vertical height on paper } (PN) = ${fmt(paperpnCm)}\\text{ cm}",
+      "\\text{Actual Height above Ground} = ${fmt(paperpnCm)} \\times ${fmt(mPerCm)}\\text{ m} = ${fmt(realHeightM)}\\text{ m}",
       "\\text{Rounded (${rounded['ruleName']})} = ${rounded['latex']}",
     ];
 
@@ -678,14 +678,14 @@ class ScaleDrawingsLogic {
         title: "Step 1: Convert the Ground Separation Distance AB to cm",
         description:
         "The two observation points A and B are ${fmt(separationM)} m apart on level ground (Figure 20.23). Using the scale '$scaleText':\n"
-            "• Scale baseline AB = ${fmt(separationM)} m ÷ ${fmt(mPerCm)} = ${fmt(paperAB_Cm)} cm.",
+            "• Scale baseline AB = ${fmt(separationM)} m ÷ ${fmt(mPerCm)} = ${fmt(paperabCm)} cm.",
         mathLaTeX:
-        "AB = \\frac{${fmt(separationM)}\\text{ m}}{${fmt(mPerCm)}} = ${fmt(paperAB_Cm)}\\text{ cm}",
+        "AB = \\frac{${fmt(separationM)}\\text{ m}}{${fmt(mPerCm)}} = ${fmt(paperabCm)}\\text{ cm}",
       ),
       ScaleDrawingStep(
         title: "Step 2: Draw Both Angles of Elevation (${fmt(farAngle)}° and ${fmt(closeAngle)}°) to Locate P",
         description:
-        "1. Draw a long horizontal ground line. Mark point A on the left and measure AB = ${fmt(paperAB_Cm)} cm to mark point B (keep the line extended to the right of B).\n"
+        "1. Draw a long horizontal ground line. Mark point A on the left and measure AB = ${fmt(paperabCm)} cm to mark point B (keep the line extended to the right of B).\n"
             "2. Place your protractor at A and draw a long straight sight-line rising at ${fmt(farAngle)}°.\n"
             "3. Move your protractor to B and draw a second sight-line rising in the same direction at ${fmt(closeAngle)}°.\n"
             "4. The exact point where the two sight-lines intersect is the aircraft P!",
@@ -696,17 +696,17 @@ class ScaleDrawingsLogic {
         title: "Step 3: Drop Perpendicular PN, Measure with a Ruler & Convert",
         description:
         "1. Use a set-square to drop a perpendicular vertical line (90°) from P straight down to meet the extended ground line at N.\n"
-            "2. Measure the vertical height PN on your scale drawing: PN = ${fmt(paperPN_Cm)} cm (and horizontal distance BN = ${fmt(paperBN_Cm)} cm = ${fmt(realBN_M)} m).\n"
-            "3. Multiply PN by ${fmt(mPerCm)} m: ${fmt(paperPN_Cm)} × ${fmt(mPerCm)} = ${fmt(realHeightM)} m.\n"
+            "2. Measure the vertical height PN on your scale drawing: PN = ${fmt(paperpnCm)} cm (and horizontal distance BN = ${fmt(paperbnCm)} cm = ${fmt(realbnM)} m).\n"
+            "3. Multiply PN by ${fmt(mPerCm)} m: ${fmt(paperpnCm)} × ${fmt(mPerCm)} = ${fmt(realHeightM)} m.\n"
             "4. Round ${rounded['ruleName']}: ${rounded['display']}.",
         mathLaTeX:
-        "PN = ${fmt(paperPN_Cm)}\\text{ cm} \\implies \\text{Height} = ${fmt(paperPN_Cm)} \\times ${fmt(mPerCm)}\\text{ m} = ${fmt(realHeightM)}\\text{ m} \\approx ${rounded['latex']}",
+        "PN = ${fmt(paperpnCm)}\\text{ cm} \\implies \\text{Height} = ${fmt(paperpnCm)} \\times ${fmt(mPerCm)}\\text{ m} = ${fmt(realHeightM)}\\text{ m} \\approx ${rounded['latex']}",
       ),
     ];
 
     final Map<String, String> answers = {
-      "Scale Baseline (AB)": "${fmt(paperAB_Cm)} cm",
-      "Measured Height (PN)": "${fmt(paperPN_Cm)} cm",
+      "Scale Baseline (AB)": "${fmt(paperabCm)} cm",
+      "Measured Height (PN)": "${fmt(paperpnCm)} cm",
       "Exact Aircraft Height": "${fmt(realHeightM)} m",
       "Height (Rounded)": rounded['display']!,
     };
@@ -719,7 +719,7 @@ class ScaleDrawingsLogic {
       steps: steps,
       scaleFactorCmPerUnit: cmPerM,
       scaleText: scaleText,
-      realHorizontal: separationM + realBN_M,
+      realHorizontal: separationM + realbnM,
       realVertical: realHeightM,
       realEyeHeight: 0.0,
       angleDeg: farAngle,

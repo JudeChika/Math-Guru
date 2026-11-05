@@ -482,7 +482,7 @@ class BearingsAndDistancesLogic {
         "\\text{Distance of \\text{$c3} from \\text{$c1}} \\approx ${fmt(measuredPaperAC)} \\times ${fmt(scale)}\\text{ $unit} = \\mathbf{${fmt(measuredRealAC)}\\text{ $unit}} \\quad \\left(\\text{Exact} = ${fmt(exactRealAC)}\\text{ $unit}\\right)",
         "",
         "\\text{\\textbf{Step 4: Measure the Bearing of \\text{$c3} from \\text{$c1} with a Protractor}}",
-        "\\text{By measurement clockwise from North at \\text{$c1}: } \\text{N}\\hat{\\text{$c1}}\\text{$c3} \\approx ${roundedBearing}^\\circ",
+        "\\text{By measurement clockwise from North at \\text{$c1}: } \\text{N}\\hat{\\text{$c1}}\\text{$c3} \\approx $roundedBearing^\\circ",
         "\\text{Three-Figure Bearing of \\text{$c3} from \\text{$c1}} = \\mathbf{${fmt3FigLaTeX(roundedBearing.toDouble())}} \\quad \\left(\\text{Acute-angle: } \\text{$resBearingAcute}\\right)",
         "",
         "\\text{\\textbf{Step 5: North/South and East/West Displacement (Ex 24g \\#10b)}}",
@@ -773,10 +773,10 @@ class BearingsAndDistancesLogic {
         final double ewPaperCm = nsPaperCm * math.tan(radWithNS);
         final double hypPaperCm = nsPaperCm / math.cos(radWithNS);
 
-        final double measEW_Cm = (ewPaperCm * 10.0).roundToDouble() / 10.0;
-        final double measHyp_Cm = (hypPaperCm * 10.0).roundToDouble() / 10.0;
-        final double realEW = measEW_Cm * scale;
-        final double realHyp = measHyp_Cm * scale;
+        final double measewCm = (ewPaperCm * 10.0).roundToDouble() / 10.0;
+        final double meashypCm = (hypPaperCm * 10.0).roundToDouble() / 10.0;
+        final double realEW = measewCm * scale;
+        final double realHyp = meashypCm * scale;
 
         final double signY = (bDeg > 90 && bDeg < 270) ? -1.0 : 1.0;
         final double signX = (bDeg > 0 && bDeg < 180) ? 1.0 : -1.0;
@@ -789,8 +789,8 @@ class BearingsAndDistancesLogic {
           "\\text{Draw vertical line from $cK to $cE } (${fmt(nsPaperCm)}\\text{ cm), horizontal line at } 90^\\circ \\text{ from $cE, and bearing } ${fmt3FigLaTeX(bDeg)} \\text{ from $cK to meet at $cL.}",
           "",
           "\\text{\\textbf{Step 3: Measure (a) $cL to $cE and (b) $cL to $cK on the Scale Drawing}}",
-          "\\text{(a) By measurement, $cL to $cE} \\approx ${fmt(measEW_Cm)}\\text{ cm} \\implies ${fmt(measEW_Cm)} \\times ${fmt(scale)} = \\mathbf{${fmt(realEW)}\\text{ $unit}}",
-          "\\text{(b) By measurement, $cL to $cK} \\approx ${fmt(measHyp_Cm)}\\text{ cm} \\implies ${fmt(measHyp_Cm)} \\times ${fmt(scale)} = \\mathbf{${fmt(realHyp)}\\text{ $unit}}",
+          "\\text{(a) By measurement, $cL to $cE} \\approx ${fmt(measewCm)}\\text{ cm} \\implies ${fmt(measewCm)} \\times ${fmt(scale)} = \\mathbf{${fmt(realEW)}\\text{ $unit}}",
+          "\\text{(b) By measurement, $cL to $cK} \\approx ${fmt(meashypCm)}\\text{ cm} \\implies ${fmt(meashypCm)} \\times ${fmt(scale)} = \\mathbf{${fmt(realHyp)}\\text{ $unit}}",
         ];
 
         final List<BearingDistanceStep> steps = [
@@ -817,8 +817,8 @@ class BearingsAndDistancesLogic {
             title:
             "Step 3: Measure Both Unknown Distances on Paper and Multiply by Scale",
             description:
-            "• (a) Distance between $pL and $pE: Measure the horizontal leg on paper ≈ ${fmt(measEW_Cm)} cm → ${fmt(measEW_Cm)} × ${fmt(scale)} = ${fmt(realEW)} $unit.\n"
-                "• (b) Distance between $pL and $pK: Measure the slanted hypotenuse on paper ≈ ${fmt(measHyp_Cm)} cm → ${fmt(measHyp_Cm)} × ${fmt(scale)} = ${fmt(realHyp)} $unit.",
+            "• (a) Distance between $pL and $pE: Measure the horizontal leg on paper ≈ ${fmt(measewCm)} cm → ${fmt(measewCm)} × ${fmt(scale)} = ${fmt(realEW)} $unit.\n"
+                "• (b) Distance between $pL and $pK: Measure the slanted hypotenuse on paper ≈ ${fmt(meashypCm)} cm → ${fmt(meashypCm)} × ${fmt(scale)} = ${fmt(realHyp)} $unit.",
             mathLaTeX:
             "\\text{(a) $cL to $cE} = \\boxed{${fmt(realEW)}\\text{ $unit}}, \\quad \\text{(b) $cL to $cK} = \\boxed{${fmt(realHyp)}\\text{ $unit}}",
           ),
@@ -828,8 +828,8 @@ class BearingsAndDistancesLogic {
           mode: 1,
           subMode: 1,
           finalAnswers: {
-            "a) $pL to $pE": "${fmt(realEW)} $unit (${fmt(measEW_Cm)} cm)",
-            "b) $pL to $pK": "${fmt(realHyp)} $unit (${fmt(measHyp_Cm)} cm)",
+            "a) $pL to $pE": "${fmt(realEW)} $unit (${fmt(measewCm)} cm)",
+            "b) $pL to $pK": "${fmt(realHyp)} $unit (${fmt(meashypCm)} cm)",
             "Scale Used": scaleText,
           },
           workingsLaTeX: workings,
@@ -849,15 +849,15 @@ class BearingsAndDistancesLogic {
             leg1RealDist: distVal,
             leg1PaperCm: nsPaperCm,
             leg2RealDist: realEW,
-            leg2PaperCm: measEW_Cm,
+            leg2PaperCm: measewCm,
             resultantBearingDeg: bDeg,
             resultantBearingLabel: bStr,
             resultantRealDist: realHyp,
-            resultantPaperCm: measHyp_Cm,
+            resultantPaperCm: meashypCm,
             headerBadge:
             "a) $pL to $pE = ${fmt(realEW)} $unit   |   b) $pL to $pK ≈ ${fmt(realHyp)} $unit",
             subBadge:
-            "Scale: $scaleText   |   $pK–$pE = ${fmt(nsPaperCm)} cm   |   $pE–$pL = ${fmt(measEW_Cm)} cm   |   $pK–$pL = ${fmt(measHyp_Cm)} cm",
+            "Scale: $scaleText   |   $pK–$pE = ${fmt(nsPaperCm)} cm   |   $pE–$pL = ${fmt(measewCm)} cm   |   $pK–$pL = ${fmt(meashypCm)} cm",
           ),
         );
       }
@@ -1045,7 +1045,7 @@ class BearingsAndDistancesLogic {
         // 1. Check leg B -> C (for Ex 24f #4 Road Survey: bearing of B from A and bearing of C from B)
         final double dxBC = pC.xCm - pB.xCm;
         final double dyBC = pC.yCm - pB.yCm;
-        final double distBC_Cm = math.sqrt(dxBC * dxBC + dyBC * dyBC);
+        final double distbcCm = math.sqrt(dxBC * dxBC + dyBC * dyBC);
         final double bearingCFromB = deltaXYToBearingDeg(dxBC, dyBC);
 
         // 2. Perpendicular distance from 3rd point (pC) to line through pA and pB (Ex 24f #1b & #5c)
@@ -1075,14 +1075,14 @@ class BearingsAndDistancesLogic {
           workings.add(
               "\\bullet \\text{ Perpendicular distance of $cC from line $cA$cB} \\approx ${fmt(measPerpCm)}\\text{ cm} \\times ${fmt(scale)} = \\mathbf{${fmt(realPerp)}\\text{ $unit}}");
           workings.add(
-              "\\bullet \\text{ Bearing of $cC from $cB} = \\mathbf{${fmt3FigLaTeX(bearingCFromB)}} \\quad \\left(\\text{Distance $cB$cC} \\approx ${fmt(distBC_Cm * scale)}\\text{ $unit}\\right)");
+              "\\bullet \\text{ Bearing of $cC from $cB} = \\mathbf{${fmt3FigLaTeX(bearingCFromB)}} \\quad \\left(\\text{Distance $cB$cC} \\approx ${fmt(distbcCm * scale)}\\text{ $unit}\\right)");
 
           steps.add(BearingDistanceStep(
             title:
             "Step 3: Perpendicular Distance of ${pC.label} from Line ${pA.label}${pB.label} & Second Leg (${pB.label} → ${pC.label})",
             description:
             "• Perpendicular Offset (Ex 24f #1b & #5c): Drop a perpendicular line (at 90°) from '${pC.label}' to the line joining '${pA.label}' and '${pB.label}'. On paper, this measures ≈ ${fmt(measPerpCm)} cm, which is ${fmt(measPerpCm)} × ${fmt(scale)} = ${fmt(realPerp)} $unit.\n"
-                "• Second Road Leg (Ex 24f #4): From '${pB.label}' to '${pC.label}', the bearing of ${pC.label} from ${pB.label} is ${fmt3Fig(bearingCFromB)} and the distance is ${fmt(distBC_Cm * scale)} $unit.",
+                "• Second Road Leg (Ex 24f #4): From '${pB.label}' to '${pC.label}', the bearing of ${pC.label} from ${pB.label} is ${fmt3Fig(bearingCFromB)} and the distance is ${fmt(distbcCm * scale)} $unit.",
             mathLaTeX:
             "\\text{Perp. Distance} = \\boxed{${fmt(realPerp)}\\text{ $unit}}, \\quad \\text{Bearing ($cC from $cB)} = \\boxed{${fmt3FigLaTeX(bearingCFromB)}}",
           ));
