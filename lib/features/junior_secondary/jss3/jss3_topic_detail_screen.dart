@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss3/area_of_plane_shapes/areas_of_plane_shapes/area_of_plane_shapes_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/area_of_plane_shapes/areas_using_trigonometry/areas_using_trigonometry_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/area_of_plane_shapes/concentric_circles_sectors/concentric_circles_sectors_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/area_of_plane_shapes/real_life_area_activities/real_life_area_activities_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/areas_volumes_similar_shapes/areas_similar_shapes/areas_similar_shapes_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/areas_volumes_similar_shapes/volumes_similar_objects/volumes_similar_objects_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/binary_number_system/binary_computer_applications/binary_computer_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/binary_number_system/binary_to_base10/binary_to_base10_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/binary_number_system/flow_chart/flow_chart_screen.dart';
@@ -17,6 +23,11 @@ import 'package:math_guru/features/junior_secondary/jss3/factorisation_quadratic
 import 'package:math_guru/features/junior_secondary/jss3/factorisation_quadratic_equation/perfect_squares/perfect_squares_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/factorisation_quadratic_equation/quadratic_expansion/quadratic_expansion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/factorisation_quadratic_equation/quadratic_factorisation/quadratic_factorisation_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/bisection_of_an_angle/bisection_of_angle_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/construction_of_angles/construction_of_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/construction_simple_shapes/construction_simple_shapes_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/copying_given_angles/copying_given_angles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/geometrical_construction_intro/geometrical_construction_intro_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/proportion/direct_proportion/direct_proportion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/proportion/indirect_proportion/indirect_proportion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/proportion/reciprocals/reciprocals_screen.dart';
@@ -35,7 +46,17 @@ import 'package:math_guru/features/junior_secondary/jss3/simultaneous_linear_equ
 import 'package:math_guru/features/junior_secondary/jss3/simultaneous_linear_equations/simultaneous_intro/simultaneous_intro_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/simultaneous_linear_equations/simultaneous_word_problems/simultaneous_word_problems_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/simultaneous_linear_equations/substitution_method/substitution_method_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/sine_and_cosine_of_acute_angle/applications_of_sine_cosine/applications_of_sine_cosine_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/sine_and_cosine_of_acute_angle/sine_cosine_acute_angle/sine_cosine_acute_angle_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/sine_and_cosine_of_acute_angle/sine_cosine_measurement/sine_cosine_measurement_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/sine_and_cosine_of_acute_angle/sine_cosine_right_triangles/sine_cosine_right_triangles_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/sine_and_cosine_of_acute_angle/sine_cosine_tables/use_of_sine_cosine_tables_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/substitution_formulae_change/formulae_substitution/formulae_substitution_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/tangent_of_an_acute_angle/application_of_tangents/application_of_tangents_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/tangent_of_an_acute_angle/tangent_acute_angle/tangent_acute_angle_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/tangent_of_an_acute_angle/tangent_by_measurement/tangent_by_measurement_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/tangent_of_an_acute_angle/use_of_tangent_ratio/use_of_tangent_ratio_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/tangent_of_an_acute_angle/use_of_tangent_table/use_of_tangent_table_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/word_problems/fraction_word_problems/fraction_word_problems_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/word_problems/numerical_to_words/numerical_to_words_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/word_problems/problems_involving_equations/problems_involving_equations_screen.dart';
@@ -192,6 +213,69 @@ class Jss3TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Enlargement and scale factors') {
       return const EnlargementScaleFactorScreen();
+    }
+    if (subtopic == 'Areas of similar shapes') {
+      return const AreasSimilarShapesScreen();
+    }
+    if (subtopic == 'Volumes of similar objects') {
+      return const VolumesSimilarObjectsScreen();
+    }
+    if (subtopic == 'Tangent of an acute angle') {
+      return const TangentAcuteAngleScreen();
+    }
+    if (subtopic == 'Tangent of acute angles by measurement') {
+      return const TangentByMeasurementScreen();
+    }
+    if (subtopic == 'Use of the tangent ratio') {
+      return const UseOfTangentRatioScreen();
+    }
+    if (subtopic == 'Use of tangent table') {
+      return const UseOfTangentTableScreen();
+    }
+    if (subtopic == 'Application of Tangents of angles in solving practical problems') {
+      return const ApplicationOfTangentsScreen();
+    }
+    if (subtopic == 'Sine and cosine of an acute angle') {
+      return const SineCosineAcuteAngleScreen();
+    }
+    if (subtopic == 'Sines and cosines of acute angles by drawing and measurement') {
+      return const SineCosineMeasurementScreen();
+    }
+    if (subtopic == 'Use of sine and cosine tables') {
+      return const UseOfSineCosineTablesScreen();
+    }
+    if (subtopic == 'Using sine and cosine to solve right-angled triangle problems') {
+      return const SineCosineRightTrianglesScreen();
+    }
+    if (subtopic == 'Applications of sines and cosines of acute angles to solve word problems') {
+      return const ApplicationsOfSineCosineScreen();
+    }
+    if (subtopic == 'Area of plane shapes') {
+      return const AreaOfPlaneShapesScreen();
+    }
+    if (subtopic == 'Areas of plane shapes, using trigonometry') {
+      return const AreasUsingTrigonometryScreen();
+    }
+    if (subtopic == 'Concentric circles and sectors of circle') {
+      return const ConcentricCirclesSectorsScreen();
+    }
+    if (subtopic == 'Real life activities involving area') {
+      return const RealLifeAreaActivitiesScreen();
+    }
+    if (subtopic == 'Construction') {
+      return const GeometricalConstructionIntroScreen();
+    }
+    if (subtopic == 'Bisection of a given angle') {
+      return const BisectionOfAngleScreen();
+    }
+    if (subtopic == 'Construction of Angles') {
+      return const ConstructionOfAnglesScreen();
+    }
+    if (subtopic == 'Copying Any Given Angle') {
+      return const CopyingGivenAnglesScreen();
+    }
+    if (subtopic == 'Construction of Plane Shapes') {
+      return const ConstructionSimpleShapesScreen();
     }
 
 

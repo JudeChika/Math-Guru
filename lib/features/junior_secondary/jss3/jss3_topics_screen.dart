@@ -73,15 +73,15 @@ const Map<String, List<String>> jss3Topics = {
     'Enlargement and scale factors',
   ],
   'Areas and volumes of similar shapes': [
-    'Areas of similar plane shapes',
-    'Volumes of similar solid shapes',
+    'Areas of similar shapes',
+    'Volumes of similar objects',
   ],
   'Tangent of acute angle': [
-    'Finding the tangent of an acute angle',
-    'Finding tangent of acute angles by measurement',
+    'Tangent of an acute angle',
+    'Tangent of acute angles by measurement',
     'Use of the tangent ratio',
     'Use of tangent table',
-    'Application of tangents of angles in solving practical problems',
+    'Application of Tangents of angles in solving practical problems',
   ],
   'Sine and cosine of an acute angle': [
     'Sine and cosine of an acute angle',
@@ -98,7 +98,10 @@ const Map<String, List<String>> jss3Topics = {
   ],
   'Geometrical constructions': [
     'Construction',
-    'Constructions of plane shapes',
+    'Bisection of a given angle',
+    'Construction of Angles',
+    'Copying Any Given Angle',
+    'Construction of Plane Shapes',
   ],
   'Measures of central tendency': [
     'Averages',
