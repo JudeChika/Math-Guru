@@ -104,15 +104,14 @@ const Map<String, List<String>> jss3Topics = {
     'Construction of Plane Shapes',
   ],
   'Measures of central tendency': [
-    'Averages',
     'The mean',
-    'Finding the mean from a frequency table',
     'The median',
     'The mode',
     'The range',
   ],
   'Data presentation': [
     'Bar charts',
+    'Component Bar charts',
     'Pie charts',
   ],
 };

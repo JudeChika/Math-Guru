@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_guru/features/junior_secondary/jss1/statistics/bar_chart/bar_chart_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/area_of_plane_shapes/areas_of_plane_shapes/area_of_plane_shapes_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/area_of_plane_shapes/areas_using_trigonometry/areas_using_trigonometry_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/area_of_plane_shapes/concentric_circles_sectors/concentric_circles_sectors_screen.dart';
@@ -13,6 +14,8 @@ import 'package:math_guru/features/junior_secondary/jss3/binary_number_system/pu
 import 'package:math_guru/features/junior_secondary/jss3/binary_operations/binary_mul_div/binary_mul_div_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/compound_interest/compound_interest/compound_interest_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/compound_interest/simple_interest/simple_interest_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/data_presentation/component_bar_charts/component_bar_charts_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/data_presentation/pie_charts/pie_charts_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/factorisation_algebra/common_factors/common_factors_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/factorisation_algebra/expansion/expansion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/factorisation_algebra/grouping_terms/grouping_terms_screen.dart';
@@ -28,6 +31,10 @@ import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructio
 import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/construction_simple_shapes/construction_simple_shapes_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/copying_given_angles/copying_given_angles_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/geometrical_constructions/geometrical_construction_intro/geometrical_construction_intro_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/measure_of_central_tendency/mean/mean_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/measure_of_central_tendency/median/median_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/measure_of_central_tendency/mode/mode_screen.dart';
+import 'package:math_guru/features/junior_secondary/jss3/measure_of_central_tendency/range/range_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/proportion/direct_proportion/direct_proportion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/proportion/indirect_proportion/indirect_proportion_screen.dart';
 import 'package:math_guru/features/junior_secondary/jss3/proportion/reciprocals/reciprocals_screen.dart';
@@ -65,6 +72,7 @@ import 'package:math_guru/features/junior_secondary/jss3/word_problems/sum_and_d
 import 'package:math_guru/features/junior_secondary/jss3/word_problems/sum_diff_product/sum_diff_product_screen.dart';
 
 import 'binary_operations/binary_add_sub/binary_add_sub_screen.dart';
+import 'data_presentation/bar_charts/bar_charts_screen.dart';
 
 class Jss3TopicDetailScreen extends StatelessWidget {
   final String topic;
@@ -276,6 +284,27 @@ class Jss3TopicDetailScreen extends StatelessWidget {
     }
     if (subtopic == 'Construction of Plane Shapes') {
       return const ConstructionSimpleShapesScreen();
+    }
+    if (subtopic == 'The mean') {
+      return const MeanScreen();
+    }
+    if (subtopic == 'The median') {
+      return const MedianScreen();
+    }
+    if (subtopic == 'The mode') {
+      return const ModeScreen();
+    }
+    if (subtopic == 'The range') {
+      return const RangeScreen();
+    }
+    if (subtopic == 'Bar charts') {
+      return const BarChartsScreen();
+    }
+    if (subtopic == 'Component Bar charts') {
+      return const ComponentBarChartsScreen();
+    }
+    if (subtopic == 'Pie charts') {
+      return const PieChartsScreen();
     }
 
 
