@@ -102,7 +102,7 @@ class _SimultaneousIntroScreenState extends State<SimultaneousIntroScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 10 Subtopic 1: Simultaneous Linear Equations (Page 91 & Page 102 Revision Exercise 10 Part C #1–10).
+      You are a strict JSON models extractor for JSS3 Chapter 10 Subtopic 1: Simultaneous Linear Equations (Page 91 & Page 102 Revision Exercise 10 Part C #1–10).
       Extract the two linear equations into "eq1Input" and "eq2Input".
       Return ONLY valid JSON:
       {

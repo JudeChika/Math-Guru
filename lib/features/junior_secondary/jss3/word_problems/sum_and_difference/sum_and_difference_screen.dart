@@ -115,7 +115,7 @@ class _SumAndDifferenceScreenState extends State<SumAndDifferenceScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 2: Word Problems — Sum and Difference (Pages 19–22, Exercise 2.1 #1–25).
+      You are a strict JSON models extractor for JSS3 Chapter 2: Word Problems — Sum and Difference (Pages 19–22, Exercise 2.1 #1–25).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Direct Positive Difference (subMode 0, e.g. Ex 2.1 #13: -16 and -69; #14: 114 and -14; #19: -11.9 and 2.8), Negative Difference (subMode 1), Sum (subMode 2), or Compare All Three (subMode 3). Put first number in "input1" and second number in "input2".

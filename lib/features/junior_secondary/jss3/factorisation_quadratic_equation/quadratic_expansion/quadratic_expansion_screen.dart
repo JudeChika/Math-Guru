@@ -95,7 +95,7 @@ class _QuadraticExpansionScreenState extends State<QuadraticExpansionScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 8 Subtopic 1: Expansion of Algebraic Expressions (Page 73, Example 1a–g & Exercise 8.1 #1–44).
+      You are a strict JSON models extractor for JSS3 Chapter 8 Subtopic 1: Expansion of Algebraic Expressions (Page 73, Example 1a–g & Exercise 8.1 #1–44).
       Extract the binomial(s) to be expanded:
       - If it is a product of two binomials like "(3x + 5y)(4x - 3y)" -> mode: 0, input1: "3x + 5y", input2: "4x - 3y"
       - If it is a squared binomial like "(4c - 5)^2" -> mode: 1, input1: "4c - 5", input2: ""

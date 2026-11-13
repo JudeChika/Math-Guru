@@ -102,7 +102,7 @@ class _BinaryMulDivScreenState extends State<BinaryMulDivScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 6 Subtopic 2: Multiplication and Division in Base 2 (Pages 60–64, Examples 3–4, Exercise 6.2 Parts A & B, Exercise 6.3 #1–15, Quantitative Reasoning #1–5, and Revision Exercise 6 #11–15).
+      You are a strict JSON models extractor for JSS3 Chapter 6 Subtopic 2: Multiplication and Division in Base 2 (Pages 60–64, Examples 3–4, Exercise 6.2 Parts A & B, Exercise 6.3 #1–15, Quantitative Reasoning #1–5, and Revision Exercise 6 #11–15).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Binary Long Multiplication (Example 3a-c, Ex 6.2 Part A #1-12, Rev Ex 6 #11-12). Put 1st factor in "input1" and 2nd factor in "input2".

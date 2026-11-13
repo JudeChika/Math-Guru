@@ -383,7 +383,7 @@ class _ConstructionSimpleShapesScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 17 Subtopic 5: Construction of Simple Shapes (Pages 206–209, Example 1, Exercise 17.3 #1–6, Quantitative Reasoning #6–8 & Revision Exercise 17 #8–15).
+      You are a strict JSON models extractor for JSS3 Chapter 17 Subtopic 5: Construction of Simple Shapes (Pages 206–209, Example 1, Exercise 17.3 #1–6, Quantitative Reasoning #6–8 & Revision Exercise 17 #8–15).
       Classify the problem into one of 4 modes:
       - mode 0 (SSS Triangle given 3 side lengths, like Example 1 or Ex 17.3 #1, #2): input1 = base BC, input2 = side AB, input3 = side AC.
       - mode 1 (SAS Triangle given 2 sides and included angle, like Ex 17.3 #3, #4, #6 or Rev Ex 17 #8, #9, #13): input1 = base BC, input2 = side AB, input3 = included angle B in degrees, shapeSubKey = "sas_altitude" if altitude is requested, "sas_perp_bisector_d" for #13, else "sas_basic".

@@ -103,7 +103,7 @@ class _WordProblemsFractionsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor and translator for JSS3 Chapter 9 Subtopic 4: Word Problems Involving Algebraic Fractions (Pages 86–89, Example 5a–e & Exercise 9.4 #1–20).
+      You are a strict JSON models extractor and translator for JSS3 Chapter 9 Subtopic 4: Word Problems Involving Algebraic Fractions (Pages 86–89, Example 5a–e & Exercise 9.4 #1–20).
       Given the user's word problem or image:
       1. Put the full word problem text into "problemStatement".
       2. Put what the unknown variable represents into "unknownMeaning" (e.g. "the unknown number" or "Adamu's monthly allowance").

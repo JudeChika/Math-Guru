@@ -38,7 +38,7 @@ class ScaleDrawingPreset {
   });
 }
 
-/// Holds the evaluated results, step-by-step workings, and visualizer data.
+/// Holds the evaluated results, step-by-step workings, and visualizer models.
 class ScaleDrawingResult {
   final int mode;
   final int subMode;
@@ -46,7 +46,7 @@ class ScaleDrawingResult {
   final List<String> workingsLaTeX;
   final List<ScaleDrawingStep> steps;
 
-  // Visualizer / Canvas data
+  // Visualizer / Canvas models
   final double scaleFactorCmPerUnit; // e.g., 0.5 cm per m (if 1 cm to 2 m)
   final String scaleText;
   final double realHorizontal;

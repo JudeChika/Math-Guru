@@ -8,7 +8,7 @@ class FrequencyTableLogic {
     return v.toStringAsFixed(2).replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '');
   }
 
-  /// Main public function to process raw data into a frequency table.
+  /// Main public function to process raw models into a frequency table.
   static FrequencyResult processData(String input) {
     try {
       // 1. Sanitize and parse input (Split by commas primarily, fallback to spaces)
@@ -33,11 +33,11 @@ class FrequencyTableLogic {
       if (rawStrings.length > 200) {
         return FrequencyResult(
             rawData: [], sortedData: [], tableRows: [], interpretations: [], steps: [],
-            valid: false, errorMessage: "That's a lot of data! Please enter 200 items or fewer."
+            valid: false, errorMessage: "That's a lot of models! Please enter 200 items or fewer."
         );
       }
 
-      // 2. Check if data is purely numerical
+      // 2. Check if models is purely numerical
       bool isNumeric = true;
       List<double> numericData = [];
       for (var s in rawStrings) {
@@ -49,13 +49,13 @@ class FrequencyTableLogic {
         numericData.add(val);
       }
 
-      // 3. Rank Order (Sort appropriately based on data type)
+      // 3. Rank Order (Sort appropriately based on models type)
       List<String> sortedData;
       if (isNumeric) {
         numericData.sort();
         sortedData = numericData.map((d) => fmt(d)).toList();
       } else {
-        // Natural alphabetical sort for text/categorical data
+        // Natural alphabetical sort for text/categorical models
         sortedData = List.from(rawStrings)..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
       }
 
@@ -87,8 +87,8 @@ class FrequencyTableLogic {
       steps.add(FrequencyStep(
           title: "Step 2: Arrange in Rank Order",
           description: isNumeric
-              ? "To make sense of the data, we sort the numbers from smallest to largest."
-              : "To make sense of the data, we group identical items together and sort them alphabetically."
+              ? "To make sense of the models, we sort the numbers from smallest to largest."
+              : "To make sense of the models, we group identical items together and sort them alphabetically."
       ));
 
       steps.add(FrequencyStep(
@@ -103,15 +103,15 @@ class FrequencyTableLogic {
 
       // 6. Generate Interpretations
       List<String> interpretations = [];
-      interpretations.add("Total Observations: There are exactly ${rawStrings.length} items in your data set.");
+      interpretations.add("Total Observations: There are exactly ${rawStrings.length} items in your models set.");
 
       if (isNumeric) {
         double minVal = numericData.first;
         double maxVal = numericData.last;
         double range = maxVal - minVal;
 
-        interpretations.add("Lowest Value: The smallest number in the data is ${fmt(minVal)}.");
-        interpretations.add("Highest Value: The largest number in the data is ${fmt(maxVal)}.");
+        interpretations.add("Lowest Value: The smallest number in the models is ${fmt(minVal)}.");
+        interpretations.add("Highest Value: The largest number in the models is ${fmt(maxVal)}.");
         interpretations.add("Range: The difference between the highest and lowest value is ${fmt(range)} (${fmt(maxVal)} - ${fmt(minVal)}).");
       }
 

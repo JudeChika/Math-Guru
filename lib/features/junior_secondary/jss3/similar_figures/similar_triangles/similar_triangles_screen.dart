@@ -297,7 +297,7 @@ class _SimilarTrianglesScreenState extends State<SimilarTrianglesScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 12 Subtopic 2: Similar Triangles (Pages 117–122, Examples 3, 4, 5 & Exercise 12.2 #1a–g).
+      You are a strict JSON models extractor for JSS3 Chapter 12 Subtopic 2: Similar Triangles (Pages 117–122, Examples 3, 4, 5 & Exercise 12.2 #1a–g).
       Classify the problem into one of 4 modes:
       - mode 0 (Finding missing angles & naming similar triangles, like Example 3): tri1Name="ABC", tri2Name="XYZ", angles1Input="43, ?, 84", angles2Input="53, ?, 43".
       - mode 1 (Two separate similar triangles, finding missing sides, like Example 4 or Ex 12.2 #1a, #1b): tri1Name="ABC", tri2Name="YZX" (in corresponding vertex order!), angles1Input="52, 96, ?", angles2Input="?, 96, 32", sides1Input="6, BC, 10" (representing AB, BC, AC), sides2Input="YZ, 20, 25" (representing YZ, ZX, YX).

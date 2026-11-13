@@ -72,7 +72,7 @@ class _PieChartScreenState extends State<PieChartScreen> {
     }
 
     if (inputData.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter some data.')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter some models.')));
       return;
     }
 
@@ -322,7 +322,7 @@ class _PieChartScreenState extends State<PieChartScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Visualize your data using a Pie Chart! See how each item takes up a slice of the 360° circle.",
+              "Visualize your models using a Pie Chart! See how each item takes up a slice of the 360° circle.",
               style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey.shade700),
             ),
             const SizedBox(height: 16),

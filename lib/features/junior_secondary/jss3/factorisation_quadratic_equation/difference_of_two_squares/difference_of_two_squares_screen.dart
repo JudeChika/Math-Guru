@@ -94,7 +94,7 @@ class _DifferenceOfTwoSquaresScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 8 Subtopic 5: Difference of Two Squares (Pages 77–80, Examples 5 & 6, Exercises 8.5 & 8.6).
+      You are a strict JSON models extractor for JSS3 Chapter 8 Subtopic 5: Difference of Two Squares (Pages 77–80, Examples 5 & 6, Exercises 8.5 & 8.6).
       - If it is an algebraic factorisation question (e.g. "3m^2 - 27n^2", "2 2/49 k^2 - 169", "25y^2 - 6 1/4") -> mode: 0, input1: "2 2/49 k^2 - 169", input2: ""
       - If it is a numerical evaluation question (e.g. "56^2 - 16", "52.4^2 - 47.6^2") -> mode: 1, input1: "56^2", input2: "16"
 

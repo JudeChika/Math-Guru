@@ -144,7 +144,7 @@ class LinearEqGraphPreset {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and 4-quadrant graph data.
+/// Holds the complete evaluated results, workings, steps, and 4-quadrant graph models.
 class LinearEqGraphResult {
   final int mode;
   final int subMode;

@@ -254,7 +254,7 @@ class _VolumesSimilarObjectsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 13 Subtopic 2: Volumes of Similar Objects (Pages 136–141, Examples 4 & 5, Exercise 13.2 #1–10, Exercise 13.3 #1–8, and Page 140 Quantitative Reasoning).
+      You are a strict JSON models extractor for JSS3 Chapter 13 Subtopic 2: Volumes of Similar Objects (Pages 136–141, Examples 4 & 5, Exercise 13.2 #1–10, Exercise 13.3 #1–8, and Page 140 Quantitative Reasoning).
       Classify the question into one of 4 modes:
       - mode 0 (Given 2 corresponding linear lengths/heights/radii and 1 volume/capacity, find the unknown volume): input1 = Length 1, input2 = Length 2, input3 = Volume 1 (leave "" if unknown), input4 = Volume 2 (leave "" if unknown). Supports mixed numbers like "168 3/4" and pi like "256pi/3" or "20/pi".
       - mode 1 (Given 2 volumes or masses and 1 length/radius, find the unknown length/radius): input1 = Volume/Mass 1, input2 = Volume/Mass 2, input3 = Length 1 (leave "" if unknown), input4 = Length 2 (leave "" if unknown).

@@ -103,7 +103,7 @@ class _FormulaeSubstitutionScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 11 Subtopic 1: Formulae and Substitution (Pages 103–106 & 111–113, Examples 1–3, Exercises 11.1 & 11.2, Revision Exercise 11 #1–4).
+      You are a strict JSON models extractor for JSS3 Chapter 11 Subtopic 1: Formulae and Substitution (Pages 103–106 & 111–113, Examples 1–3, Exercises 11.1 & 11.2, Revision Exercise 11 #1–4).
       Extract:
       - "formulaInput": the algebraic expression or formula (e.g. "a = (2b - 3d)/(3b - 2)", "1/p + 3/q", "A = 4 * pi * r^2", "x = (-b ± sqrt(b^2 - 4ac))/(2a)").
       - "valuesInput": comma-separated variable assignments (e.g. "b = 4, d = 2" or "pi = 22/7, r = 2 3/4").

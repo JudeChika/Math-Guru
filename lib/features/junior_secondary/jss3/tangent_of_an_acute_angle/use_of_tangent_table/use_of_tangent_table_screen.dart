@@ -94,7 +94,7 @@ class _UseOfTangentTableScreenState extends State<UseOfTangentTableScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 14 Subtopic 4: Use of Tangent Table (Pages 151–154 & 156, Examples 7–10, Exercise 14.3 #1–44 & Revision Exercise 14 #2–3).
+      You are a strict JSON models extractor for JSS3 Chapter 14 Subtopic 4: Use of Tangent Table (Pages 151–154 & 156, Examples 7–10, Exercise 14.3 #1–44 & Revision Exercise 14 #2–3).
       Classify the question into one of 3 modes:
       - mode 0 (Find the tangent of a given angle from the tangent table, like "Find tan 16.53°" or "tan 45 1/2°"): input1 = the angle (e.g. "16.53" or "45 1/2"), input2 = "".
       - mode 1 (Find the angle whose tangent is given as a decimal, like "0.6445" or "2.356"): input1 = the decimal (e.g. "0.6445"), input2 = "".

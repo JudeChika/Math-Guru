@@ -182,7 +182,7 @@ class _BearingsAndDistancesScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 24-3: Bearings and Distances (Surveying & Scale Drawing).
+      You are a strict JSON models extractor for JSS2 Section 24-3: Bearings and Distances (Surveying & Scale Drawing).
       Classify the question or diagram into one of 4 modes:
       - "mode":
         0 for Multi-Leg Journey Scale Drawing (A -> B -> C, finding resultant distance and bearing of C from A — Example 3, Ex 24g #1-5, #10, Rev Test 24 #9-10).

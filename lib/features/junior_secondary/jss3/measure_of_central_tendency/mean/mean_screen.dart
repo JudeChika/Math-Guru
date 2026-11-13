@@ -100,7 +100,7 @@ class _MeanScreenState extends State<MeanScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 18 Subtopic 1: Measures of Central Tendency — The Mean (Pages 211–213 & Page 218).
+      You are a strict JSON models extractor for JSS3 Chapter 18 Subtopic 1: Measures of Central Tendency — The Mean (Pages 211–213 & Page 218).
       Classify the user's question into one of these 4 modes:
       - mode 0 (Ungrouped Data List): e.g. "Find the mean of 7, 5, 6, 4, 4, 2, 3, 5, 3, 4" or "6, 7 1/2, 6 1/2, 5, 12, 8" -> mode: 0, input1: "7, 5, 6, 4, 4, 2, 3, 5, 3, 4", input2: "", input3: "", unit: ""
       - mode 1 (Frequency Table): e.g. Score x and Frequency f -> mode: 1, input1: "0, 1, 2, 3, 4, 5" (the scores), input2: "5, 6, 4, 2, 1, 2" (the frequencies), input3: "", unit: ""
@@ -837,7 +837,7 @@ class _MeanScreenState extends State<MeanScreen> {
           ),
           SizedBox(height: 4),
           Text("1. It is easy to understand and calculate."),
-          Text("2. It makes use of all numbers in the given set of data for its calculation."),
+          Text("2. It makes use of all numbers in the given set of models for its calculation."),
           Text("3. It can be found when the sum of the numbers in the set and the total number of scores are known."),
           SizedBox(height: 10),
           Align(
@@ -848,9 +848,9 @@ class _MeanScreenState extends State<MeanScreen> {
             ),
           ),
           SizedBox(height: 4),
-          Text("1. It is affected by extremely high or low values in the data."),
-          Text("2. It may not correspond to a single score or number in any given set of data."),
-          Text("3. For qualitatively classified (or nominal) data, the mean is meaningless."),
+          Text("1. It is affected by extremely high or low values in the models."),
+          Text("2. It may not correspond to a single score or number in any given set of models."),
+          Text("3. For qualitatively classified (or nominal) models, the mean is meaningless."),
         ],
       ),
     );

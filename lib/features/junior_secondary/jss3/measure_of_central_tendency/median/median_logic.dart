@@ -440,7 +440,7 @@ class MedianLogic {
           "• Rearrange the numbers from smallest to largest (ascending order): $ascPlain.\n"
               "• Note that the result is the exact same if arranged in descending order.",
           mathLinesLaTeX: [
-            "\\text{Original data: } $origLaTeX",
+            "\\text{Original models: } $origLaTeX",
             "\\text{Ascending order: } \\mathbf{$ascLaTeX}",
             "\\text{Descending order: } $descLaTeX",
           ],
@@ -561,7 +561,7 @@ class MedianLogic {
           description:
           "• Arrange the given values from smallest to largest: $ascPlain.",
           mathLinesLaTeX: [
-            "\\text{Original data: } $origLaTeX",
+            "\\text{Original models: } $origLaTeX",
             "\\text{Ascending order: } \\mathbf{$ascLaTeX}",
           ],
         ),

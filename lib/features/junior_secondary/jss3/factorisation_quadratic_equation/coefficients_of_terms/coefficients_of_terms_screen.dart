@@ -94,7 +94,7 @@ class _CoefficientsOfTermsScreenState extends State<CoefficientsOfTermsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 8 Subtopic 2: Coefficients of Terms (Pages 73–74, Example 2a–e & Exercise 8.2 #1–10).
+      You are a strict JSON models extractor for JSS3 Chapter 8 Subtopic 2: Coefficients of Terms (Pages 73–74, Example 2a–e & Exercise 8.2 #1–10).
       - If the expression is a polynomial like "2/7x^2 - 11/18x - 7/40" or "65x - 144 - 19x^2" -> mode: 0, input1: "2/7x^2 - 11/18x - 7/40", input2: ""
       - If the expression is a product of two binomials like "(2x - 3)(3x + 4)" -> mode: 1, input1: "2x - 3", input2: "3x + 4"
       - If the expression is a squared binomial like "(3x - 5)^2" -> mode: 2, input1: "3x - 5", input2: ""

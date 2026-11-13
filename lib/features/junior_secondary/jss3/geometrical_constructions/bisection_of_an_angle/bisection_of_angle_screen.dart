@@ -320,7 +320,7 @@ class _BisectionOfAngleScreenState extends State<BisectionOfAngleScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 17 Subtopic 2: Bisection of an Angle (Pages 201–202 & 207–209, Exercise 17.1 #1–7 & Revision Exercise 17 #4–5).
+      You are a strict JSON models extractor for JSS3 Chapter 17 Subtopic 2: Bisection of an Angle (Pages 201–202 & 207–209, Exercise 17.1 #1–7 & Revision Exercise 17 #4–5).
       Classify the question into one of 3 modes:
       - mode 0 (Bisect a given angle into two equal halves, like Ex 17.1 #2a–f or #5–7): input1 = angle in degrees (e.g. "55", "80", "134"), input2 = 3-letter angle name (e.g. "AOB" or "ABC").
       - mode 1 (Divide an angle into four equal parts by repeated bisection, like Ex 17.1 #3 68°, #4 128°, or Rev Ex 17 #5 90°): input1 = angle in degrees (e.g. "68" or "128" or "90"), input2 = 3-letter angle name (e.g. "ABC", "PQR", "BAC").

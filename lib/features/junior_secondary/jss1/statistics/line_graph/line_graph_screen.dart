@@ -57,12 +57,12 @@ class _LineGraphScreenState extends State<LineGraphScreen> {
     if (_isRawMode) {
       String rawText = _rawController.text.trim();
       if (rawText.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter raw data.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter raw models.')));
         return;
       }
       var res = LineGraphSolver.parseRawData(rawText);
       if (res == null) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid data. Ensure numbers are separated by commas.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid models. Ensure numbers are separated by commas.')));
         return;
       }
       parsedData = res;

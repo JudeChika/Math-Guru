@@ -95,7 +95,7 @@ class _GroupingTermsScreenState extends State<GroupingTermsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 7 Subtopic 5: Factorisation by Grouping Like Terms (Pages 69–71, Example 6a–c, Exercise 7.5 #1–30, and Revision Exercise 7 Part D #1–5).
+      You are a strict JSON models extractor for JSS3 Chapter 7 Subtopic 5: Factorisation by Grouping Like Terms (Pages 69–71, Example 6a–c, Exercise 7.5 #1–30, and Revision Exercise 7 Part D #1–5).
       Classify the question or image into one of 2 modes:
       - "mode":
         0 for Factorising a 4-term algebraic expression by grouping like terms (Example 6a-c, Ex 7.5 #1-25, Rev Ex 7 Part D: put the 4-term expression in "input1", e.g. "3a - cb - 3b + ac" or "3rx + 4x - 6ry - 8y").

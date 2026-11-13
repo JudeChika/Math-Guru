@@ -109,7 +109,7 @@ class _FractionWordProblemsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 2: Word Problems Involving Fractions (Pages 25–28, Examples 8–12 & Exercise 2.4).
+      You are a strict JSON models extractor for JSS3 Chapter 2: Word Problems Involving Fractions (Pages 25–28, Examples 8–12 & Exercise 2.4).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Fractions of an Unknown Number x:

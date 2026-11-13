@@ -94,7 +94,7 @@ class _EliminationMethodScreenState extends State<EliminationMethodScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 10 Subtopic 4: Elimination Method (Pages 97–99, Examples 5 & 6, Exercise 10.3 #1–15, and Page 102 Revision Exercise 10 Part B #1–10).
+      You are a strict JSON models extractor for JSS3 Chapter 10 Subtopic 4: Elimination Method (Pages 97–99, Examples 5 & 6, Exercise 10.3 #1–15, and Page 102 Revision Exercise 10 Part B #1–10).
       Extract the two simultaneous linear equations into "eq1Input" and "eq2Input".
       Return ONLY valid JSON:
       {

@@ -95,7 +95,7 @@ class _CommercialTransactionsScreenState extends State<CommercialTransactionsScr
       );
 
       final prompt = '''
-      Extract data from the word problem for JSS2 Commercial Transactions (Profit, Loss, Commission).
+      Extract models from the word problem for JSS2 Commercial Transactions (Profit, Loss, Commission).
       
       RULES:
       1. Return ONLY a valid JSON object. No markdown, no conversational text.

@@ -297,7 +297,7 @@ class _EnlargementScaleFactorScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 12 Subtopic 3: Enlargement and Scale Factor (Pages 123–130, Examples 6 & 7, Exercise 12.3 #1–10, Quantitative Reasoning Page 128, and Revision Exercise 12 #1–6).
+      You are a strict JSON models extractor for JSS3 Chapter 12 Subtopic 3: Enlargement and Scale Factor (Pages 123–130, Examples 6 & 7, Exercise 12.3 #1–10, Quantitative Reasoning Page 128, and Revision Exercise 12 #1–6).
       Classify the question into one of 3 modes:
       - mode 0 (Find scale factor from given object and image lengths, like Example 6, Example 7, or Quantitative Reasoning): input1 = comma-separated object lengths (e.g. "4, 3, 3"), input2 = comma-separated image lengths (e.g. "10, 7.5, 7.5"), input3 = labels (e.g. "AB, BC, AC").
       - mode 1 (Find missing image or object length & angle given scale factor, like Ex 12.3 #9, #10 or Rev Ex 12 #1, #2, #3, #5): input1 = object length (leave "" if unknown), input2 = image length (leave "" if unknown), input3 = scale factor k (e.g. "7/2" or "3.5"), input4 = angle in degrees if asked (else "").

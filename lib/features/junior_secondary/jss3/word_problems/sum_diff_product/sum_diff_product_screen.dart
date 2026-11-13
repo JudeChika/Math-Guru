@@ -107,7 +107,7 @@ class _SumDiffProductScreenState extends State<SumDiffProductScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 2: Word Problems — Sums and Differences Combined with Products (Pages 23–25, Example 7 & Exercise 2.3).
+      You are a strict JSON models extractor for JSS3 Chapter 2: Word Problems — Sums and Differences Combined with Products (Pages 23–25, Example 7 & Exercise 2.3).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Direct Numerical Expressions Combining Product with Sum/Difference:

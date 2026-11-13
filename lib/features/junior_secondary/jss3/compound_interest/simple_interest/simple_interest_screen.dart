@@ -105,7 +105,7 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 4: Simple Interest (Pages 45–47, Examples 1–4 & Exercise 4.1 #1–20).
+      You are a strict JSON models extractor for JSS3 Chapter 4: Simple Interest (Pages 45–47, Examples 1–4 & Exercise 4.1 #1–20).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Finding Simple Interest (I) and Total Amount (A = P + I) given Principal P ("input1"), Time T in years ("input2"), and Rate R% ("input3").

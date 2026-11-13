@@ -8,7 +8,7 @@ class PieChartSolver {
     return v.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '');
   }
 
-  /// Main public function to process raw or tabular data into a pie chart result.
+  /// Main public function to process raw or tabular models into a pie chart result.
   static PieChartResult processData(String input, bool isTableFormat) {
     try {
       if (input.trim().isEmpty) throw const FormatException("Empty input");
@@ -37,7 +37,7 @@ class PieChartSolver {
         } else if (input.contains('\n')) {
           pairs = input.split('\n');
         } else {
-          throw const FormatException("Table data must be separated by commas or new lines.");
+          throw const FormatException("Table models must be separated by commas or new lines.");
         }
 
         for (var pair in pairs) {
@@ -55,7 +55,7 @@ class PieChartSolver {
         }
       }
 
-      if (counts.isEmpty) throw const FormatException("No valid data found.");
+      if (counts.isEmpty) throw const FormatException("No valid models found.");
 
       // Check if keys are entirely numerical to sort ascending, else sort alphabetically
       bool keysAreNumeric = true;
@@ -107,7 +107,7 @@ class PieChartSolver {
       if (!isTableFormat) {
         steps.add(PieChartStep(
             title: "Step 1: Collect & Count Data",
-            description: "First, we look at the raw data and count how many times each item appears. This gives us our Total Frequency of $totalFrequency."
+            description: "First, we look at the raw models and count how many times each item appears. This gives us our Total Frequency of $totalFrequency."
         ));
       } else {
         steps.add(PieChartStep(

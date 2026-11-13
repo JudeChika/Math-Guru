@@ -114,7 +114,7 @@ class _OtherBasesToBinaryScreenState extends State<OtherBasesToBinaryScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 1: Conversion of Other Number Bases to Binary.
+      You are a strict JSON models extractor for JSS3 Chapter 1: Conversion of Other Number Bases to Binary.
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Converting a Base 10 whole number, decimal, mixed number, or fraction (e.g. 324, 25.0625, 112.125, 20 3/4, 15/16, 0.75) to binary (Example 4a & Exercise 1.3 #1a-h, #3h).

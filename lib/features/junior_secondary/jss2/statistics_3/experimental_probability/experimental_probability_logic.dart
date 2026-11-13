@@ -461,7 +461,7 @@ class ExperimentalProbabilityLogic {
         valid: false,
         errorMessage: e is FormatException
             ? e.message
-            : "Ensure your data list contains valid numbers.",
+            : "Ensure your models list contains valid numbers.",
       );
     }
   }

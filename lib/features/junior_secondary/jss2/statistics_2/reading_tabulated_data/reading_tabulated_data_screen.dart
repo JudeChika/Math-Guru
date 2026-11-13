@@ -192,7 +192,7 @@ class _ReadingTabulatedDataScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 18-1: Reading Tabulated Data.
+      You are a strict JSON models extractor for JSS2 Section 18-1: Reading Tabulated Data.
       Analyze the provided statistical table image or word problem and extract the 2D table structure and analysis mode:
 
       - "analysisMode":
@@ -203,7 +203,7 @@ class _ReadingTabulatedDataScreenState
 
       RULES:
       1. Return ONLY a valid JSON object. No markdown, no explanations.
-      2. Do NOT include "Total" or "Average" summary rows as data rows.
+      2. Do NOT include "Total" or "Average" summary rows as models rows.
       3. For shaded schedule grids, represent shaded cells as 1 and unshaded cells as 0.
       4. Set "targetRowIdx" and "targetColIdx" (0-based integers) to the row/column asked in the user's question.
 

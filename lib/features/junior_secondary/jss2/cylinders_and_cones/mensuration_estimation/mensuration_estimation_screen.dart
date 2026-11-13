@@ -118,7 +118,7 @@ class _MensurationEstimationScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 19-3: Mensuration and Estimation.
+      You are a strict JSON models extractor for JSS2 Section 19-3: Mensuration and Estimation.
       Classify the word problem or textbook image into one of 3 modes:
       - "topicMode":
         0 for Estimating a numeric product/quotient by rounding each number to 1 significant figure (e.g., 3.1 * 4.8 * 9.2).

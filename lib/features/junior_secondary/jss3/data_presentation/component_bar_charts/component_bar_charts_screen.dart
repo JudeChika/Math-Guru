@@ -107,7 +107,7 @@ class _ComponentBarChartsScreenState extends State<ComponentBarChartsScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 19 Subtopic 2: Component (Compound) Bar Charts (Pages 222–227 & Pages 234–235).
+      You are a strict JSON models extractor for JSS3 Chapter 19 Subtopic 2: Component (Compound) Bar Charts (Pages 222–227 & Pages 234–235).
       Extract the category labels and each component row from the user's question or image:
       - mode 0: Side-by-side component bar chart (Method I, Fig. 19.7, Table 19.5, 19.6, 19.10, 19.19)
       - mode 1: Stacked component bar chart (Method II, Fig. 19.8, Table 19.7, 19.9, Fig. 19.18 / Table 19.20)

@@ -292,7 +292,7 @@ class _ConesScreenState extends State<ConesScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 19-2: Cones.
+      You are a strict JSON models extractor for JSS2 Section 19-2: Cones.
       Classify the word problem or textbook image into one of 5 modes:
       - "topicMode":
         0 for Surface Area of a Cone (Curved Surface Area, Total Surface Area) and Pythagoras' Rule (finding slant height l, vertical height h, or base radius r).

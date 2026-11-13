@@ -34,14 +34,14 @@ class MensurationEstPreset {
   });
 }
 
-/// Holds the evaluated results, step-by-step workings, and visualizer data.
+/// Holds the evaluated results, step-by-step workings, and visualizer models.
 class MensurationEstResult {
   final int topicMode;
   final Map<String, String> finalAnswers;
   final List<String> workingsLaTeX;
   final List<MensurationEstStep> steps;
 
-  // Visualizer data
+  // Visualizer models
   final String shapeType;
   final double dim1Val;
   final double dim2Val;

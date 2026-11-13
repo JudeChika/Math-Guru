@@ -291,7 +291,7 @@ class _ScaleDrawingsScreenState extends State<ScaleDrawingsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 20-3: Scale Drawings (Angles of Elevation & Depression).
+      You are a strict JSON models extractor for JSS2 Section 20-3: Scale Drawings (Angles of Elevation & Depression).
       Classify the word problem or textbook diagram into one of 4 modes:
       - "mode":
         0 for Angle of Elevation (subMode 0: Given Horizontal Distance & Angle -> Find Height; subMode 1: Given Height & Angle -> Find Shadow/Horizontal Distance).

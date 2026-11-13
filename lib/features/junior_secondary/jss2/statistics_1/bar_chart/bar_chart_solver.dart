@@ -8,7 +8,7 @@ class BarChartSolver {
     return v.toStringAsFixed(2).replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '');
   }
 
-  /// Main public function to process raw or tabular data into a bar chart result.
+  /// Main public function to process raw or tabular models into a bar chart result.
   static BarChartResult processData(String input, bool isTableFormat) {
     try {
       if (input.trim().isEmpty) throw const FormatException("Empty input");
@@ -37,7 +37,7 @@ class BarChartSolver {
         } else if (input.contains('\n')) {
           pairs = input.split('\n');
         } else {
-          throw const FormatException("Table data must be separated by commas or new lines.");
+          throw const FormatException("Table models must be separated by commas or new lines.");
         }
 
         for (var pair in pairs) {
@@ -55,7 +55,7 @@ class BarChartSolver {
         }
       }
 
-      if (counts.isEmpty) throw const FormatException("No valid data found.");
+      if (counts.isEmpty) throw const FormatException("No valid models found.");
 
       // Check if keys are entirely numerical to sort ascending, else sort alphabetically
       bool keysAreNumeric = true;
@@ -100,7 +100,7 @@ class BarChartSolver {
       } else {
         steps.add(BarChartStep(
             title: "Step 1: Read the Frequency Table",
-            description: "You provided the data already counted! We read your table to see that there are $totalItems items in total."
+            description: "You provided the models already counted! We read your table to see that there are $totalItems items in total."
         ));
       }
 

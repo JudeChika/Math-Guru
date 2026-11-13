@@ -237,7 +237,7 @@ class _AreasSimilarShapesScreenState extends State<AreasSimilarShapesScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 13 Subtopic 1: Areas of Similar Plane Shapes (Pages 132–136 & 139, Examples 1–3, Exercise 13.1 #1–8, Exercise 13.3 #2, Revision Exercise 13 #1).
+      You are a strict JSON models extractor for JSS3 Chapter 13 Subtopic 1: Areas of Similar Plane Shapes (Pages 132–136 & 139, Examples 1–3, Exercise 13.1 #1–8, Exercise 13.3 #2, Revision Exercise 13 #1).
       Classify the problem into one of 4 modes:
       - mode 0 (Given 2 corresponding sides and 1 area, find the unknown area): input1 = Side 1, input2 = Side 2, input3 = Area 1 (leave "" if unknown), input4 = Area 2 (leave "" if unknown). Use "pi" for π (e.g. "105pi").
       - mode 1 (Given 2 areas/surface areas and 1 side, find the unknown side): input1 = Area 1 (e.g. "9" or "15pi/4"), input2 = Area 2 (e.g. "16" or "135pi/4"), input3 = Side 1 (leave "" if unknown), input4 = Side 2 (leave "" if unknown).

@@ -154,7 +154,7 @@ class _ExperimentalProbabilityScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Experimental Probability.
+      You are a strict JSON models extractor for JSS2 Experimental Probability.
       Analyze the provided word problem or textbook image and classify it into one of 3 modes:
       - "mode": 0 for Frequency/Tally Tables or multi-category counts (e.g., Male vs Female children, Bottle top Mouth up vs Mouth down, Paper clips inside vs outside circle).
       - "mode": 1 for Raw Observation Lists over time (e.g., 12 years of rainfall numbers in mm).
@@ -265,7 +265,7 @@ class _ExperimentalProbabilityScreenState
           _directFutureCtrl.text = fut;
         }
 
-        _inputMode = 1; // Switch to Manual Builder so student sees mapped data
+        _inputMode = 1; // Switch to Manual Builder so student sees mapped models
       });
 
       _solveManual();

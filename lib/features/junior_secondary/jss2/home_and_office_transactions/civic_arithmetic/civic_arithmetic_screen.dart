@@ -98,7 +98,7 @@ class _CivicArithmeticScreenState extends State<CivicArithmeticScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final prompt = '''
-      You are a strict data extractor for JSS2 Civic Arithmetic (VAT and Bills).
+      You are a strict models extractor for JSS2 Civic Arithmetic (VAT and Bills).
       Analyze the word problem and return ONLY a valid JSON object.
       
       RULES:

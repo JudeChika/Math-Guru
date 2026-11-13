@@ -97,7 +97,7 @@ class _ExpansionScreenState extends State<ExpansionScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 7 Subtopic 1: Expansion of Algebraic Expressions (Pages 65 & 71, Example 1, Exercise 7.1 Parts A & B, and Revision Exercise 7 Part A).
+      You are a strict JSON models extractor for JSS3 Chapter 7 Subtopic 1: Expansion of Algebraic Expressions (Pages 65 & 71, Example 1, Exercise 7.1 Parts A & B, and Revision Exercise 7 Part A).
       Extract the algebraic expression to be expanded into "input1" in mode 3 (or mode 0 if a single bracket where "input1" is the outside factor and "input2" is the inside bracket).
       Examples:
       - For "-7(2a - 3b)" -> mode: 0, input1: "-7", input2: "2a - 3b"

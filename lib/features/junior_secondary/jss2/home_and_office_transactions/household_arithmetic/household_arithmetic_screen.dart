@@ -67,7 +67,7 @@ class _HouseholdArithmeticScreenState extends State<HouseholdArithmeticScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final prompt = '''
-      You are a math data extractor for JSS2 Household Arithmetic. Extract data from the word problem into a STRICT JSON schema.
+      You are a math models extractor for JSS2 Household Arithmetic. Extract models from the word problem into a STRICT JSON schema.
       
       RULES:
       1. ONLY return valid JSON. No markdown, no comments.

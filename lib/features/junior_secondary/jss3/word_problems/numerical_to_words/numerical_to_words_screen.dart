@@ -121,7 +121,7 @@ class _NumericalToWordsScreenState extends State<NumericalToWordsScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 2: Changing Numerical Expressions into Words (Pages 28–29, Example 13a-e & Exercise #1-20).
+      You are a strict JSON models extractor for JSS3 Chapter 2: Changing Numerical Expressions into Words (Pages 28–29, Example 13a-e & Exercise #1-20).
       Extract the numerical expression from the user prompt or textbook image into standard one-line mathematical notation using +, -, *, /, and parentheses ( ) around any multi-term numerator or denominator of a fraction.
       Examples of standard notation:
       - "42 + 68"

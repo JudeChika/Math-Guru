@@ -94,7 +94,7 @@ class _SimpleEquationsFractionsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 9 Subtopic 1: Solving Simple Equations Involving Fractions (Pages 81–83, Examples 1 & 2, Exercise 9.1 #1–12).
+      You are a strict JSON models extractor for JSS3 Chapter 9 Subtopic 1: Solving Simple Equations Involving Fractions (Pages 81–83, Examples 1 & 2, Exercise 9.1 #1–12).
       Extract the equation into "lhsInput" with mode: 0. Wrap binomial numerators in parentheses like "(z + 3)/2 - (z + 2)/3 = 2" or "5/6 - 3x/4 = (2x - 1)/3".
       Return ONLY valid JSON:
       {

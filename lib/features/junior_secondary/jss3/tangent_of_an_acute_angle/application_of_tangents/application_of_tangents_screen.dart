@@ -243,7 +243,7 @@ class _ApplicationOfTangentsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 14 Subtopic 5: Application of Tangents of Angles in Solving Practical Problems (Pages 154–158, Examples 11 & 12, Exercise 14.4 #1–12 & Revision Exercise 14).
+      You are a strict JSON models extractor for JSS3 Chapter 14 Subtopic 5: Application of Tangents of Angles in Solving Practical Problems (Pages 154–158, Examples 11 & 12, Exercise 14.4 #1–12 & Revision Exercise 14).
       Classify the question into one of 3 modes:
       - mode 0 (Finding height or distance given angle of elevation/depression, like Example 11): verticalInput = given distance, angleInput = angle in degrees.
       - mode 1 (Finding angle of elevation/depression given two lengths, like Example 12 bridge & boat or Ex 14.4 #1): verticalInput = height/opp, horizontalInput = distance/adj.

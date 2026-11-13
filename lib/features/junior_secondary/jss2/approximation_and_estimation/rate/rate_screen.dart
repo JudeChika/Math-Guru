@@ -83,7 +83,7 @@ class _RateScreenState extends State<RateScreen> {
       final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: apiKey);
 
       final prompt = '''
-      You are a strict math data extractor for JSS2 students learning Rates.
+      You are a strict math models extractor for JSS2 students learning Rates.
       Read the word problem and extract the variables.
       
       RULES:
@@ -115,7 +115,7 @@ class _RateScreenState extends State<RateScreen> {
       // Clean up any markdown blocks safely using RegEx
       rawOutput = rawOutput.replaceAll(RegExp(r'^```[a-zA-Z]*\n'), '').replaceAll(RegExp(r'\n```$'), '').trim();
 
-      if (rawOutput.isEmpty) throw Exception("AI failed to extract data.");
+      if (rawOutput.isEmpty) throw Exception("AI failed to extract models.");
 
       final parsedJson = json.decode(rawOutput);
 

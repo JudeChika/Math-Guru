@@ -98,8 +98,8 @@ class _ModeScreenState extends State<ModeScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 18 Subtopic 3: Measures of Central Tendency — The Mode (Pages 215–216 & Page 218).
-      Extract the data into one of these 2 modes:
+      You are a strict JSON models extractor for JSS3 Chapter 18 Subtopic 3: Measures of Central Tendency — The Mode (Pages 215–216 & Page 218).
+      Extract the models into one of these 2 modes:
       - If it is a raw list of numbers or items (e.g. "Find the mode of 7, 4, 7, 8, 10, 7, 3, 8 and 4") -> mode: 0, input1: "7, 4, 7, 8, 10, 7, 3, 8, 4", input2: "", targetValue: "", unit: ""
       - If it is a frequency table (e.g. Grade A, B, C, D, E, F with Frequency 12, 9, 18, 6, 7, 18) -> mode: 1, input1: "A, B, C, D, E, F", input2: "12, 9, 18, 6, 7, 18", targetValue: "", unit: ""
 
@@ -806,8 +806,8 @@ class _ModeScreenState extends State<ModeScreen> {
           ),
           SizedBox(height: 4),
           Text(
-              "1. It is not so easily affected by the presence of extreme values in the data."),
-          Text("2. It is readily determined from the given set of data."),
+              "1. It is not so easily affected by the presence of extreme values in the models."),
+          Text("2. It is readily determined from the given set of models."),
           Text(
               "3. It is more useful for judging relative standing than the mean."),
           SizedBox(height: 10),
@@ -820,8 +820,8 @@ class _ModeScreenState extends State<ModeScreen> {
           ),
           SizedBox(height: 4),
           Text(
-              "1. Its value is not clearly defined when the data is bimodal or multimodal."),
-          Text("2. It is not suitable for qualitatively classified data."),
+              "1. Its value is not clearly defined when the models is bimodal or multimodal."),
+          Text("2. It is not suitable for qualitatively classified models."),
         ],
       ),
     );

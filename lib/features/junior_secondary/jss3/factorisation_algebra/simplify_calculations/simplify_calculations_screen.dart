@@ -105,7 +105,7 @@ class _SimplifyCalculationsScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 7 Subtopic 4: Simplifying Calculations by Factorisation (Pages 68–70, Example 5a–c, Exercise 7.4 #1–20, and Quantitative Reasoning Roof Puzzles #10–15).
+      You are a strict JSON models extractor for JSS3 Chapter 7 Subtopic 4: Simplifying Calculations by Factorisation (Pages 68–70, Example 5a–c, Exercise 7.4 #1–20, and Quantitative Reasoning Roof Puzzles #10–15).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Standard two-product expressions k * a + k * b (subMode 0) or k * a - k * b (subMode 1). Put common factor k in "input1", first number a in "input2", second number b in "input3".

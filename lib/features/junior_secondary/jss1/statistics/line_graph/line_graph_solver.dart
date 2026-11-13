@@ -29,7 +29,7 @@ class LineGraphSolver {
 
   // --- PEDAGOGICAL SOLVER ---
   static LineGraphResult solve(List<PointData> data, String xHead, String yHead, {bool isRawMode = false}) {
-    if (data.isEmpty) return LineGraphResult(steps: [], valid: false, errorMessage: "No data provided.");
+    if (data.isEmpty) return LineGraphResult(steps: [], valid: false, errorMessage: "No models provided.");
 
     List<ChartStep> steps = [];
 
@@ -78,7 +78,7 @@ class LineGraphSolver {
     // --- PHASE 4: PLOTTING & JOINING ---
     steps.add(ChartStep(
         workingLaTeX: "\\text{Plot the coordinates}",
-        explanation: "For each pair of data, we find where the X-value and Y-value meet on the grid and mark it with a small dot."
+        explanation: "For each pair of models, we find where the X-value and Y-value meet on the grid and mark it with a small dot."
     ));
 
     steps.add(ChartStep(

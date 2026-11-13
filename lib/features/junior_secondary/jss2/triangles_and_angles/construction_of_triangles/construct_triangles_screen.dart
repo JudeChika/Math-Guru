@@ -78,7 +78,7 @@ class _ConstructTrianglesScreenState extends State<ConstructTrianglesScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final prompt = '''
-      You are a strict data extractor for JSS2 Geometry Constructions.
+      You are a strict models extractor for JSS2 Geometry Constructions.
       Read the word problem and extract the triangle construction parameters.
       
       RULES:
@@ -136,7 +136,7 @@ class _ConstructTrianglesScreenState extends State<ConstructTrianglesScreen> {
           _sssSide2LenCtrl.text = jsonMap['sssSide2Len']?.toString() ?? '';
         }
 
-        _inputMode = 1; // Switch to Manual view to show mapped data
+        _inputMode = 1; // Switch to Manual view to show mapped models
       });
 
       _solve();

@@ -107,7 +107,7 @@ class BinaryExpansionDetail {
   });
 }
 
-/// Encapsulates all visual data for the CustomPaint Place-Value Grid & Division Ladder.
+/// Encapsulates all visual models for the CustomPaint Place-Value Grid & Division Ladder.
 class BinaryToBase10CanvasData {
   final int mode;
   // 0: Binary to Base 10 (Whole & Bicimals)

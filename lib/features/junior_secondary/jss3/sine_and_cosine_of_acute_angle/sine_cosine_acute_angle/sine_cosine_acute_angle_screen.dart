@@ -313,7 +313,7 @@ class _SineCosineAcuteAngleScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 15 Subtopic 1: Sine and Cosine of an Acute Angle (Pages 159–162, Examples 1–3 & Exercise 15.1 #1–21).
+      You are a strict JSON models extractor for JSS3 Chapter 15 Subtopic 1: Sine and Cosine of an Acute Angle (Pages 159–162, Examples 1–3 & Exercise 15.1 #1–21).
       Classify the problem into one of 4 modes:
       - mode 0 (Triangle with 3 vertex letters, like Example 1 or Ex 15.1 #1, #2, #9, #10): input1 = 3-letter triangle name (e.g. "ABC"), input2 = vertex with 90° right angle (e.g. "B"), input3 = first acute angle symbol (e.g. "θ"), input4 = second acute angle symbol (e.g. "β").
       - mode 1 (Single-letter side labels, like Example 2): input1 = opposite side to 1st angle, input2 = adjacent side to 1st angle, input3 = hypotenuse side, input4 = 1st angle symbol (e.g. "φ"), input5 = 2nd angle symbol (e.g. "α").

@@ -98,7 +98,7 @@ class _PerfectSquaresScreenState extends State<PerfectSquaresScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 8 Subtopic 4: Perfect Squares (Pages 75–77, Example 4a–e & Exercise 8.4 #1–20).
+      You are a strict JSON models extractor for JSS3 Chapter 8 Subtopic 4: Perfect Squares (Pages 75–77, Example 4a–e & Exercise 8.4 #1–20).
       Extract the perfect square trinomial to be factorised into "exprInput" with mode: 0.
       Examples:
       - "Factorise 4x^2 + 8xy + 4y^2" -> mode: 0, exprInput: "4x^2 + 8xy + 4y^2"

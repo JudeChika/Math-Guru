@@ -365,7 +365,7 @@ class _ConcentricCirclesSectorsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 16 Subtopic 3: Concentric Circles and Sectors of a Circle (Pages 187–192 & 196–197, Examples 7–10, Exercise 16.3 #1–16 & Revision Exercise 16 #8).
+      You are a strict JSON models extractor for JSS3 Chapter 16 Subtopic 3: Concentric Circles and Sectors of a Circle (Pages 187–192 & 196–197, Examples 7–10, Exercise 16.3 #1–16 & Revision Exercise 16 #8).
       Classify the problem into one of 4 modes:
       - mode 0 (Flat ring / washer / path between concentric circles): input1 = Outer radius R, input2 = Inner radius r, input3 = path width w (if given), piMode = "3.14" or "22/7".
       - mode 1 (Area of a sector given angle θ and radius r): input1 = angle θ in degrees, input2 = radius r, piMode = "3.14" or "22/7".

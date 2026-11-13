@@ -55,7 +55,7 @@ class _FactorisationScreenState extends State<FactorisationScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final prompt = '''
-      Extract data from the math problem for Factorisation of Binomials.
+      Extract models from the math problem for Factorisation of Binomials.
       
       RULES:
       1. Return ONLY a valid JSON object. No markdown, no conversational text.

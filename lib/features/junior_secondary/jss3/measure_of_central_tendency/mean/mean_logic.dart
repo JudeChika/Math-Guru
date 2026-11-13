@@ -595,7 +595,7 @@ class MeanLogic {
       const MeanStep(
         title: "Step 1: Write Down the Formula for the Mean (Page 211)",
         description:
-        "• The arithmetic mean (average) is determined by adding all the items together and dividing the sum by the total number of items in the given set of ungrouped data.",
+        "• The arithmetic mean (average) is determined by adding all the items together and dividing the sum by the total number of items in the given set of ungrouped models.",
         mathLinesLaTeX: [
           r"\text{Mean} = \frac{\text{Sum of all values}}{\text{Total number of items}}",
         ],
@@ -620,7 +620,7 @@ class MeanLogic {
       MeanStep(
         title: "Step ${hasFractions ? 4 : 3}: Count the Total Number of Items (n)",
         description:
-        "• Count how many values are in the data set ($givenPlain). There are $n items in total.",
+        "• Count how many values are in the models set ($givenPlain). There are $n items in total.",
         mathLinesLaTeX: [
           "\\text{Total number of items } (n) = \\mathbf{$n}",
         ],

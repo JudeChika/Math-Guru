@@ -295,7 +295,7 @@ class _RealLifeAreaActivitiesScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 16 Subtopic 4: Real-Life Activities Involving Area (Pages 193–196, Examples 11 & 12, Exercise 16.4 #1–10 & Page 196 Quantitative Reasoning).
+      You are a strict JSON models extractor for JSS3 Chapter 16 Subtopic 4: Real-Life Activities Involving Area (Pages 193–196, Examples 11 & 12, Exercise 16.4 #1–10 & Page 196 Quantitative Reasoning).
       Classify the problem into one of 4 modes and select the matching subKey:
       - mode 0 (Large land areas & hectares/km²): subKey in ["farm_m2_ha_km2", "road_stretch_from_ha", "two_parks_equal_area", "paddock_fertiliser"].
       - mode 1 (Surrounding paths, pavers, patio tiling & costs): subKey in ["garden_surrounding_path", "patio_tiling_labour", "pool_pavement_ratio"].

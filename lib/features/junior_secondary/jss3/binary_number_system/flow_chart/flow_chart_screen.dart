@@ -102,7 +102,7 @@ class _FlowChartScreenState extends State<FlowChartScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 1: Using the Computer for Simple Mathematical Calculations (Flow Charts — Example 8 [Figs 1.1–1.2], Example 9 [Fig 1.3], and Exercise 1.5 #1–5).
+      You are a strict JSON models extractor for JSS3 Chapter 1: Using the Computer for Simple Mathematical Calculations (Flow Charts — Example 8 [Figs 1.1–1.2], Example 9 [Fig 1.3], and Exercise 1.5 #1–5).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for One-sided linear or bracketed equations (Example 8: 2x + 8 = 12; Ex 1.5 #1: 3x + 6 = 18; Ex 1.5 #4: 7(x - 3) = 35). Put the equation in "input1".

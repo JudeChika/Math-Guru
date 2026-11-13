@@ -54,7 +54,7 @@ class _WordProblemsScreenState extends State<WordProblemsScreen> {
       final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: apiKey);
 
       final prompt = '''
-      You are a strict math data extractor for JSS2 Word Problems involving equations.
+      You are a strict math models extractor for JSS2 Word Problems involving equations.
       Extract the translation from English to Algebra.
       
       RULES:

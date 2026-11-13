@@ -332,7 +332,7 @@ class _AreaOfPlaneShapesScreenState extends State<AreaOfPlaneShapesScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 16 Subtopic 1: Area of Plane Shapes (Pages 178–183 & 197, Examples 1–3, Exercise 16.1 #1–28 & Revision Exercise 16 #1–7).
+      You are a strict JSON models extractor for JSS3 Chapter 16 Subtopic 1: Area of Plane Shapes (Pages 178–183 & 197, Examples 1–3, Exercise 16.1 #1–28 & Revision Exercise 16 #1–7).
       Classify the problem into one of 4 modes and choose the matching shapeKey:
       - mode 0 (Basic shape): shapeKey in ["rectangle", "square", "triangle", "circle_radius", "circle_diameter", "trapezium", "parallelogram", "kite", "triangle_pythagoras"].
       - mode 1 (Composite addition or Regular Hexagon): shapeKey in ["semicircle_on_rect", "regular_hexagon", "two_rectangles"].

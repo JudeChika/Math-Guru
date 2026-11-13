@@ -271,7 +271,7 @@ class _TangentByMeasurementScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 14 Subtopic 2: Tangent of Acute Angles by Measurement (Pages 143–148 & 156, Examples 1, 2, 3, Exercise 14.1 #4, #6–10 & Revision Exercise 14 #1).
+      You are a strict JSON models extractor for JSS3 Chapter 14 Subtopic 2: Tangent of Acute Angles by Measurement (Pages 143–148 & 156, Examples 1, 2, 3, Exercise 14.1 #4, #6–10 & Revision Exercise 14 #1).
       Classify the problem into one of 3 modes:
       - mode 0 (Given an acute angle in degrees like 35° or 60° or 25°, find opposite side and tan θ by drawing & measurement): input1 = angle in degrees (e.g. "35"), input2 = adjacent baseline in cm (default "10"), input3 = scale (default "1", or "2.5" for Example 1).
       - mode 1 (Given tangent as a fraction p/q like 5/9 or 17/6, or given two triangle legs AB and BC, find the angle θ by drawing & measurement): input1 = opposite numerator (e.g. "5" or "17"), input2 = adjacent denominator (e.g. "9" or "6").

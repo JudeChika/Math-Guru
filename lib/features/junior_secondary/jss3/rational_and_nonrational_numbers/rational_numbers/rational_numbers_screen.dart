@@ -94,7 +94,7 @@ class _RationalNumbersScreenState extends State<RationalNumbersScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 5 Subtopic 1: Rational Numbers (Pages 52–54 & 56–57, Example 1, Exercise 5.1 #1–4 & Revision Exercise 5 #1–2).
+      You are a strict JSON models extractor for JSS3 Chapter 5 Subtopic 1: Rational Numbers (Pages 52–54 & 56–57, Example 1, Exercise 5.1 #1–4 & Revision Exercise 5 #1–2).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Rewriting a terminating decimal in the form a/b in lowest terms (Exercise 5.1 #1a-e: 0.35, 0.78, 3.25, 9.42, 0.125; Revision Ex 5 #1a-j: 0.875, 18.75, 3.19, 2.07, 13.705, 19.84, 0.625, 0.52, 10.24). Put the decimal in "input1".

@@ -96,7 +96,7 @@ class _RealLifeGraphsScreenState extends State<RealLifeGraphsScreen> {
       final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: apiKey);
 
       final prompt = '''
-      Extract data for Real-Life Linear Graphs.
+      Extract models for Real-Life Linear Graphs.
       
       RULES:
       1. Return ONLY valid JSON.

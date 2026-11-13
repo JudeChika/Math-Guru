@@ -162,7 +162,7 @@ class _InequalitiesScreenState extends State<InequalitiesScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 22-1: Inequalities.
+      You are a strict JSON models extractor for JSS2 Section 22-1: Inequalities.
       Classify the question or image into one of 5 modes:
       - "mode":
         0 for Comparing two numbers/expressions with > or < (subMode 0) OR checking if an inequality is True (T) or False (F) (subMode 1).

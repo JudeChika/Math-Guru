@@ -99,7 +99,7 @@ class _UseOfSineCosineTablesScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 15 Subtopic 3: Use of Sine and Cosine Tables (Pages 165–169 & 174, Examples 6–9, Exercises 15.3, 15.4, 15.5 & Revision Exercise 15 #1–2).
+      You are a strict JSON models extractor for JSS3 Chapter 15 Subtopic 3: Use of Sine and Cosine Tables (Pages 165–169 & 174, Examples 6–9, Exercises 15.3, 15.4, 15.5 & Revision Exercise 15 #1–2).
       Classify the question into one of 4 modes:
       - mode 0 (Find BOTH sine and cosine of an angle, like Example 6 or Ex 15.3 #1–6): input1 = angle in degrees (e.g. "35"), isCosine = false.
       - mode 1 (Find sin θ or cos θ of a specific angle from the 4-figure table, like "sin 71.19°" or "cos 23.68°"): input1 = angle (e.g. "23.68"), isCosine = true if cosine, false if sine.

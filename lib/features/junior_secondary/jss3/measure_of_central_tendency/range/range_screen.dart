@@ -97,7 +97,7 @@ class _RangeScreenState extends State<RangeScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 18 Subtopic 4: Measures of Central Tendency — The Range (Pages 217–218).
+      You are a strict JSON models extractor for JSS3 Chapter 18 Subtopic 4: Measures of Central Tendency — The Range (Pages 217–218).
       Classify the question into one of these 4 modes:
       - mode 0 (Ungrouped Data List): e.g. "Find the range of 63, 55, 43, 52, 44" or "6, 7 1/2, 6 1/2, 5, 12, 8" -> mode: 0, input1: "63, 55, 43, 52, 44", input2: "", unit: ""
       - mode 1 (Given Highest/Oldest and Lowest/Youngest directly, like Ex 18.4 #2): -> mode: 1, input1: "20", input2: "12", unit: "years"
@@ -835,13 +835,13 @@ class _RangeScreenState extends State<RangeScreen> {
           ),
           SizedBox(height: 4),
           Text(
-              "1. The range is the difference between the highest and lowest values in a given set of data: Range = Highest value − Lowest value."),
+              "1. The range is the difference between the highest and lowest values in a given set of models: Range = Highest value − Lowest value."),
           Text(
               "2. If Range and Highest value are known: Smallest value = Highest value − Range."),
           Text(
               "3. If Range and Smallest value are known: Highest value = Smallest value + Range."),
           Text(
-              "4. The choice of average (mean, median, or mode) depends on the purpose for which it is required and the nature of the available data."),
+              "4. The choice of average (mean, median, or mode) depends on the purpose for which it is required and the nature of the available models."),
         ],
       ),
     );

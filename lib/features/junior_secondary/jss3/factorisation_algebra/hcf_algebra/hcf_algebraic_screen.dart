@@ -97,7 +97,7 @@ class _HcfAlgebraicScreenState extends State<HcfAlgebraicScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 7 Subtopic 2: HCF of Algebraic Expressions (Pages 66–67, Example 2a–e & Exercise 7.2 #1–20).
+      You are a strict JSON models extractor for JSS3 Chapter 7 Subtopic 2: HCF of Algebraic Expressions (Pages 66–67, Example 2a–e & Exercise 7.2 #1–20).
       Extract the 2 or 3 algebraic monomials whose HCF is requested:
       - If 2 expressions are given -> mode: 0, put 1st in "input1", 2nd in "input2", leave "input3" empty "".
       - If 3 expressions are given -> mode: 1, put 1st in "input1", 2nd in "input2", 3rd in "input3".

@@ -212,7 +212,7 @@ class _SineCosineRightTrianglesScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 15 Subtopic 4: Using Sine and Cosine to Find Right-Angled Triangles (Pages 168–172 & 174–175, Examples 10 & 11, Exercise 15.6 #1–24 & Revision Exercise 15 #3–10).
+      You are a strict JSON models extractor for JSS3 Chapter 15 Subtopic 4: Using Sine and Cosine to Find Right-Angled Triangles (Pages 168–172 & 174–175, Examples 10 & 11, Exercise 15.6 #1–24 & Revision Exercise 15 #3–10).
       Classify the question into one of 4 modes:
       - mode 0 (Find an unknown leg when the hypotenuse and acute angle are given, like Examples 10 & 11): input1 = hypotenuse, input2 = acute angle in degrees, input3 = symbol for unknown leg (e.g. "AB" or "x"), useCosine = true if adjacent leg, false if opposite leg.
       - mode 1 (Find the unknown hypotenuse when one leg and the acute angle are given, like Ex 15.6 #10, #12, #22 "sin 58° = 11/y"): input1 = known leg, input2 = acute angle in degrees, input3 = symbol for unknown hypotenuse (e.g. "x" or "y"), useCosine = true if adjacent leg is given, false if opposite leg is given.

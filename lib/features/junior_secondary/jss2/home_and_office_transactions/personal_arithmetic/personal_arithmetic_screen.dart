@@ -156,7 +156,7 @@ class _PersonalArithmeticScreenState extends State<PersonalArithmeticScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final prompt = '''
-      You are a math data extractor for JSS2 students learning Home and Office Transactions.
+      You are a math models extractor for JSS2 students learning Home and Office Transactions.
       Read the word problem and extract the variables.
       
       RULES:
@@ -202,7 +202,7 @@ class _PersonalArithmeticScreenState extends State<PersonalArithmeticScreen> {
       String rawOutput = response.text?.trim() ?? '';
       rawOutput = rawOutput.replaceAll(RegExp(r'^```[a-zA-Z]*\n'), '').replaceAll(RegExp(r'\n```$'), '').trim();
 
-      if (rawOutput.isEmpty) throw Exception("AI failed to extract data.");
+      if (rawOutput.isEmpty) throw Exception("AI failed to extract models.");
       final parsedJson = json.decode(rawOutput);
 
       setState(() {

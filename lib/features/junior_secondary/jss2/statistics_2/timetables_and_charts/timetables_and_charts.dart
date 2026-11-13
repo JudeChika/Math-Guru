@@ -174,7 +174,7 @@ class ParsedStationVisual {
   });
 }
 
-/// Holds the complete evaluated results, visual data, workings, and steps.
+/// Holds the complete evaluated results, visual models, workings, and steps.
 class TimetableChartResult {
   final int topicMode; // 0: Clock, 1: Journey, 2: School, 3: Distance, 4: Bracket/Target
   final int subMode;

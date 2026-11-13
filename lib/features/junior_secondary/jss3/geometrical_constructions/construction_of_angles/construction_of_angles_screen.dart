@@ -276,7 +276,7 @@ class _ConstructionOfAnglesScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 17 Subtopic 3: Construction of Angles (30°, 45°, 60°, 90° and Combinations, Pages 202–205 & 207–209, Exercise 17.2 #1–10 & Revision Exercise 17 #2–3).
+      You are a strict JSON models extractor for JSS3 Chapter 17 Subtopic 3: Construction of Angles (30°, 45°, 60°, 90° and Combinations, Pages 202–205 & 207–209, Exercise 17.2 #1–10 & Revision Exercise 17 #2–3).
       Classify the question into one of 2 modes:
       - mode 0 (Construct a specific angle using ruler and compasses, like 90°, 45°, 60°, 30°, 15°, 75°, 105°, 120°, 135°, or 150°): angleInput = angle in degrees (e.g. "75"), side1Input = "", side2Input = "".
       - mode 1 (Construct an angle with two given arm lengths and measure the 3rd side, like Ex 17.2 #5, #7, #8, #10 or Rev Ex 17 #2): angleInput = angle in degrees (e.g. "30"), side1Input = 1st arm length (e.g. "9"), side2Input = 2nd arm length (e.g. "8").

@@ -99,7 +99,7 @@ class _ChangeOfSubjectScreenState extends State<ChangeOfSubjectScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 11 Subtopic 2: Changing the Subject of a Formula (Pages 106–113, Examples 4–7, Exercises 11.3 & 11.4, Revision Exercise 11 #5–20).
+      You are a strict JSON models extractor for JSS3 Chapter 11 Subtopic 2: Changing the Subject of a Formula (Pages 106–113, Examples 4–7, Exercises 11.3 & 11.4, Revision Exercise 11 #5–20).
       Extract:
       - "formulaInput": the given formula (e.g. "V = pi * h(R + r)", "C = p(1 + r/100)", "T = 2 * pi * sqrt(l/g)", "1/u = 1/f - 1/v").
       - "newSubjectInput": the single letter to be made the subject (e.g. "h", "r", "l", "f").

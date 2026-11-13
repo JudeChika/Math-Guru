@@ -318,7 +318,7 @@ class _AreasUsingTrigonometryScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 16 Subtopic 2: Areas of Plane Shapes, Using Trigonometry (Pages 184–187, Examples 4–6 & Exercise 16.2 #1–15).
+      You are a strict JSON models extractor for JSS3 Chapter 16 Subtopic 2: Areas of Plane Shapes, Using Trigonometry (Pages 184–187, Examples 4–6 & Exercise 16.2 #1–15).
       Classify the problem into one of 3 modes:
       - mode 0 (Triangle area using trigonometry, like Example 4 or Ex 16.2 #1–5): input1 = base side a, input2 = second side c, input3 = included angle B in degrees.
       - mode 1 (Parallelogram area using trigonometry, like Example 5 or Ex 16.2 #6–10): input1 = base side b, input2 = adjacent slant side a, input3 = interior angle θ in degrees.

@@ -103,7 +103,7 @@ class _CompoundInterestScreenState extends State<CompoundInterestScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 4: Compound Interest (Pages 47–49, Examples 5–7 & Exercise 4.2 #1–12).
+      You are a strict JSON models extractor for JSS3 Chapter 4: Compound Interest (Pages 47–49, Examples 5–7 & Exercise 4.2 #1–12).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Constant-Rate Compound Interest & Final Amount (Examples 5 & 6, Ex 4.2 #1–10: put Principal P in "input1", Years n in "input2", and Rate r% in "input3").

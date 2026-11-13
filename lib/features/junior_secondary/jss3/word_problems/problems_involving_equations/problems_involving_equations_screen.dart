@@ -130,7 +130,7 @@ class _ProblemsInvolvingEquationsScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 2: Problems Involving Equations (Pages 27–28, Examples 14–16, Palindrome Puzzle & Exercise 2.6 #1–6).
+      You are a strict JSON models extractor for JSS3 Chapter 2: Problems Involving Equations (Pages 27–28, Examples 14–16, Palindrome Puzzle & Exercise 2.6 #1–6).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for "I thought of a number..." sequential operation chains (Example 14: "*5, +3" = 2; Example 16: "+3, *4, +7" = 63; Ex 2.6 #1: "*8, -1" = 15; #2: "+7, /12" = 4; #3: "*3, +6, /5" = 2; #4: "+3, *2" = 8.4; #5: "+7, *3, -3, /2, *12" = 72). Put the comma-separated operations in "operationsChain" and final result in "targetResult".

@@ -20,7 +20,7 @@ class BarChartStep {
   });
 }
 
-/// Holds the completely evaluated results, table data, and chart metrics.
+/// Holds the completely evaluated results, table models, and chart metrics.
 class BarChartResult {
   final bool isRawData;
   final List<String> rawData;

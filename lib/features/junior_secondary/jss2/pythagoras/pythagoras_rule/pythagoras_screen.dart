@@ -123,7 +123,7 @@ class _PythagorasScreenState extends State<PythagorasScreen> {
       final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
 
       const promptText = '''
-      You are a strict data extractor for JSS2 Pythagoras Rule.
+      You are a strict models extractor for JSS2 Pythagoras Rule.
       Extract the triangle side lengths from the image or word problem.
       
       RULES:

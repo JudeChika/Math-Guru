@@ -238,7 +238,7 @@ class _TangentAcuteAngleScreenState extends State<TangentAcuteAngleScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 14 Subtopic 1: Tangent of an Acute Angle (Pages 142–147 & 150–151, Exercise 14.1 #1, #2, #3, #5 & Exercise 14.2 #11).
+      You are a strict JSON models extractor for JSS3 Chapter 14 Subtopic 1: Tangent of an Acute Angle (Pages 142–147 & 150–151, Exercise 14.1 #1, #2, #3, #5 & Exercise 14.2 #11).
       Classify the question into one of 3 modes:
       - mode 0 (Triangle with 3 vertex letters, like Ex 14.1 #1a–f): input1 = 3-letter triangle name (e.g. "ABC" or "EFG"), input2 = vertex with 90° right angle (e.g. "B" or "F"), input3 = vertex with acute angle θ (e.g. "C" or "E"), input4 = angle symbol (e.g. "θ").
       - mode 1 (Single-letter side labels, like Ex 14.1 #2 & #3): input1 = letter opposite the angle, input2 = letter adjacent to the angle, input3 = letter for hypotenuse, input4 = angle symbol (e.g. "θ" or "x").

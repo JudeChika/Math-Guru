@@ -20,7 +20,7 @@ class FrequencyStep {
   });
 }
 
-/// Holds the completely evaluated results, table data, and interpretations.
+/// Holds the completely evaluated results, table models, and interpretations.
 class FrequencyResult {
   final List<String> rawData;
   final List<String> sortedData;

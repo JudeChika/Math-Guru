@@ -503,7 +503,7 @@ class RangeLogic {
       const RangeStep(
         title: "Step 1: State the Definition and Formula for Range (Page 217)",
         description:
-        "• The range is the difference between the highest and lowest values in a given set of data.",
+        "• The range is the difference between the highest and lowest values in a given set of models.",
         mathLinesLaTeX: [
           r"\text{Range} = \text{Highest value} - \text{Lowest value}",
         ],

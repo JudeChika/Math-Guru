@@ -51,7 +51,7 @@ class TablePreset {
   });
 }
 
-/// Encapsulates validated and parsed 2D table data for internal solver methods.
+/// Encapsulates validated and parsed 2D table models for internal solver methods.
 class ParsedTableData {
   final String title;
   final String unit;

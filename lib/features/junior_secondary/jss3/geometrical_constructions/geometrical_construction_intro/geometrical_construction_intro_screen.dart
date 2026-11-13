@@ -367,7 +367,7 @@ class _GeometricalConstructionIntroScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 17 Subtopic 1: Construction (Perpendicular Bisectors & Perpendicular Lines, Pages 200–201 & 207–209).
+      You are a strict JSON models extractor for JSS3 Chapter 17 Subtopic 1: Construction (Perpendicular Bisectors & Perpendicular Lines, Pages 200–201 & 207–209).
       Classify the question into one of 3 modes:
       - mode 0 (Construct the perpendicular bisector of a line segment AB): input1 = length of AB in cm (default "8"), input2 = compass radius (> half of AB, else ""), input3 = segment letters (e.g. "AB").
       - mode 1 (Quartering a line segment by bisecting AB at D and bisecting AD at E + circle of radius AE, like Rev Ex 17 #6): input1 = length of AB in cm (default "8"), input2 = "AB".

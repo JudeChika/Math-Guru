@@ -104,7 +104,7 @@ class CompassDirectionPreset {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and compass canvas data.
+/// Holds the complete evaluated results, workings, steps, and compass canvas models.
 class CompassDirectionResult {
   final int mode;
   final Map<String, String> finalAnswers;

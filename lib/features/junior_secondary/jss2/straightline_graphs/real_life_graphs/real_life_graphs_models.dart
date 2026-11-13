@@ -19,7 +19,7 @@ class RealLifeGraphStep {
   });
 }
 
-/// Holds the final evaluated results, graph plotting data, and steps
+/// Holds the final evaluated results, graph plotting models, and steps
 class RealLifeGraphResult {
   final String mode; // 'FixedVariable', 'DirectConversion', or 'TwoPoint'
   final String xLabel;

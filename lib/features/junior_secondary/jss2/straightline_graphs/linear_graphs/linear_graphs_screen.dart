@@ -81,7 +81,7 @@ class _LinearGraphsScreenState extends State<LinearGraphsScreen> {
       final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: apiKey);
 
       final prompt = '''
-      Extract data for JSS2 Linear Graphs.
+      Extract models for JSS2 Linear Graphs.
       
       RULES:
       1. Return ONLY valid JSON. No markdown.
@@ -132,7 +132,7 @@ class _LinearGraphsScreenState extends State<LinearGraphsScreen> {
         }
         if (_questions.isEmpty) _addQuestion();
 
-        _inputMode = 1; // Switch to Manual view to show mapped data
+        _inputMode = 1; // Switch to Manual view to show mapped models
       });
       _solveManual();
 

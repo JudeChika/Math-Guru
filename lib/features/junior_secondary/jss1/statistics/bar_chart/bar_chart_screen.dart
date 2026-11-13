@@ -54,12 +54,12 @@ class _BarChartScreenState extends State<BarChartScreen> {
     if (_isRawMode) {
       String rawText = _rawController.text.trim();
       if (rawText.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter raw data.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter raw models.')));
         return;
       }
       var res = BarChartSolver.parseRawData(rawText);
       if (res == null) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid data. Ensure items are separated by commas.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid models. Ensure items are separated by commas.')));
         return;
       }
       parsedData = res;

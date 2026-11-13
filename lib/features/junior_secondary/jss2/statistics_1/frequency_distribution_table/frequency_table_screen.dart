@@ -22,7 +22,7 @@ class _FrequencyTableScreenState extends State<FrequencyTableScreen> {
   void _solve() {
     FocusScope.of(context).unfocus();
     if (_inputController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter some data.')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter some models.')));
       return;
     }
     setState(() {
@@ -101,7 +101,7 @@ class _FrequencyTableScreenState extends State<FrequencyTableScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Enter your raw data. We will sort it, count it, and build a frequency distribution table!",
+              "Enter your raw models. We will sort it, count it, and build a frequency distribution table!",
               style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey.shade700),
             ),
             const SizedBox(height: 16),

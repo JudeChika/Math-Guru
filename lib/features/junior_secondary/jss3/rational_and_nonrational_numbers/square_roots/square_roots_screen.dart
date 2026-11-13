@@ -93,7 +93,7 @@ class _SquareRootsScreenState extends State<SquareRootsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 5 Subtopic 3: Square Roots (Pages 54–57, Activity 5.1, Examples 2 & 3, Exercise 5.3 #1–10, and Revision Exercise 5 #10a–j).
+      You are a strict JSON models extractor for JSS3 Chapter 5 Subtopic 3: Square Roots (Pages 54–57, Activity 5.1, Examples 2 & 3, Exercise 5.3 #1–10, and Revision Exercise 5 #10a–j).
       Classify the question or image into one of 3 modes:
       - "mode":
         0 for Approximating a non-rational square root using the Progressive Trial Method (Example 2: √3 to 2 s.f. [accuracyMode=1]; Example 3: √111 to 1 d.p. [accuracyMode=0]; Exercise 5.3 #1–10: √7, √18, √9, √24, √8, √52, √75, √89, √99, √105 to 1 d.p. [accuracyMode=0]; Revision Ex 5 #10a–j: √11, √17, √26, √168, √37, √813, √20, √101 to 3 s.f. [accuracyMode=2]). Put the number inside the square root in "input1".

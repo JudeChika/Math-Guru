@@ -35,7 +35,7 @@ class BarChartSolver {
 
   // --- PEDAGOGICAL SOLVER ---
   static BarChartResult solve(List<CategoryData> data, String xHead, String yHead, {bool isRawMode = false}) {
-    if (data.isEmpty) return BarChartResult(steps: [], valid: false, errorMessage: "No data provided.");
+    if (data.isEmpty) return BarChartResult(steps: [], valid: false, errorMessage: "No models provided.");
 
     List<ChartStep> steps = [];
 

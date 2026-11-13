@@ -51,7 +51,7 @@ class _AlgebraicFactorsScreenState extends State<AlgebraicFactorsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final prompt = '''
-      Extract data from the math problem for Algebraic Factors and Multiples.
+      Extract models from the math problem for Algebraic Factors and Multiples.
       
       RULES:
       1. Return ONLY a valid JSON object. No markdown, no conversational text.

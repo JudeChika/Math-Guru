@@ -121,7 +121,7 @@ class LinearGraphPropPreset {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and 4-quadrant graph data.
+/// Holds the complete evaluated results, workings, steps, and 4-quadrant graph models.
 class LinearGraphPropResult {
   final int mode;
   final int subMode;

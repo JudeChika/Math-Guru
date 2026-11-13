@@ -94,7 +94,7 @@ class _BinomialDenominatorsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 9 Subtopic 3: Simple Equations with Binomial Denominators (Pages 84–85, Example 4a–c & Exercise 9.3 #1–15).
+      You are a strict JSON models extractor for JSS3 Chapter 9 Subtopic 3: Simple Equations with Binomial Denominators (Pages 84–85, Example 4a–c & Exercise 9.3 #1–15).
       Extract the equation into "lhsInput" with mode: 0, wrapping binomial denominators in parentheses (e.g. "3x/(x - 2) = 5", "1/(x + 2) = 3/(x - 3)", "6/(1 - m) = 9/(2(1 + m))").
       Return ONLY valid JSON:
       {

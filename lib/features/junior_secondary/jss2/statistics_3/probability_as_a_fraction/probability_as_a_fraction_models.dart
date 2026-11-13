@@ -41,7 +41,7 @@ class ParsedCategoryItem {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and visualizer data.
+/// Holds the complete evaluated results, workings, steps, and visualizer models.
 class ProbFractionResult {
   final String mode; // 'MultiCategory', 'DirectAndComplement', 'RangeAnalyzer'
   final String eventName;

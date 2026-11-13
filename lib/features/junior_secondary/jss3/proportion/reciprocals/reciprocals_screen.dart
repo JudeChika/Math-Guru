@@ -102,7 +102,7 @@ class _ReciprocalsScreenState extends State<ReciprocalsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 3: Reciprocals (Pages 40–43, Examples 6–9, Exercise 3.3 #1–5, and Exercise 3.4 #1–12).
+      You are a strict JSON models extractor for JSS3 Chapter 3: Reciprocals (Pages 40–43, Examples 6–9, Exercise 3.3 #1–5, and Exercise 3.4 #1–12).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Finding the reciprocal of a single number, decimal, fraction, or power (subMode 0, e.g. Example 6: 8, 4.5, 0.6, 10; Ex 3.3 #2: 1.4, 5/6, 0.04; Example 9: 5.348) OR completing Table 3.13 (subMode 1: comma-separated numbers in "input1").

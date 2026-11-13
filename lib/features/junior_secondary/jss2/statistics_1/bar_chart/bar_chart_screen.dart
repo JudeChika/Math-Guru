@@ -31,7 +31,7 @@ class _BarChartScreenState extends State<BarChartScreen> {
   void _generateChart() {
     FocusScope.of(context).unfocus();
     if (_inputController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter some data.')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter some models.')));
       return;
     }
     setState(() {
@@ -201,7 +201,7 @@ class _BarChartScreenState extends State<BarChartScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Visualize your data using a Bar Chart! Enter your numbers or words to see them turn into colorful blocks.",
+              "Visualize your models using a Bar Chart! Enter your numbers or words to see them turn into colorful blocks.",
               style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey.shade700),
             ),
             const SizedBox(height: 16),

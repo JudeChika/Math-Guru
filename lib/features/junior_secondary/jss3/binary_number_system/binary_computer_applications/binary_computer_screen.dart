@@ -95,7 +95,7 @@ class _BinaryComputerScreenState extends State<BinaryComputerScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 1: Application of Binary Numbers to Computers (Table 1.1, Coded Words/Sentences & Punch Tapes).
+      You are a strict JSON models extractor for JSS3 Chapter 1: Application of Binary Numbers to Computers (Table 1.1, Coded Words/Sentences & Punch Tapes).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Translating an English word or sentence into coded binary form (e.g. LAGOS, KADUNA, BENIN, ENUGU, I LIKE MATHEMATICS — Examples 5 & 6).

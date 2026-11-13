@@ -95,8 +95,8 @@ class _MedianScreenState extends State<MedianScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 18 Subtopic 2: Measures of Central Tendency — The Median (Pages 213–215 & Page 218).
-      Extract the data into one of these 2 modes:
+      You are a strict JSON models extractor for JSS3 Chapter 18 Subtopic 2: Measures of Central Tendency — The Median (Pages 213–215 & Page 218).
+      Extract the models into one of these 2 modes:
       - If it is an ungrouped list of numbers (e.g. "Find the median of 16, 49, 53, 8, 32, 19 and 62") -> mode: 0, input1: "16, 49, 53, 8, 32, 19, 62", input2: "", unit: ""
       - If it is a frequency table (e.g. Mark/Score x and Frequency f) -> mode: 1, input1: "0, 1, 2, 3, 4, 5" (the marks/scores), input2: "1, 5, 7, 8, 8, 4" (the frequencies), unit: ""
 
@@ -773,9 +773,9 @@ class _MedianScreenState extends State<MedianScreen> {
           ),
           SizedBox(height: 4),
           Text(
-              "1. It is not affected by extremely high or low values in the data."),
+              "1. It is not affected by extremely high or low values in the models."),
           Text(
-              "2. It may be a representative of the data when the number of terms is odd."),
+              "2. It may be a representative of the models when the number of terms is odd."),
           Text("3. It is good for judging the relative standing of values."),
           SizedBox(height: 10),
           Align(
@@ -787,12 +787,12 @@ class _MedianScreenState extends State<MedianScreen> {
           ),
           SizedBox(height: 4),
           Text(
-              "1. It may not be representative of the data when the number of terms or scores is even."),
+              "1. It may not be representative of the models when the number of terms or scores is even."),
           Text(
-              "2. Its determination involves arranging a given set of data in order of magnitude and this could be very tedious."),
-          Text("3. It is not suitable for qualitatively classified data."),
+              "2. Its determination involves arranging a given set of models in order of magnitude and this could be very tedious."),
+          Text("3. It is not suitable for qualitatively classified models."),
           Text(
-              "4. Unlike the mean, it cannot be used to determine the total value of all the scores even when the number of terms in the data is known."),
+              "4. Unlike the mean, it cannot be used to determine the total value of all the scores even when the number of terms in the models is known."),
         ],
       ),
     );

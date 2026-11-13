@@ -86,7 +86,7 @@ class _RatioScreenState extends State<RatioScreen> {
       final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: apiKey);
 
       const prompt = '''
-      You are a strict math data extractor for JSS2 students. 
+      You are a strict math models extractor for JSS2 students. 
       Read the word problem and extract the variables for ratios and percentages.
       
       RULES:
@@ -117,7 +117,7 @@ class _RatioScreenState extends State<RatioScreen> {
       // Clean up any markdown blocks safely using RegEx
       rawOutput = rawOutput.replaceAll(RegExp(r'^```[a-zA-Z]*\n'), '').replaceAll(RegExp(r'\n```$'), '').trim();
 
-      if (rawOutput.isEmpty) throw Exception("AI failed to extract data.");
+      if (rawOutput.isEmpty) throw Exception("AI failed to extract models.");
 
       final parsedJson = json.decode(rawOutput);
 

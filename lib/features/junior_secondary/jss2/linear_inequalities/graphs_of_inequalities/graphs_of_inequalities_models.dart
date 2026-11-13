@@ -83,7 +83,7 @@ class NumberLineVisualData {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and number-line visualizer data.
+/// Holds the complete evaluated results, workings, steps, and number-line visualizer models.
 class GraphInequalityResult {
   final int mode;
   final Map<String, String> finalAnswers;

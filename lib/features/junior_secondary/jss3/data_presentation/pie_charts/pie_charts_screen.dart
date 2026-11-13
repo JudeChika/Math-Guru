@@ -103,7 +103,7 @@ class _PieChartsScreenState extends State<PieChartsScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 19 Subtopic 3: Pie Charts (Pages 228–233 & Pages 236–237).
+      You are a strict JSON models extractor for JSS3 Chapter 19 Subtopic 3: Pie Charts (Pages 228–233 & Pages 236–237).
       Classify the user's question or image into one of these 4 modes:
       - mode 0: Construct Pie Chart from Frequencies / Quantities (e.g. Example 5: Producers 4, Mimers 6, Choreographers 15, Costumiers 5)
       - mode 1: Construct Pie Chart from Percentages (e.g. Example 6: 30 5/9, 27 7/9, 11 1/9, 16 2/3, 13 8/9 with totalOrKnownInput: "72000")

@@ -144,7 +144,7 @@ class _LinearEquationsGraphsScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 23-1: Linear Equations and Graphs.
+      You are a strict JSON models extractor for JSS2 Section 23-1: Linear Equations and Graphs.
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Explicit Linear Equation Grapher (y = mx + c or y = c - mx, Tables 23.1–23.5, Example 1, Exercise 23a #2–4).

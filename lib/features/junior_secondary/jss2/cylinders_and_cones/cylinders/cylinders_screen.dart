@@ -308,7 +308,7 @@ class _CylindersScreenState extends State<CylindersScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 19-1: Cylinders.
+      You are a strict JSON models extractor for JSS2 Section 19-1: Cylinders.
       Classify the word problem or image into one of 5 modes:
       - "topicMode":
         0 for Surface Area (Curved, Open at 1 end, Closed) & Material Cost.

@@ -60,7 +60,7 @@ class _BisectAngleScreenState extends State<BisectAngleScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final prompt = '''
-      You are a strict data extractor for JSS2 Geometry Constructions (Angle Bisection).
+      You are a strict models extractor for JSS2 Geometry Constructions (Angle Bisection).
       Read the word problem and extract the angle parameters.
       
       RULES:
@@ -89,7 +89,7 @@ class _BisectAngleScreenState extends State<BisectAngleScreen> {
         _angleNameCtrl.text = jsonMap['angleName']?.toString() ?? 'ABC';
         _angleSizeCtrl.text = jsonMap['angleSize']?.toString() ?? '60';
         _armLengthCtrl.text = jsonMap['armLength']?.toString() ?? '6';
-        _inputMode = 1; // Switch to Manual view to show mapped data
+        _inputMode = 1; // Switch to Manual view to show mapped models
       });
 
       _solve();

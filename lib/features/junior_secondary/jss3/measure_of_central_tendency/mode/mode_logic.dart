@@ -220,7 +220,7 @@ class ModeLogic {
         .trim();
 
     if (s.isEmpty) {
-      throw const FormatException("Empty data item detected.");
+      throw const FormatException("Empty models item detected.");
     }
 
     // Check mixed number e.g. "7 1/2"
@@ -390,7 +390,7 @@ class ModeLogic {
           .map((_ModeItem e) => e.frequency)
           .reduce((int a, int b) => a < b ? a : b);
 
-      // Textbook Page 215 rule: "if all the items in a given set of data are different, there cannot be a mode, for no item occurs more frequently than all the others."
+      // Textbook Page 215 rule: "if all the items in a given set of models are different, there cannot be a mode, for no item occurs more frequently than all the others."
       final bool hasNoMode =
           nonZeroItems.length > 1 && maxFreq == minFreq;
 
@@ -540,7 +540,7 @@ class ModeLogic {
         const ModeStep(
           title: "Step 1: Define the Mode (Page 215)",
           description:
-          "• The item that occurs most often in a given set of data is called the mode.\n"
+          "• The item that occurs most often in a given set of models is called the mode.\n"
               "• In a frequency table, the number or grade that has the highest frequency is the mode.",
           mathLinesLaTeX: [
             r"\text{Mode} = \text{Item with the highest frequency } (f_{\max})",
@@ -617,7 +617,7 @@ class ModeLogic {
         mode: mode,
         message: e is FormatException
             ? e.message
-            : "Please check your input data and try again.",
+            : "Please check your input models and try again.",
       );
     }
   }

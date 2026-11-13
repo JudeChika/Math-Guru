@@ -301,7 +301,7 @@ class _ApplicationsOfSineCosineScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 15 Subtopic 5: Applications of Sines and Cosines of Acute Angles (Pages 172–176, Examples 12 & 13, Exercise 15.7 #1–18 & Revision Exercise 15 #11–20).
+      You are a strict JSON models extractor for JSS3 Chapter 15 Subtopic 5: Applications of Sines and Cosines of Acute Angles (Pages 172–176, Examples 12 & 13, Exercise 15.7 #1–18 & Revision Exercise 15 #11–20).
       Classify the problem into one of 4 modes:
       - mode 0 (Find hypotenuse or leg given an angle and one side, like Example 12 ladder at 36° and 7 m from pole): input1 = given length, input2 = angle in degrees, useCosine = true if adjacent side is involved, false if opposite side is involved, extraOption = "find_hypotenuse" if finding the slanted ladder/rope/hypotenuse, or "find_leg" if the hypotenuse is given and we are finding a vertical/horizontal leg.
       - mode 1 (Find the angle of inclination/elevation given a leg and the hypotenuse, like Example 13 boy 14 m high on tree and shadow end 30 m away): input1 = leg length (e.g. "14"), input2 = hypotenuse length (e.g. "30"), useCosine = true if adjacent leg, false if opposite leg.

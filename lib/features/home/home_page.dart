@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'junior_section.dart';
 import 'senior_section.dart';
 import 'profile_section.dart';
+import 'widgets/trial_countdown_banner.dart';
 
 // Riverpod provider to manage the current home tab index
 final homeTabIndexProvider = StateProvider<int>((ref) => 0);
@@ -23,14 +24,22 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(homeTabIndexProvider);
+    final bool isUnifiedScrollPage = currentIndex == 0 || currentIndex == 3;
 
     return Stack(
       children: [
-        const Positioned.fill(child: BackgroundWaves()),
+        // Only show fixed BackgroundWaves on tabs that don't have their own synchronized scrolling BackgroundWaves
+        if (!isUnifiedScrollPage)
+          const Positioned.fill(child: BackgroundWaves()),
         Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: isUnifiedScrollPage
+              ? const Color(0xFFFFFFFF)
+              : Colors.transparent,
           extendBody: true,
-          body: SafeArea(child: _pages[currentIndex]),
+          body: SafeArea(
+            top: !isUnifiedScrollPage,
+            child: _pages[currentIndex],
+          ),
           bottomNavigationBar: _ThemedNavBar(
             currentIndex: currentIndex,
             onTap: (idx) => ref.read(homeTabIndexProvider.notifier).state = idx,
@@ -54,7 +63,7 @@ class _ThemedNavBar extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(28),
         child: BottomNavigationBar(
-          backgroundColor: Colors.white.withOpacity(0.98),
+          backgroundColor: Colors.white.withValues(alpha: 0.98),
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,
           selectedItemColor: Colors.purple,
@@ -63,16 +72,20 @@ class _ThemedNavBar extends StatelessWidget {
           onTap: onTap,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_rounded), label: 'Home',
+              icon: Icon(Icons.home_rounded),
+              label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school_rounded), label: 'Junior',
+              icon: Icon(Icons.school_rounded),
+              label: 'Junior',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school_outlined), label: 'Senior',
+              icon: Icon(Icons.school_outlined),
+              label: 'Senior',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_rounded), label: 'Profile',
+              icon: Icon(Icons.person_rounded),
+              label: 'Profile',
             ),
           ],
         ),
@@ -89,147 +102,183 @@ class _HomeSection extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final user = FirebaseAuth.instance.currentUser;
     final uid = user?.uid;
+    final double topInset = MediaQuery.of(context).padding.top;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Stack(
         children: [
-          const _HomeAppBar(),
-          const SizedBox(height: 18),
-          if (uid != null)
-            FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
-              builder: (context, snapshot) {
-                final data = snapshot.data?.data() as Map<String, dynamic>? ?? {};
-                final String? profileImageUrl = data['profileImageUrl'];
-                final String fullName = data['name'] ?? "User";
-                return LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 54,
-                          height: 54,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: ClipOval(
-                            child: profileImageUrl != null && profileImageUrl.isNotEmpty
-                                ? Image.network(profileImageUrl, fit: BoxFit.cover)
-                                : Image.asset(
-                              'assets/images/profile_icon.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+          // BackgroundWaves now lives INSIDE the SingleChildScrollView so it scrolls simultaneously with the content!
+          const Positioned.fill(child: BackgroundWaves()),
+          Padding(
+            padding: EdgeInsets.fromLTRB(24.0, topInset + 8.0, 24.0, 4.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _HomeAppBar(
+                  onSettingsTap: () {
+                    // Switch to Profile & Subscription Settings tab
+                    ref.read(homeTabIndexProvider.notifier).state = 3;
+                  },
+                ),
+                const SizedBox(height: 18),
+                if (uid != null)
+                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(uid)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      final data = snapshot.data?.data() ?? {};
+                      final String? profileImageUrl = data['profileImageUrl'];
+                      final String fullName =
+                      (data['name'] ?? user?.displayName ?? "User")
+                          .toString();
+                      final String roleLabel =
+                      (data['role'] ?? 'student').toString().toUpperCase();
+
+                      return LayoutBuilder(
+                        builder: (context, constraints) {
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                "Welcome",
-                                style: textTheme.bodySmall?.copyWith(
-                                    color: Colors.white70, fontSize: 13),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                fullName,
-                                style: textTheme.displayLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
+                              Container(
+                                width: 54,
+                                height: 54,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
                                   color: Colors.white,
-                                  fontSize: 24,
                                 ),
-                                overflow: TextOverflow.ellipsis,
+                                child: ClipOval(
+                                  child: profileImageUrl != null &&
+                                      profileImageUrl.isNotEmpty
+                                      ? Image.network(profileImageUrl,
+                                      fit: BoxFit.cover)
+                                      : Image.asset(
+                                    'assets/images/profile_icon.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Welcome ($roleLabel)",
+                                      style: textTheme.bodySmall?.copyWith(
+                                        color: Colors.white70,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      fullName,
+                                      style: textTheme.displayLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            )
-          else
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 54,
-                      height: 54,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/JAY_2589_transcpr_1.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                          );
+                        },
+                      );
+                    },
+                  )
+                else
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "Welcome",
-                            style: textTheme.bodySmall?.copyWith(
-                                color: Colors.white70, fontSize: 13),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            "User",
-                            style: textTheme.displayLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            width: 54,
+                            height: 54,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
                               color: Colors.white,
-                              fontSize: 24,
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/images/JAY_2589_transcpr_1.jpg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Welcome",
+                                  style: textTheme.bodySmall?.copyWith(
+                                      color: Colors.white70, fontSize: 13),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  "User",
+                                  style: textTheme.displayLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          const SizedBox(height: 70),
-          Text(
-            "Categories",
-            style: textTheme.titleMedium?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-            ),
-          ),
-          _CategoryCard(
-            icon: Icons.school_rounded,
-            iconColor: Colors.purple,
-            title: "Junior Secondary",
-            subtitle: "Mathematics topics",
-            onTap: () => ref.read(homeTabIndexProvider.notifier).state = 1,
-          ),
-          const SizedBox(height: 18),
-          _CategoryCard(
-            icon: Icons.school_rounded,
-            iconColor: Colors.purple,
-            title: "Senior Secondary",
-            subtitle: "Mathematics topics",
-            onTap: () => ref.read(homeTabIndexProvider.notifier).state = 2,
-          ),
-          const SizedBox(height: 100),
-          Center(
-            child: Image.asset(
-                "assets/images/math_guru_logo.png",
-              width: 180,
+                      );
+                    },
+                  ),
+
+                const SizedBox(height: 18),
+
+                // LIVE 7-DAY FREE TRIAL COUNTDOWN & SUBSCRIPTION STATUS BANNER
+                const TrialCountdownBanner(),
+
+                const SizedBox(height: 28),
+                Text(
+                  "Categories",
+                  style: textTheme.titleMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                _CategoryCard(
+                  icon: Icons.school_rounded,
+                  iconColor: Colors.purple,
+                  title: "Junior Secondary",
+                  subtitle: "Mathematics topics (JSS 1 – JSS 3)",
+                  onTap: () => ref.read(homeTabIndexProvider.notifier).state = 1,
+                ),
+                const SizedBox(height: 18),
+                _CategoryCard(
+                  icon: Icons.school_rounded,
+                  iconColor: Colors.purple,
+                  title: "Senior Secondary",
+                  subtitle: "Mathematics topics (SSS 1 – SSS 3)",
+                  onTap: () => ref.read(homeTabIndexProvider.notifier).state = 2,
+                ),
+                const SizedBox(height: 48),
+                Center(
+                  child: Image.asset(
+                    "assets/images/math_guru_logo.png",
+                    width: 180,
+                  ),
+                ),
+                const SizedBox(height: 90),
+              ],
             ),
           ),
         ],
@@ -239,7 +288,10 @@ class _HomeSection extends ConsumerWidget {
 }
 
 class _HomeAppBar extends StatelessWidget {
-  const _HomeAppBar();
+  final VoidCallback? onSettingsTap;
+
+  const _HomeAppBar({this.onSettingsTap});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -254,10 +306,10 @@ class _HomeAppBar extends StatelessWidget {
         ),
         const Spacer(),
         IconButton(
-          icon: const Icon(Icons.settings_rounded, color: Colors.white, size: 28),
-          onPressed: () {
-            // Navigate to settings page
-          },
+          icon: const Icon(Icons.settings_rounded,
+              color: Colors.white, size: 28),
+          tooltip: 'Profile & Subscription Settings',
+          onPressed: onSettingsTap,
         ),
       ],
     );
@@ -295,7 +347,7 @@ class _CategoryCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(22),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.18),
+                color: Colors.black.withValues(alpha: 0.18),
                 blurRadius: 12,
                 offset: const Offset(0, 5),
               )
@@ -306,7 +358,7 @@ class _CategoryCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.13),
+                  color: iconColor.withValues(alpha: 0.13),
                   shape: BoxShape.circle,
                 ),
                 padding: const EdgeInsets.all(16),
@@ -356,8 +408,10 @@ class CircleContainer extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration:
-      BoxDecoration(shape: BoxShape.circle, color: color.withOpacity(0.7)),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color.withValues(alpha: 0.7),
+      ),
     );
   }
 }

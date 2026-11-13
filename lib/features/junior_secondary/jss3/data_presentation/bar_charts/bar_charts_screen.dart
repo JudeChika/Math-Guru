@@ -106,8 +106,8 @@ class _BarChartsScreenState extends State<BarChartsScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 19 Subtopic 1: Data Presentation — Bar Charts & Bar Line Graphs (Pages 220–225 & Pages 233–234).
-      Extract the bar chart data into JSON:
+      You are a strict JSON models extractor for JSS3 Chapter 19 Subtopic 1: Data Presentation — Bar Charts & Bar Line Graphs (Pages 220–225 & Pages 233–234).
+      Extract the bar chart models into JSON:
       - mode 0: Vertical Bar Chart (standard vertical bars)
       - mode 1: Horizontal Bar Chart (when the question asks for a horizontal bar graph, e.g. Table 19.4 PMS sales)
       - mode 2: Bar Line Graph (when the question asks for or shows a bar line graph, e.g. Fig 19.3 or Fig 19.16)

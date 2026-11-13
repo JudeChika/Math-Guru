@@ -239,7 +239,7 @@ class _UseOfTangentRatioScreenState extends State<UseOfTangentRatioScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 14 Subtopic 3: Use of the Tangent Ratio (Pages 148–151 & 156, Examples 4–6, Exercise 14.2 #1–12 & Revision Exercise 14 #4, #6).
+      You are a strict JSON models extractor for JSS3 Chapter 14 Subtopic 3: Use of the Tangent Ratio (Pages 148–151 & 156, Examples 4–6, Exercise 14.2 #1–12 & Revision Exercise 14 #4, #6).
       Classify the question into one of 3 modes:
       - mode 0 (Find the Opposite side when the acute angle θ and the Adjacent side are given, like Examples 4 & 5): angleInput = angle in degrees, side1 = adjacent side length, givenTanInput = given value of tan θ if stated in question (else ""), unknownSymbol = letter/segment for unknown opposite side (e.g. "XY", "BC", "x").
       - mode 1 (Find the Adjacent side when the acute angle θ and the Opposite side are given, like Example 6 or Ex 14.2 #8): angleInput = angle in degrees, side1 = opposite side length, givenTanInput = given value of tan θ if stated (else ""), unknownSymbol = letter for unknown adjacent side (e.g. "x", "y", "YZ").

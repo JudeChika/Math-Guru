@@ -116,7 +116,7 @@ class _IndirectProportionScreenState extends State<IndirectProportionScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 3: Indirect Proportion (Pages 37–40 & 43, Tables 3.9–3.15, Figure 3.4, Examples 4 & 5, and Exercise 3.2 #1–7).
+      You are a strict JSON models extractor for JSS3 Chapter 3: Indirect Proportion (Pages 37–40 & 43, Tables 3.9–3.15, Figure 3.4, Examples 4 & 5, and Exercise 3.2 #1–7).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Inverse Unitary Method Word Problems x1*y1 = x2*y2 (Example 4: 18 farmers in 20 days, find for 6; Example 5: 40 students in 6 weeks, find for 16, 30, 60; Ex 3.2 #1: 15 boys in 12 days, find for 9, 12, 18, 45; #2: 48 km at 5, 60, 100 km/h; #4: 10 labourers in 15 days, find for 12). Put x1 in "input1", y1 in "input2", and comma-separated target x2 values in "input3".

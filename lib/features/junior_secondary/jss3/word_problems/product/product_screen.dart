@@ -101,7 +101,7 @@ class _ProductScreenState extends State<ProductScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 2: Word Problems — Product (Pages 22–23, Examples 4–6 & Exercise 2.2 #1–15).
+      You are a strict JSON models extractor for JSS3 Chapter 2: Word Problems — Product (Pages 22–23, Examples 4–6 & Exercise 2.2 #1–15).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Direct Product of 2 or 3 numbers (Example 4a-d & Ex 2.2 #1-#7, #10, #12). Put first number in "input1", second number in "input2", and third number in "input3" (leave "input3" empty if only 2 numbers).

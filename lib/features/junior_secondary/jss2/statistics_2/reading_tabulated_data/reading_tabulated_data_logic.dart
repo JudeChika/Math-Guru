@@ -374,7 +374,7 @@ class ReadingTabulatedDataLogic {
       title: "Step 1: Read the Title, Headings, and Unit First",
       description:
       "Before picking any numbers from a statistical table, inspect its three main parts:\n"
-          "• Title: '${table.title}' (tells you what the data is about).\n"
+          "• Title: '${table.title}' (tells you what the models is about).\n"
           "• Row Headings (${table.rowHeaders.length} rows, read horizontally left-to-right): ${table.rowHeaders.join(', ')}.\n"
           "• Column Headings (${table.decodedCols.length} columns, read vertically top-to-bottom): ${table.decodedCols.join(', ')}.\n"
           "• Unit: $unitExplanation$abbrevNote",

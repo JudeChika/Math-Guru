@@ -243,7 +243,7 @@ class _BearingsScreenState extends State<BearingsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 24-2: Bearings.
+      You are a strict JSON models extractor for JSS2 Section 24-2: Bearings.
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Converting between Acute-Angle Bearings (N37°E, S66°W) and Three-Figure Bearings (037°, 246°), or reading a quadrant sketch (Figure 24.10 / Ex 24c #1-8, Ex 24e #4).

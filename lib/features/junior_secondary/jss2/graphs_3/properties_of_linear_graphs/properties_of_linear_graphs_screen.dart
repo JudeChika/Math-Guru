@@ -156,7 +156,7 @@ class _PropertiesOfLinearGraphsScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 23-2: Properties of Linear Graphs.
+      You are a strict JSON models extractor for JSS2 Section 23-2: Properties of Linear Graphs.
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Finding the Coefficient of x, x-intercept, y-intercept, and optionally a parallel line through the origin (Table 23.7, Example 4, Exercise 23c #1, #5, #7, #9).

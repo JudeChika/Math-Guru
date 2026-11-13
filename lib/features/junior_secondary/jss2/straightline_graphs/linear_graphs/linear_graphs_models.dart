@@ -19,7 +19,7 @@ class LinearGraphStep {
   });
 }
 
-/// Holds the final evaluated results, graph plotting data, and steps
+/// Holds the final evaluated results, graph plotting models, and steps
 class LinearGraphResult {
   final String xLabel;
   final String yLabel;

@@ -290,7 +290,7 @@ class _GraphicalMethodScreenState extends State<GraphicalMethodScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 10 Subtopic 2: Graphical Method (Pages 91–94, Examples 1 & 2, Exercise 10.1 #1–10).
+      You are a strict JSON models extractor for JSS3 Chapter 10 Subtopic 2: Graphical Method (Pages 91–94, Examples 1 & 2, Exercise 10.1 #1–10).
       Extract the two simultaneous linear equations in x and y into "eq1Input" and "eq2Input".
       Return ONLY valid JSON:
       {

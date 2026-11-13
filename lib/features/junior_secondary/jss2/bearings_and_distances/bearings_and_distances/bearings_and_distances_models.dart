@@ -176,7 +176,7 @@ class BearingDistancePreset {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and canvas data.
+/// Holds the complete evaluated results, workings, steps, and canvas models.
 class BearingsDistancesResult {
   final int mode;
   final int subMode;

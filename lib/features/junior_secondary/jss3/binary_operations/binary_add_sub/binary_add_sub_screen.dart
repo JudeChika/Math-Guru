@@ -102,7 +102,7 @@ class _BinaryAddSubScreenState extends State<BinaryAddSubScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 6 Subtopic 1: Addition and Subtraction of Binary Numbers (Pages 58–60 & 62–64, Examples 1–2, Exercise 6.1 #1–24, Quantitative Reasoning #6–10, and Revision Exercise 6 #1–10).
+      You are a strict JSON models extractor for JSS3 Chapter 6 Subtopic 1: Addition and Subtraction of Binary Numbers (Pages 58–60 & 62–64, Examples 1–2, Exercise 6.1 #1–24, Quantitative Reasoning #6–10, and Revision Exercise 6 #1–10).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Binary Addition of 2 or 3 numbers (Example 1a-d, Ex 6.1 #1-10, Rev Ex 6 #1-2). Put 1st number in "input1", 2nd in "input2", and optional 3rd in "input3".

@@ -61,12 +61,12 @@ class _DecisionMakingScreenState extends State<DecisionMakingScreen> {
     if (_isRawMode) {
       String rawText = _rawController.text.trim();
       if (rawText.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter raw data.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter raw models.')));
         return;
       }
       var res = DecisionMakingSolver.parseRawData(rawText);
       if (res == null) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid data format. Use numbers separated by commas or spaces.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid models format. Use numbers separated by commas or spaces.')));
         return;
       }
       parsedData = res;

@@ -112,7 +112,7 @@ class _SimultaneousWordProblemsScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor and translator for JSS3 Chapter 10 Subtopic 5: Word Problems Involving Simultaneous Linear Equations (Pages 99–102, Examples 7, 8, 9, Exercise 10.4 #1–10, and Revision Exercise 10 Part D #1–5).
+      You are a strict JSON models extractor and translator for JSS3 Chapter 10 Subtopic 5: Word Problems Involving Simultaneous Linear Equations (Pages 99–102, Examples 7, 8, 9, Exercise 10.4 #1–10, and Revision Exercise 10 Part D #1–5).
       Given the word problem text or image:
       1. Put the full word problem text into "problemStatement".
       2. Put what x represents into "var1Meaning" and what y represents into "var2Meaning".

@@ -295,7 +295,7 @@ class _CopyingGivenAnglesScreenState extends State<CopyingGivenAnglesScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 17 Subtopic 4: Copying Given Angles (Pages 205–208, Figs. 17.23–17.27, Exercise 17.2 #9a–d & Quantitative Reasoning #5 Fig. 17.37).
+      You are a strict JSON models extractor for JSS3 Chapter 17 Subtopic 4: Copying Given Angles (Pages 205–208, Figs. 17.23–17.27, Exercise 17.2 #9a–d & Quantitative Reasoning #5 Fig. 17.37).
       Extract:
       - "mode": 0 for copying a given angle (like 35°, 70°, 115°, or 156°), or 1 if constructing a parallel line by copying a corresponding angle.
       - "angleInput": the angle in degrees (e.g. "35", "70", "115", "156", or "48").

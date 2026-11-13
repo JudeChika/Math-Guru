@@ -103,7 +103,7 @@ class _QuadraticFactorisationScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 8 Subtopic 3: Factorisation of Quadratic Expressions (Pages 74–75, Example 3a–e, Exercise 8.3 #1–30, and Quantitative Reasoning Page 79).
+      You are a strict JSON models extractor for JSS3 Chapter 8 Subtopic 3: Factorisation of Quadratic Expressions (Pages 74–75, Example 3a–e, Exercise 8.3 #1–30, and Quantitative Reasoning Page 79).
       Extract the quadratic expression to be factorised into "exprInput" with mode: 0.
       Examples:
       - "Factorise 3x^2 - 10x + 3" -> mode: 0, exprInput: "3x^2 - 10x + 3"

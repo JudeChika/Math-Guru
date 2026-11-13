@@ -41,7 +41,7 @@ class DecisionMakingSolver {
 
   // --- INTERPRETATION ENGINE ---
   static StatisticsResult solve(List<FreqRow> data, String interpretation, String xHead, String fHead, {bool isRawMode = false, String? rawText}) {
-    if (data.isEmpty) return StatisticsResult(steps: [], finalAnswerLaTeX: "", valid: false, errorMessage: "No data provided.");
+    if (data.isEmpty) return StatisticsResult(steps: [], finalAnswerLaTeX: "", valid: false, errorMessage: "No models provided.");
 
     data.sort((a, b) => a.x.compareTo(b.x));
 
@@ -51,7 +51,7 @@ class DecisionMakingSolver {
     if (isRawMode && rawText != null) {
       steps.add(StatisticsStep(
           workingLaTeX: "\\text{Step 1: Organize Data}",
-          explanation: "First, we must convert the messy raw data into an organized Frequency Distribution Table.",
+          explanation: "First, we must convert the messy raw models into an organized Frequency Distribution Table.",
           showInWorkings: false
       ));
 
@@ -96,7 +96,7 @@ class DecisionMakingSolver {
     }
 
     else if (interpretation == 'Mean') {
-      steps.add(StatisticsStep(workingLaTeX: "\\text{Mean} = \\frac{\\sum fx}{\\sum f}", explanation: "The formula for the Mean of grouped data is the Total Sum (fx) divided by the Total Frequency (f)."));
+      steps.add(StatisticsStep(workingLaTeX: "\\text{Mean} = \\frac{\\sum fx}{\\sum f}", explanation: "The formula for the Mean of grouped models is the Total Sum (fx) divided by the Total Frequency (f)."));
 
       int sumF = 0;
       double sumFX = 0;
@@ -106,7 +106,7 @@ class DecisionMakingSolver {
       }
 
       steps.add(StatisticsStep(workingLaTeX: "\\sum f = $sumF", explanation: "Add all the numbers in the Frequency column together."));
-      steps.add(StatisticsStep(workingLaTeX: "\\sum fx = ${_format(sumFX)}", explanation: "Multiply each data value (x) by its frequency (f) to create an 'fx' column, then add them all together."));
+      steps.add(StatisticsStep(workingLaTeX: "\\sum fx = ${_format(sumFX)}", explanation: "Multiply each models value (x) by its frequency (f) to create an 'fx' column, then add them all together."));
 
       double mean = sumFX / sumF;
       steps.add(StatisticsStep(workingLaTeX: "\\text{Mean} = \\frac{${_format(sumFX)}}{$sumF}", explanation: "Divide the Total Sum by the Total Frequency."));

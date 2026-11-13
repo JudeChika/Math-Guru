@@ -129,7 +129,7 @@ class _CompassDirectionsScreenState extends State<CompassDirectionsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 24-1: Compass Directions.
+      You are a strict JSON models extractor for JSS2 Section 24-1: Compass Directions.
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Turning from a Starting Direction through a given angle left (anticlockwise) or right (clockwise) (Figure 24.1 & Exercise 24a #1).

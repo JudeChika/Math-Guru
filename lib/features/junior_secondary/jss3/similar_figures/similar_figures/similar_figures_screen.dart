@@ -254,7 +254,7 @@ class _SimilarFiguresScreenState extends State<SimilarFiguresScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 12 Subtopic 1: Similar Figures (Pages 115–117 & 122, Examples 1 & 2, Exercise 12.1 #1–4, Exercise 12.2 #2 & #3).
+      You are a strict JSON models extractor for JSS3 Chapter 12 Subtopic 1: Similar Figures (Pages 115–117 & 122, Examples 1 & 2, Exercise 12.1 #1–4, Exercise 12.2 #2 & #3).
       Classify the problem into one of 4 modes:
       - mode 0 (Rectangles / Picture Frame similarity test): input1 = L1, input2 = W1, input3 = L2, input4 = W2, input5 = borderWidth (if a border width all round is given, else "").
       - mode 1 (Polygons / Hexagons / Quadrilaterals): input1 = comma-separated sides of polygon 1, input2 = sides of polygon 2, input3 = angles of polygon 1, input4 = angles of polygon 2.

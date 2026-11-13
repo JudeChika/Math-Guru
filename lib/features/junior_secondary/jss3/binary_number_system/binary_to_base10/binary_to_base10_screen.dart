@@ -106,7 +106,7 @@ class _BinaryToBase10ScreenState extends State<BinaryToBase10Screen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 1: Conversion of Binary to Base 10.
+      You are a strict JSON models extractor for JSS3 Chapter 1: Conversion of Binary to Base 10.
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Converting a binary number (whole or bicimal like 1011 or 1101.110) to base 10 (Example 2 & Exercise 1.2 #1).

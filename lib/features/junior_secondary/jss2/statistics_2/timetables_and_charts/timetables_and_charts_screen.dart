@@ -299,7 +299,7 @@ class _TimetablesAndChartsScreenState extends State<TimetablesAndChartsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 18-2: Timetables and Charts.
+      You are a strict JSON models extractor for JSS2 Section 18-2: Timetables and Charts.
       Classify the user's question or image into one of 5 topicModes:
       - "topicMode": 0 for 12-hour (a.m./p.m.) and 24-hour clock conversions or time addition/subtraction.
       - "topicMode": 1 for Railway, Bus, or Flight Timetables (Arrival 'A' and Departure 'D' times across stations).

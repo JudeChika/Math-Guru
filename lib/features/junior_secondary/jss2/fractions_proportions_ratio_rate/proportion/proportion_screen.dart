@@ -80,7 +80,7 @@ class _ProportionScreenState extends State<ProportionScreen> {
 
       // Strict Prompt Engineering: Force AI to output a pure JSON object
       final prompt = '''
-      You are a strict math data extractor for JSS2 students. 
+      You are a strict math models extractor for JSS2 students. 
       Read the word problem and extract the unitary method variables.
       
       Word problem: "$inputText"
@@ -114,7 +114,7 @@ class _ProportionScreenState extends State<ProportionScreen> {
       if (rawOutput.endsWith('```')) rawOutput = rawOutput.substring(0, rawOutput.length - 3);
       rawOutput = rawOutput.trim();
 
-      if (rawOutput.isEmpty) throw Exception("AI failed to extract data.");
+      if (rawOutput.isEmpty) throw Exception("AI failed to extract models.");
 
       final parsedJson = json.decode(rawOutput);
 

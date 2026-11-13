@@ -120,7 +120,7 @@ class _DirectProportionScreenState extends State<DirectProportionScreen> {
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 3: Direct Proportion (Pages 31–37, Activity 3.1, Examples 1–3 & Exercise 3.1 #1–11).
+      You are a strict JSON models extractor for JSS3 Chapter 3: Direct Proportion (Pages 31–37, Activity 3.1, Examples 1–3 & Exercise 3.1 #1–11).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Unitary Method & Ratio Word Problems (Example 1: 4 people use 20 g, find for 7; Ex 3.1 #5: 12 nights cost 6720, find 7 nights; #6: 5 pies cost 730, find 9; #7: 6 chairs cost 16560, find 11; #8: 450 g cost 697.50, find 1 kg = 1000 g [set subMode=1]; #9: 11 pens cost 5197.50, find 6; #11: 5 miles = 8 km, find for 21 miles or 18 1/2 km). Put known x1 in "input1", known y1 in "input2", target x2 in "input3".

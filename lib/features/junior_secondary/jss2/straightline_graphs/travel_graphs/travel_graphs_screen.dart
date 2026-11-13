@@ -128,7 +128,7 @@ class _TravelGraphsScreenState extends State<TravelGraphsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are an expert Math teacher. Analyze the provided image (graph/table) or word problem and extract the kinematic journey data.
+      You are an expert Math teacher. Analyze the provided image (graph/table) or word problem and extract the kinematic journey models.
       
       RULES:
       1. Return ONLY a valid JSON object.
@@ -188,7 +188,7 @@ class _TravelGraphsScreenState extends State<TravelGraphsScreen> {
         }
         if (_journeysData.isEmpty) _initDefaultJourney();
 
-        _inputMode = 1; // Switch to Manual view to show parsed data
+        _inputMode = 1; // Switch to Manual view to show parsed models
       });
       _solveManual();
 

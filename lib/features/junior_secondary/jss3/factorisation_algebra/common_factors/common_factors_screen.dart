@@ -103,7 +103,7 @@ class _CommonFactorsScreenState extends State<CommonFactorsScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 7 Subtopic 3: Factorisation by Taking Out Common Factors (Pages 67–68 & 70–71, Examples 3 & 4, Exercise 7.3 #1–20, Quantitative Reasoning #1–9, and Revision Exercise 7 Parts B & C).
+      You are a strict JSON models extractor for JSS3 Chapter 7 Subtopic 3: Factorisation by Taking Out Common Factors (Pages 67–68 & 70–71, Examples 3 & 4, Exercise 7.3 #1–20, Quantitative Reasoning #1–9, and Revision Exercise 7 Parts B & C).
       Classify the question or image into one of 3 modes:
       - "mode":
         0 for Factorising a 2-term or 3-term algebraic expression completely (Examples 3 & 4, Ex 7.3 #1-20, Rev Ex 7 Part C: put the polynomial in "input1", e.g. "12x^3 - 15x^2 + 9x").

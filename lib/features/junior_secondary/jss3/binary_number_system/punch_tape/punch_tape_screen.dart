@@ -95,7 +95,7 @@ class _PunchTapeScreenState extends State<PunchTapeScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 1: The Punch Tape (Example 7 [Tables 1.7a-d] & Exercise 1.4 #1-5 [including Table 1.8]).
+      You are a strict JSON models extractor for JSS3 Chapter 1: The Punch Tape (Example 7 [Tables 1.7a-d] & Exercise 1.4 #1-5 [including Table 1.8]).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Putting a word or sentence on a punch card / punch tape (Example 7a-b: LAGOS, I AM A NIGERIAN; Exercise 1.4 #2a-f: I AM A SUPERSTAR, I HATE CORRUPTION, MY MOTHER IS BEAUTIFUL, NIGERIA IS A GREAT NATION, I LIKE MY MATHEMATICS TEACHER, MATHEMATICS IS AN INTERESTING SUBJECT).

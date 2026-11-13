@@ -370,7 +370,7 @@ class _SineCosineMeasurementScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 15 Subtopic 2: Sines and Cosines of Acute Angles by Drawing and Measurement (Pages 162–165, Examples 4 & 5, Exercise 15.2 #1–16).
+      You are a strict JSON models extractor for JSS3 Chapter 15 Subtopic 2: Sines and Cosines of Acute Angles by Drawing and Measurement (Pages 162–165, Examples 4 & 5, Exercise 15.2 #1–16).
       Classify the question into one of 3 modes:
       - mode 0 (Given an acute angle in degrees like 40°, 55°, 38°, or 64°, find sin θ and cos θ by drawing & measurement): input1 = angle in degrees, input2 = baseline (default "10"), input3 = scale (default "2.5").
       - mode 1 (Given the sine of an acute angle like 0.37, 0.50, 0.77, or 14/30, find the angle by drawing & measurement): input1 = sine value (e.g. "0.37" or "14/30"), input2 = "2.5".

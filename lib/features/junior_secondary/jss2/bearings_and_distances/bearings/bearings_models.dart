@@ -165,7 +165,7 @@ class BearingPreset {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and canvas data.
+/// Holds the complete evaluated results, workings, steps, and canvas models.
 class BearingsResult {
   final int mode;
   final int subMode;

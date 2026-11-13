@@ -95,7 +95,7 @@ class _NonRationalNumbersScreenState extends State<NonRationalNumbersScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 5 Subtopic 2: Non-Rational Numbers (Pages 54–57, Exercise 5.2 #1–20, Tables 5.1 & 5.2, Activity 5.2, and Revision Exercise 5 #3–9).
+      You are a strict JSON models extractor for JSS3 Chapter 5 Subtopic 2: Non-Rational Numbers (Pages 54–57, Exercise 5.2 #1–20, Tables 5.1 & 5.2, Activity 5.2, and Revision Exercise 5 #3–9).
       Classify the question or image into one of 4 modes:
       - "mode":
         0 for Identifying whether a number or expression is rational or non-rational (Exercise 5.2 #1–20 & Rev Ex 5 #3a–f: e.g. sqrt(20), 1/sqrt(2), 5/sqrt(25), 1/sin(29), sqrt(0.49), sqrt(1 7/9), 22/7, 1/pi, (sqrt(17))^2, 7^(-1/2), 1/3 + 3^(-2)). Put the expression in "input1".

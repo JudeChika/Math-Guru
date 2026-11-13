@@ -11,7 +11,7 @@ class WordProblemSolvingStep {
   });
 }
 
-/// Holds the translated data from English to Algebra.
+/// Holds the translated models from English to Algebra.
 class WordProblemTranslation {
   final String variable;
   final String declaration;

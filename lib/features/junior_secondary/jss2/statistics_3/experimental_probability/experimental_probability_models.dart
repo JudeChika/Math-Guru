@@ -37,7 +37,7 @@ class ParsedOutcomeItem {
   });
 }
 
-/// Holds the complete evaluated results, workings, steps, and visualizer data.
+/// Holds the complete evaluated results, workings, steps, and visualizer models.
 class ExperimentalProbResult {
   final String mode; // 'Table', 'RawData', or 'Direct'
   final String eventName;

@@ -26,7 +26,7 @@ class ConePiConfig {
   });
 }
 
-/// Holds the evaluated results, step-by-step workings, and custom canvas data for a Cone problem.
+/// Holds the evaluated results, step-by-step workings, and custom canvas models for a Cone problem.
 class ConeResult {
   final int mode; // 0: SA & Pythagoras, 1: Sector Net, 2: Volume & Mass, 3: Composite, 4: Comparison & Reverse
   final int subMode;

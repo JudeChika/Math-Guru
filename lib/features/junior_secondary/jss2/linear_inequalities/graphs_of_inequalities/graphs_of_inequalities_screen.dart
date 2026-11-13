@@ -116,7 +116,7 @@ class _GraphsOfInequalitiesScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 22-2: Graphs of Inequalities.
+      You are a strict JSON models extractor for JSS2 Section 22-2: Graphs of Inequalities.
       Classify the question or number line image into one of 4 modes:
       - "mode":
         0 for Sketching the Graph of a given inequality on a number line (e.g. x < 2, x >= -1, x <= 0, or reversed 3 1/2 <= x).

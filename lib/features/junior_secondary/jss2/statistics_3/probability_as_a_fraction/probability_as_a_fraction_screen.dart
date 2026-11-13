@@ -177,7 +177,7 @@ class _ProbabilityAsAFractionScreenState
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS2 Section 21-2: Probability as a Fraction.
+      You are a strict JSON models extractor for JSS2 Section 21-2: Probability as a Fraction.
       Analyze the provided word problem or textbook image and classify it into one of 3 universal modes:
 
       - "topicMode": 0 for Multi-Category Bags, Boxes, Surveys, or 2D Population/Traffic Tables (e.g., Red/White/Blue balls, Large/Small eggs, Coke/Fanta/Sprite, Mangoes, Village Population Table 21.7, Traffic Survey Table 21.9).

@@ -94,7 +94,7 @@ class _MonomialDenominatorsScreenState
       final model = GenerativeModel(model: 'gemini-3.5-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 9 Subtopic 2: Simple Equations with Monomial Denominators (Pages 83–84, Example 3a–d & Exercise 9.2 #1–20).
+      You are a strict JSON models extractor for JSS3 Chapter 9 Subtopic 2: Simple Equations with Monomial Denominators (Pages 83–84, Example 3a–d & Exercise 9.2 #1–20).
       Extract the equation into "lhsInput" with mode: 0 (e.g. "15/8z = 7/30", "7 - 3/2a = 1", "1/x - 7/9x = 1/9").
       Return ONLY valid JSON:
       {

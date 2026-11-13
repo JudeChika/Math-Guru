@@ -94,7 +94,7 @@ class _SubstitutionMethodScreenState extends State<SubstitutionMethodScreen> {
       final model = GenerativeModel(model: 'gemini-3.8-flash', apiKey: apiKey);
 
       final promptText = '''
-      You are a strict JSON data extractor for JSS3 Chapter 10 Subtopic 3: Substitution Method (Pages 94–97, Examples 3 & 4, Exercise 10.2 #1–20, and Page 101 Revision Exercise 10 Part A #1–10).
+      You are a strict JSON models extractor for JSS3 Chapter 10 Subtopic 3: Substitution Method (Pages 94–97, Examples 3 & 4, Exercise 10.2 #1–20, and Page 101 Revision Exercise 10 Part A #1–10).
       Extract the two simultaneous linear equations into "eq1Input" and "eq2Input".
       Return ONLY valid JSON:
       {
