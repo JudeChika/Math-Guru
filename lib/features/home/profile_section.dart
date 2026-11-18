@@ -1,11 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../controllers/auth_controller.dart';
+import '../../core/provider/settings_provider.dart';
+import '../../core/theme/app_themes.dart';
 import '../../models/user_account_model.dart';
 import '../auth/terms_and_conditions_screen.dart';
+import '../settings/settings_screen.dart';
 import '../subscription/subscription_paywall_screen.dart';
 import 'edit_profile_screen.dart';
 import 'home_page.dart';
@@ -189,6 +193,117 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
     }
   }
 
+  /// Interactive Appearance Card (System Default / Light Mode / Dark Mode)
+  Widget _buildAppearanceSelectorCard(bool isDark) {
+    final ThemeMode currentMode = ref.watch(themeModeProvider);
+    final Color cardBg = isDark ? AppThemes.darkCard : Colors.white;
+    final Color titleColor = isDark ? Colors.amberAccent : Colors.deepPurple;
+    final Color subColor = isDark ? Colors.white70 : Colors.grey.shade700;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 18),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.12)
+              : Colors.deepPurple.shade100,
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.dark_mode_outlined, color: titleColor, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                'Appearance & Dark Mode',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15.5,
+                  color: titleColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Automatically follows your phone\'s system setting or choose your preferred theme:',
+            style: TextStyle(fontSize: 12, color: subColor),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: CupertinoSlidingSegmentedControl<ThemeMode>(
+              groupValue: currentMode,
+              thumbColor: Colors.deepPurple,
+              backgroundColor: isDark
+                  ? AppThemes.darkBackground
+                  : Colors.deepPurple.shade50,
+              children: {
+                ThemeMode.system: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    '📱 System',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.5,
+                      color: currentMode == ThemeMode.system
+                          ? Colors.white
+                          : (isDark ? Colors.white70 : Colors.deepPurple),
+                    ),
+                  ),
+                ),
+                ThemeMode.light: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    '☀️ Light',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.5,
+                      color: currentMode == ThemeMode.light
+                          ? Colors.white
+                          : (isDark ? Colors.white70 : Colors.deepPurple),
+                    ),
+                  ),
+                ),
+                ThemeMode.dark: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    '🌙 Dark',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.5,
+                      color: currentMode == ThemeMode.dark
+                          ? Colors.white
+                          : (isDark ? Colors.white70 : Colors.deepPurple),
+                    ),
+                  ),
+                ),
+              },
+              onValueChanged: (ThemeMode? mode) {
+                if (mode != null) {
+                  ref.read(appSettingsProvider.notifier).setThemeMode(mode);
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSubscriptionBanner(UserAccountModel account) {
     final bool isPaidActive = account.subscriptionStatus == 'active' &&
         account.paidSubscriptionDaysRemaining > 0;
@@ -275,7 +390,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                 isPaidActive
                     ? 'Extend / Manage Subscription'
                     : 'Subscribe Now (₦1,500/mo • ₦12,000/yr)',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize:13),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber.shade400,
@@ -291,7 +406,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
     );
   }
 
-  Widget _buildAffiliateDashboardCard(UserAccountModel account) {
+  Widget _buildAffiliateDashboardCard(UserAccountModel account, bool isDark) {
     if (account.role == UserRole.student) return const SizedBox.shrink();
 
     final String code = account.promoCode ?? 'GENERATING...';
@@ -303,12 +418,17 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
       margin: const EdgeInsets.only(bottom: 18),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? AppThemes.darkCard : Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.deepPurple.shade200, width: 1.8),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.14)
+              : Colors.deepPurple.shade200,
+          width: 1.8,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.deepPurple.withValues(alpha: 0.08),
+            color: Colors.deepPurple.withValues(alpha: isDark ? 0.20 : 0.08),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -320,9 +440,13 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
           Row(
             children: [
               CircleAvatar(
-                backgroundColor: Colors.deepPurple.shade50,
-                child: const Icon(Icons.account_balance_wallet,
-                    color: Colors.deepPurple),
+                backgroundColor: isDark
+                    ? Colors.deepPurple.withValues(alpha: 0.25)
+                    : Colors.deepPurple.shade50,
+                child: Icon(
+                  Icons.account_balance_wallet,
+                  color: isDark ? Colors.amberAccent : Colors.deepPurple,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -331,17 +455,19 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                   children: [
                     Text(
                       '${account.role.displayLabel} Earnings & Promo Hub',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15.5,
-                        color: Colors.deepPurple,
+                        color: isDark ? Colors.amberAccent : Colors.deepPurple,
                       ),
                     ),
                     Text(
                       'Students get $cutPct% OFF • You earn $cutPct% on every subscription!',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.green.shade800,
+                        color: isDark
+                            ? Colors.greenAccent
+                            : Colors.green.shade800,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -356,9 +482,15 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
-              color: Colors.deepPurple.shade50,
+              color: isDark
+                  ? AppThemes.darkBackground
+                  : Colors.deepPurple.shade50,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.deepPurple.shade200),
+              border: Border.all(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.15)
+                    : Colors.deepPurple.shade200,
+              ),
             ),
             child: Row(
               children: [
@@ -366,22 +498,23 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'YOUR UNIQUE PROMO CODE:',
                         style: TextStyle(
                           fontSize: 10.5,
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple,
+                          color:
+                          isDark ? Colors.amberAccent : Colors.deepPurple,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         code,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.2,
-                          color: Colors.black87,
+                          color: isDark ? Colors.white : Colors.black87,
                         ),
                       ),
                     ],
@@ -398,7 +531,10 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.copy_rounded, color: Colors.deepPurple),
+                  icon: Icon(
+                    Icons.copy_rounded,
+                    color: isDark ? Colors.amberAccent : Colors.deepPurple,
+                  ),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
@@ -415,8 +551,8 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green.shade700,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8),
                   ),
                 ),
               ],
@@ -431,7 +567,8 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                 child: _buildMetricTile(
                   label: 'Available Balance',
                   value: _formatNaira(account.walletBalance),
-                  color: Colors.green.shade800,
+                  color: isDark ? Colors.greenAccent : Colors.green.shade800,
+                  isDark: isDark,
                 ),
               ),
               const SizedBox(width: 8),
@@ -439,7 +576,8 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                 child: _buildMetricTile(
                   label: 'Total Withdrawn',
                   value: _formatNaira(account.totalWithdrawn),
-                  color: Colors.deepPurple,
+                  color: isDark ? Colors.amberAccent : Colors.deepPurple,
+                  isDark: isDark,
                 ),
               ),
               const SizedBox(width: 8),
@@ -447,7 +585,8 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                 child: _buildMetricTile(
                   label: 'Subscribed Students',
                   value: '${account.activeSubscribedReferralsCount}',
-                  color: Colors.orange.shade900,
+                  color: isDark ? Colors.orangeAccent : Colors.orange.shade900,
+                  isDark: isDark,
                 ),
               ),
             ],
@@ -460,15 +599,20 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
             children: [
               Text(
                 'Payout Threshold (${_formatNaira(minThreshold)} min):',
-                style: const TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
               ),
               Text(
                 '${(progress * 100).toStringAsFixed(0)}%',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple.shade800,
+                  color: isDark
+                      ? Colors.amberAccent
+                      : Colors.deepPurple.shade800,
                 ),
               ),
             ],
@@ -479,7 +623,8 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 10,
-              backgroundColor: Colors.grey.shade200,
+              backgroundColor:
+              isDark ? Colors.white24 : Colors.grey.shade200,
               valueColor: AlwaysStoppedAnimation<Color>(
                 account.canRequestWithdrawal
                     ? Colors.green.shade700
@@ -493,9 +638,11 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.grey.shade50,
+              color: isDark ? AppThemes.darkBackground : Colors.grey.shade50,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(
+                color: isDark ? Colors.white24 : Colors.grey.shade300,
+              ),
             ),
             child: Row(
               children: [
@@ -514,8 +661,11 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                     account.accountNumber.length == 10
                         ? 'Payout Bank: ${account.bankName} • ${account.accountNumber} (${account.accountName})'
                         : 'No payout bank account linked yet. Tap "Edit Profile & Bank" below to link your account.',
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: isDark ? Colors.white70 : Colors.black87,
+                    ),
                   ),
                 ),
               ],
@@ -558,13 +708,14 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
     required String label,
     required String value,
     required Color color,
+    bool isDark = false,
   }) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withValues(alpha: 0.25)),
+        border: Border.all(color: color.withValues(alpha: 0.30)),
       ),
       child: Column(
         children: [
@@ -580,10 +731,10 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 10.5,
               fontWeight: FontWeight.w600,
-              color: Colors.black87,
+              color: isDark ? Colors.white70 : Colors.black87,
             ),
           ),
         ],
@@ -594,6 +745,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
   @override
   Widget build(BuildContext context) {
     final accountAsync = ref.watch(currentUserAccountProvider);
+    final bool isDark = AppThemes.isDark(context, ref);
 
     return accountAsync.when(
       loading: () => const Center(
@@ -617,7 +769,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
           child: Stack(
             children: [
               // BackgroundWaves placed inside the SingleChildScrollView so background & content scroll together!
-              const Positioned.fill(child: BackgroundWaves()),
+              Positioned.fill(child: BackgroundWaves(isDark: isDark)),
               Padding(
                 padding: EdgeInsets.fromLTRB(16.0, topInset + 12.0, 16.0, 16.0),
                 child: Column(
@@ -627,9 +779,13 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                     Container(
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDark ? AppThemes.darkCard : Colors.white,
                         borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: Colors.deepPurple.shade100),
+                        border: Border.all(
+                          color: isDark
+                              ? Colors.white.withValues(alpha: 0.12)
+                              : Colors.deepPurple.shade100,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -654,10 +810,12 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                               children: [
                                 Text(
                                   account.name,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.deepPurple,
+                                    color: isDark
+                                        ? Colors.white
+                                        : Colors.deepPurple,
                                   ),
                                 ),
                                 const SizedBox(height: 2),
@@ -665,7 +823,9 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                                   account.email,
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: Colors.grey.shade700,
+                                    color: isDark
+                                        ? Colors.white70
+                                        : Colors.grey.shade700,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -737,9 +897,11 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                                 ),
                               );
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.edit_outlined,
-                              color: Colors.deepPurple,
+                              color: isDark
+                                  ? Colors.amberAccent
+                                  : Colors.deepPurple,
                             ),
                           ),
                         ],
@@ -750,38 +912,98 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                     // Live Subscription Status Banner
                     _buildSubscriptionBanner(account),
 
+                    // Interactive Appearance (System / Light / Dark) Switcher Card
+                    _buildAppearanceSelectorCard(isDark),
+
                     // Properly Listed Personal, Academic & Account Details Card
-                    _buildProfileDetailsListCard(account),
+                    _buildProfileDetailsListCard(account, isDark),
 
                     // Teacher / School Affiliate Dashboard Card
-                    _buildAffiliateDashboardCard(account),
+                    _buildAffiliateDashboardCard(account, isDark),
 
                     // Profile Actions Menu
                     Card(
+                      color: isDark ? AppThemes.darkCard : Colors.white,
                       elevation: 0.6,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
-                        side: BorderSide(color: Colors.grey.shade200),
+                        side: BorderSide(
+                          color: isDark
+                              ? Colors.white.withValues(alpha: 0.12)
+                              : Colors.grey.shade200,
+                        ),
                       ),
                       child: Column(
                         children: [
                           ListTile(
-                            leading: const Icon(Icons.edit_note_rounded,
-                                color: Colors.deepPurple),
+                            leading: Icon(
+                              Icons.settings_suggest_rounded,
+                              color: isDark
+                                  ? Colors.amberAccent
+                                  : Colors.deepPurple,
+                            ),
+                            title: Text(
+                              'App Settings & Study Preferences',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize:15,
+                                color: isDark ? Colors.white :Colors.deepPurple,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'Formula size, study reminders, haptics & saved credentials',
+                              style: TextStyle(
+                                fontSize: 12.5,
+                                color: isDark
+                                    ? Colors.white70
+                                    : Colors.grey.shade700,
+                              ),
+                            ),
+                            trailing: Icon(
+                              Icons.chevron_right,
+                              color:
+                              isDark ? Colors.white70 : Colors.grey.shade600,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const SettingsScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          const Divider(height: 1),
+                          ListTile(
+                            leading: Icon(
+                              Icons.edit_note_rounded,
+                              color: isDark
+                                  ? Colors.amberAccent
+                                  : Colors.deepPurple,
+                            ),
                             title: Text(
                               account.role == UserRole.student
                                   ? 'Edit Student Profile & Class'
                                   : 'Edit Profile & Payout Bank Account',
-                              style:
-                              const TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize:15,
+                                color: isDark ? Colors.white :Colors.deepPurple,
+                              ),
                             ),
                             subtitle: Text(
                               account.schoolName.isNotEmpty
                                   ? 'School: ${account.schoolName}'
                                   : 'Update your personal details and school info',
-                              style: const TextStyle(fontSize: 12.5),
+                              style: TextStyle(
+                                fontSize: 12.5,
+                                color: isDark
+                                    ? Colors.white70
+                                    : Colors.grey.shade700,
+                              ),
                             ),
-                            trailing: const Icon(Icons.chevron_right),
+                            trailing: Icon(
+                              Icons.chevron_right,
+                              color:
+                              isDark ? Colors.white70 : Colors.grey.shade600,
+                            ),
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -792,17 +1014,33 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                           ),
                           const Divider(height: 1),
                           ListTile(
-                            leading: const Icon(Icons.policy_outlined,
-                                color: Colors.deepPurple),
-                            title: const Text(
+                            leading: Icon(
+                              Icons.policy_outlined,
+                              color: isDark
+                                  ? Colors.amberAccent
+                                  : Colors.deepPurple,
+                            ),
+                            title: Text(
                               'Terms & Conditions • Affiliate Policy',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize:15,
+                                color: isDark ? Colors.white :Colors.deepPurple,
+                              ),
                             ),
-                            subtitle: const Text(
+                            subtitle: Text(
                               'Read subscription rules, privacy & payout thresholds',
-                              style: TextStyle(fontSize: 12.5),
+                              style: TextStyle(
+                                fontSize: 12.5,
+                                color: isDark
+                                    ? Colors.white70
+                                    : Colors.grey.shade700,
+                              ),
                             ),
-                            trailing: const Icon(Icons.chevron_right),
+                            trailing: Icon(
+                              Icons.chevron_right,
+                              color:
+                              isDark ? Colors.white70 : Colors.grey.shade600,
+                            ),
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -823,9 +1061,14 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                                 color: Colors.deepOrange,
                               ),
                             ),
-                            subtitle: const Text(
+                            subtitle: Text(
                               'Your email & password stay remembered on this device for easy re-login',
-                              style: TextStyle(fontSize: 12),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isDark
+                                    ? Colors.white70
+                                    : Colors.grey.shade700,
+                              ),
                             ),
                             onTap: () async {
                               await ref
@@ -847,9 +1090,14 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                                 color: Colors.red,
                               ),
                             ),
-                            subtitle: const Text(
+                            subtitle: Text(
                               'Permanently delete account (does not reset free trial)',
-                              style: TextStyle(fontSize: 12),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isDark
+                                    ? Colors.white70
+                                    : Colors.grey.shade700,
+                              ),
                             ),
                             onTap: () => _confirmDeleteAccount(account),
                           ),
@@ -867,8 +1115,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
     );
   }
 
-  /// Displays all of the user's personal, school, subscription, and bank details in a structured list card.
-  Widget _buildProfileDetailsListCard(UserAccountModel account) {
+  Widget _buildProfileDetailsListCard(UserAccountModel account, bool isDark) {
     String formatDate(DateTime dt) {
       const List<String> months = [
         'Jan',
@@ -899,12 +1146,17 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
       margin: const EdgeInsets.only(bottom: 18),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? AppThemes.darkCard : Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.deepPurple.shade100, width: 1.5),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.12)
+              : Colors.deepPurple.shade100,
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -916,17 +1168,20 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.badge_outlined,
-                      color: Colors.deepPurple, size: 20),
-                  SizedBox(width: 8),
+                  Icon(
+                    Icons.badge_outlined,
+                    color: isDark ? Colors.amberAccent : Colors.deepPurple,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
                   Text(
                     'My Profile & Account Details',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.5,
-                      color: Colors.deepPurple,
+                      color: isDark ? Colors.amberAccent : Colors.deepPurple,
                     ),
                   ),
                 ],
@@ -945,7 +1200,8 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                 ),
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.deepPurple,
+                  foregroundColor:
+                  isDark ? Colors.amberAccent : Colors.deepPurple,
                   visualDensity: VisualDensity.compact,
                 ),
               ),
@@ -958,11 +1214,13 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                 ? 'Official School Name'
                 : 'Full Name',
             value: account.name.isNotEmpty ? account.name : 'Not set',
+            isDark: isDark,
           ),
           _buildDetailItemRow(
             icon: Icons.email_outlined,
             label: 'Email Address',
             value: account.email.isNotEmpty ? account.email : 'Not set',
+            isDark: isDark,
           ),
           _buildDetailItemRow(
             icon: Icons.phone_outlined,
@@ -971,17 +1229,20 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                 ? account.phoneNumber
                 : 'Tap Edit to add phone number',
             isMuted: account.phoneNumber.trim().isEmpty,
+            isDark: isDark,
           ),
           _buildDetailItemRow(
             icon: Icons.verified_user_outlined,
             label: 'Account Role',
             value: account.role.displayLabel,
+            isDark: isDark,
           ),
           if (account.role == UserRole.student)
             _buildDetailItemRow(
               icon: Icons.class_outlined,
               label: 'Class Level',
               value: account.classLevel,
+              isDark: isDark,
             ),
           if (account.role != UserRole.school)
             _buildDetailItemRow(
@@ -993,16 +1254,19 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                   ? account.schoolName
                   : 'Tap Edit to add school name',
               isMuted: account.schoolName.trim().isEmpty,
+              isDark: isDark,
             ),
           _buildDetailItemRow(
             icon: Icons.location_on_outlined,
             label: 'State of Residence',
             value: account.stateOfResidence,
+            isDark: isDark,
           ),
           _buildDetailItemRow(
             icon: Icons.card_membership_outlined,
             label: 'Subscription Status',
             value: planSummary,
+            isDark: isDark,
           ),
           if (account.appliedPromoCode != null &&
               account.appliedPromoCode!.trim().isNotEmpty)
@@ -1010,6 +1274,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
               icon: Icons.local_offer_outlined,
               label: 'Applied Promo Code',
               value: account.appliedPromoCode!,
+              isDark: isDark,
             ),
           if (account.role != UserRole.student) ...[
             _buildDetailItemRow(
@@ -1017,6 +1282,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
               label: 'Your Official Promo Code',
               value:
               '${account.promoCode ?? "Generating..."} (${account.role == UserRole.school ? "15%" : "10%"} Cut)',
+              isDark: isDark,
             ),
             _buildDetailItemRow(
               icon: Icons.account_balance_outlined,
@@ -1026,6 +1292,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                   : 'Not linked yet (Tap Edit to link NUBAN)',
               isMuted: account.accountNumber.trim().length != 10,
               isLast: true,
+              isDark: isDark,
             ),
           ],
         ],
@@ -1039,6 +1306,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
     required String value,
     bool isMuted = false,
     bool isLast = false,
+    bool isDark = false,
   }) {
     return Padding(
       padding: EdgeInsets.only(bottom: isLast ? 2.0 : 12.0),
@@ -1048,10 +1316,16 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
           Container(
             padding: const EdgeInsets.all(7),
             decoration: BoxDecoration(
-              color: Colors.deepPurple.shade50,
+              color: isDark
+                  ? Colors.deepPurple.withValues(alpha: 0.25)
+                  : Colors.deepPurple.shade50,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, size: 17, color: Colors.deepPurple),
+            child: Icon(
+              icon,
+              size: 17,
+              color: isDark ? Colors.amberAccent : Colors.deepPurple,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -1063,7 +1337,7 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                   style: TextStyle(
                     fontSize: 11.5,
                     fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade600,
+                    color: isDark ? Colors.white60 : Colors.grey.shade600,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -1073,7 +1347,9 @@ class _ProfileSectionState extends ConsumerState<ProfileSection> {
                     fontSize: 14,
                     fontWeight: isMuted ? FontWeight.normal : FontWeight.bold,
                     fontStyle: isMuted ? FontStyle.italic : FontStyle.normal,
-                    color: isMuted ? Colors.grey.shade500 : Colors.black87,
+                    color: isMuted
+                        ? (isDark ? Colors.white38 : Colors.grey.shade500)
+                        : (isDark ? Colors.white : Colors.black87),
                   ),
                 ),
               ],

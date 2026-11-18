@@ -262,8 +262,12 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
     );
   }
 
+  /// Uses a responsive `Wrap` instead of `Row` so the Currency chips never overflow horizontally on any screen width or font scale!
   Widget _buildCurrencySelector() {
-    return Row(
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 8.0,
+      runSpacing: 6.0,
       children: [
         const Text(
           "Currency:",
@@ -273,33 +277,29 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
             fontSize: 12.5,
           ),
         ),
-        const SizedBox(width: 10),
         for (final String c in ['₦', '£', '\$'])
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: ChoiceChip(
-              visualDensity: VisualDensity.compact,
-              label: Text(
-                c == '₦'
-                    ? '₦ (Naira)'
-                    : (c == '£' ? '£ (Pounds)' : '\$ (Dollars)'),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: _currency == c ? Colors.white : Colors.deepPurple,
-                ),
+          ChoiceChip(
+            visualDensity: VisualDensity.compact,
+            label: Text(
+              c == '₦'
+                  ? '₦ (Naira)'
+                  : (c == '£' ? '£ (Pounds)' : '\$ (Dollars)'),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+                color: _currency == c ? Colors.white : Colors.deepPurple,
               ),
-              selected: _currency == c,
-              selectedColor: Colors.deepPurple,
-              backgroundColor: Colors.white,
-              side: BorderSide(
-                color: _currency == c
-                    ? Colors.deepPurple
-                    : Colors.deepPurple.shade200,
-              ),
-              showCheckmark: false,
-              onSelected: (_) => setState(() => _currency = c),
             ),
+            selected: _currency == c,
+            selectedColor: Colors.deepPurple,
+            backgroundColor: Colors.white,
+            side: BorderSide(
+              color: _currency == c
+                  ? Colors.deepPurple
+                  : Colors.deepPurple.shade200,
+            ),
+            showCheckmark: false,
+            onSelected: (_) => setState(() => _currency = c),
           ),
       ],
     );
@@ -320,10 +320,8 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: ActionChip(
-                  avatar: const Icon(
-                      Icons.account_balance_wallet_outlined,
-                      size: 16,
-                      color: Colors.deepPurple),
+                  avatar: const Icon(Icons.account_balance_wallet_outlined,
+                      size: 16, color: Colors.deepPurple),
                   label: Text(
                     p.chipLabel,
                     style: const TextStyle(
@@ -397,9 +395,8 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
               selectedColor: Colors.deepPurple,
               backgroundColor: Colors.deepPurple.shade50,
               side: BorderSide(
-                color: isSelected
-                    ? Colors.deepPurple
-                    : Colors.deepPurple.shade200,
+                color:
+                isSelected ? Colors.deepPurple : Colors.deepPurple.shade200,
               ),
               showCheckmark: false,
               onSelected: (_) => setState(() {
@@ -598,8 +595,7 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
               hint: _subMode == 0 ? "e.g. 1888000" : "e.g. 15000",
             ),
           ] else ...[
-            _buildSectionTitle(
-                "2. Find Unknown Principal (P = 100I / RT):"),
+            _buildSectionTitle("2. Find Unknown Principal (P = 100I / RT):"),
             const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
@@ -958,7 +954,8 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
                   child: Row(
                     children: [
                       Expanded(
-                        flex: (cd.principalProportion * 100).round().clamp(20, 85),
+                        flex:
+                        (cd.principalProportion * 100).round().clamp(20, 85),
                         child: Container(
                           color: Colors.deepPurple.shade500,
                           alignment: Alignment.center,
@@ -973,7 +970,8 @@ class _SimpleInterestScreenState extends State<SimpleInterestScreen> {
                         ),
                       ),
                       Expanded(
-                        flex: (cd.interestProportion * 100).round().clamp(15, 80),
+                        flex:
+                        (cd.interestProportion * 100).round().clamp(15, 80),
                         child: Container(
                           color: Colors.green.shade700,
                           alignment: Alignment.center,

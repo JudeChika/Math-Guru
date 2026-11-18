@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../core/theme/app_themes.dart';
+import '../settings/settings_screen.dart';
 import 'junior_section.dart';
 import 'senior_section.dart';
 import 'profile_section.dart';
@@ -25,15 +28,16 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(homeTabIndexProvider);
     final bool isUnifiedScrollPage = currentIndex == 0 || currentIndex == 3;
+    final bool isDark = AppThemes.isDark(context, ref);
 
     return Stack(
       children: [
         // Only show fixed BackgroundWaves on tabs that don't have their own synchronized scrolling BackgroundWaves
         if (!isUnifiedScrollPage)
-          const Positioned.fill(child: BackgroundWaves()),
+          Positioned.fill(child: BackgroundWaves(isDark: isDark)),
         Scaffold(
           backgroundColor: isUnifiedScrollPage
-              ? const Color(0xFFFFFFFF)
+              ? (isDark ? AppThemes.darkBackground : const Color(0xFFFFFFFF))
               : Colors.transparent,
           extendBody: true,
           body: SafeArea(
@@ -42,6 +46,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           bottomNavigationBar: _ThemedNavBar(
             currentIndex: currentIndex,
+            isDark: isDark,
             onTap: (idx) => ref.read(homeTabIndexProvider.notifier).state = idx,
           ),
         ),
@@ -52,9 +57,14 @@ class HomeScreen extends ConsumerWidget {
 
 class _ThemedNavBar extends StatelessWidget {
   final int currentIndex;
+  final bool isDark;
   final ValueChanged<int> onTap;
 
-  const _ThemedNavBar({required this.currentIndex, required this.onTap});
+  const _ThemedNavBar({
+    required this.currentIndex,
+    required this.isDark,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +73,13 @@ class _ThemedNavBar extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(28),
         child: BottomNavigationBar(
-          backgroundColor: Colors.white.withValues(alpha: 0.98),
+          backgroundColor: isDark
+              ? AppThemes.darkCard.withValues(alpha: 0.98)
+              : Colors.white.withValues(alpha: 0.98),
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,
-          selectedItemColor: Colors.purple,
-          unselectedItemColor: Colors.grey[500],
+          selectedItemColor: isDark ? Colors.amberAccent : Colors.purple,
+          unselectedItemColor: isDark ? Colors.white60 : Colors.grey[500],
           currentIndex: currentIndex,
           onTap: onTap,
           items: const [
@@ -103,13 +115,14 @@ class _HomeSection extends ConsumerWidget {
     final user = FirebaseAuth.instance.currentUser;
     final uid = user?.uid;
     final double topInset = MediaQuery.of(context).padding.top;
+    final bool isDark = AppThemes.isDark(context, ref);
 
     return SingleChildScrollView(
       physics: const ClampingScrollPhysics(),
       child: Stack(
         children: [
           // BackgroundWaves now lives INSIDE the SingleChildScrollView so it scrolls simultaneously with the content!
-          const Positioned.fill(child: BackgroundWaves()),
+          Positioned.fill(child: BackgroundWaves(isDark: isDark)),
           Padding(
             padding: EdgeInsets.fromLTRB(24.0, topInset + 8.0, 24.0, 4.0),
             child: Column(
@@ -117,8 +130,11 @@ class _HomeSection extends ConsumerWidget {
               children: [
                 _HomeAppBar(
                   onSettingsTap: () {
-                    // Switch to Profile & Subscription Settings tab
-                    ref.read(homeTabIndexProvider.notifier).state = 3;
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const SettingsScreen(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 18),
@@ -257,7 +273,8 @@ class _HomeSection extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _CategoryCard(
                   icon: Icons.school_rounded,
-                  iconColor: Colors.purple,
+                  iconColor: isDark ? Colors.amberAccent : Colors.purple,
+                  isDark: isDark,
                   title: "Junior Secondary",
                   subtitle: "Mathematics topics (JSS 1 – JSS 3)",
                   onTap: () => ref.read(homeTabIndexProvider.notifier).state = 1,
@@ -265,7 +282,8 @@ class _HomeSection extends ConsumerWidget {
                 const SizedBox(height: 18),
                 _CategoryCard(
                   icon: Icons.school_rounded,
-                  iconColor: Colors.purple,
+                  iconColor: isDark ? Colors.amberAccent : Colors.purple,
+                  isDark: isDark,
                   title: "Senior Secondary",
                   subtitle: "Mathematics topics (SSS 1 – SSS 3)",
                   onTap: () => ref.read(homeTabIndexProvider.notifier).state = 2,
@@ -273,8 +291,14 @@ class _HomeSection extends ConsumerWidget {
                 const SizedBox(height: 48),
                 Center(
                   child: Image.asset(
-                    "assets/images/math_guru_logo.png",
+                    isDark
+                        ? "assets/images/Math Guru Logo_white.png"
+                        : "assets/images/math_guru_logo.png",
                     width: 180,
+                    errorBuilder: (_, __, ___) => Image.asset(
+                      "assets/images/math_guru_logo.png",
+                      width: 180,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 90),
@@ -305,10 +329,12 @@ class _HomeAppBar extends StatelessWidget {
           ),
         ),
         const Spacer(),
+        const FloatingThemeTogglePill(),
+        const SizedBox(width: 6),
         IconButton(
           icon: const Icon(Icons.settings_rounded,
               color: Colors.white, size: 28),
-          tooltip: 'Profile & Subscription Settings',
+          tooltip: 'Settings & Preferences',
           onPressed: onSettingsTap,
         ),
       ],
@@ -319,6 +345,7 @@ class _HomeAppBar extends StatelessWidget {
 class _CategoryCard extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
+  final bool isDark;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -326,6 +353,7 @@ class _CategoryCard extends StatelessWidget {
   const _CategoryCard({
     required this.icon,
     required this.iconColor,
+    this.isDark = false,
     required this.title,
     required this.subtitle,
     required this.onTap,
@@ -343,11 +371,14 @@ class _CategoryCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDark ? AppThemes.darkCard : Colors.white,
             borderRadius: BorderRadius.circular(22),
+            border: isDark
+                ? Border.all(color: Colors.white.withValues(alpha: 0.12))
+                : null,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.18),
+                color: Colors.black.withValues(alpha: isDark ? 0.30 : 0.18),
                 blurRadius: 12,
                 offset: const Offset(0, 5),
               )
@@ -358,7 +389,7 @@ class _CategoryCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: iconColor.withValues(alpha: 0.13),
+                  color: iconColor.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
                 padding: const EdgeInsets.all(16),
@@ -373,7 +404,7 @@ class _CategoryCard extends StatelessWidget {
                       title,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
+                        color: isDark ? Colors.white : Colors.deepPurple,
                         fontSize: 22,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -381,7 +412,7 @@ class _CategoryCard extends StatelessWidget {
                     Text(
                       subtitle,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.purple,
+                        color: isDark ? Colors.white70 : Colors.purple,
                         fontSize: 15,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -418,28 +449,40 @@ class CircleContainer extends StatelessWidget {
 
 // Background Layer
 class BackgroundWaves extends StatelessWidget {
-  const BackgroundWaves({super.key});
+  final bool isDark;
+  const BackgroundWaves({super.key, this.isDark = false});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(color: const Color(0xFFFFFFFF)), // base blue
+        Container(
+          color: isDark ? AppThemes.darkBackground : const Color(0xFFFFFFFF),
+        ),
 
-        const Positioned(
+        Positioned(
           top: -450,
           left: -330,
-          child: CircleContainer(color: Color(0xFFB5C8FF), size: 1000),
+          child: CircleContainer(
+            color: isDark ? const Color(0xFF1E2749) : const Color(0xFFB5C8FF),
+            size: 1000,
+          ),
         ),
-        const Positioned(
+        Positioned(
           top: -500,
           right: -200,
-          child: CircleContainer(color: Color(0xFF849DF9), size: 1000),
+          child: CircleContainer(
+            color: isDark ? const Color(0xFF281E54) : const Color(0xFF849DF9),
+            size: 1000,
+          ),
         ),
-        const Positioned(
+        Positioned(
           top: -500,
           left: -120,
-          child: CircleContainer(color: Color(0xFF3D79F4), size: 1000),
+          child: CircleContainer(
+            color: isDark ? const Color(0xFF39237A) : const Color(0xFF3D79F4),
+            size: 1000,
+          ),
         ),
       ],
     );

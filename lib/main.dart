@@ -38,13 +38,20 @@ class MathGuruApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+
     return MaterialApp.router(
       title: 'Math Guru',
       debugShowCheckedModeBanner: false,
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
       routerConfig: ref.watch(appRouterProvider),
+      builder: (context, child) {
+        return SmartDarkModeWrapper(
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

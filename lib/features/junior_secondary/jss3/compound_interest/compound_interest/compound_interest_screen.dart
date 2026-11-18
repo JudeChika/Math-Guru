@@ -261,8 +261,12 @@ class _CompoundInterestScreenState extends State<CompoundInterestScreen> {
     );
   }
 
+  /// Uses a responsive `Wrap` instead of `Row` so the Currency chips never overflow horizontally on any screen width or font scale!
   Widget _buildCurrencySelector() {
-    return Row(
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 8.0,
+      runSpacing: 6.0,
       children: [
         const Text(
           "Currency:",
@@ -272,33 +276,29 @@ class _CompoundInterestScreenState extends State<CompoundInterestScreen> {
             fontSize: 12.5,
           ),
         ),
-        const SizedBox(width: 10),
         for (final String c in ['₦', '£', '\$'])
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: ChoiceChip(
-              visualDensity: VisualDensity.compact,
-              label: Text(
-                c == '₦'
-                    ? '₦ (Naira)'
-                    : (c == '£' ? '£ (Pounds)' : '\$ (Dollars)'),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: _currency == c ? Colors.white : Colors.deepPurple,
-                ),
+          ChoiceChip(
+            visualDensity: VisualDensity.compact,
+            label: Text(
+              c == '₦'
+                  ? '₦ (Naira)'
+                  : (c == '£' ? '£ (Pounds)' : '\$ (Dollars)'),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+                color: _currency == c ? Colors.white : Colors.deepPurple,
               ),
-              selected: _currency == c,
-              selectedColor: Colors.deepPurple,
-              backgroundColor: Colors.white,
-              side: BorderSide(
-                color: _currency == c
-                    ? Colors.deepPurple
-                    : Colors.deepPurple.shade200,
-              ),
-              showCheckmark: false,
-              onSelected: (_) => setState(() => _currency = c),
             ),
+            selected: _currency == c,
+            selectedColor: Colors.deepPurple,
+            backgroundColor: Colors.white,
+            side: BorderSide(
+              color: _currency == c
+                  ? Colors.deepPurple
+                  : Colors.deepPurple.shade200,
+            ),
+            showCheckmark: false,
+            onSelected: (_) => setState(() => _currency = c),
           ),
       ],
     );
@@ -319,10 +319,8 @@ class _CompoundInterestScreenState extends State<CompoundInterestScreen> {
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: ActionChip(
-                  avatar: const Icon(
-                      Icons.trending_up,
-                      size: 16,
-                      color: Colors.deepPurple),
+                  avatar: const Icon(Icons.trending_up,
+                      size: 16, color: Colors.deepPurple),
                   label: Text(
                     p.chipLabel,
                     style: const TextStyle(
@@ -347,7 +345,8 @@ class _CompoundInterestScreenState extends State<CompoundInterestScreen> {
     const List<Map<String, dynamic>> modes = [
       {
         'idx': 0,
-        'label': 'Compound Interest & Amount — Method 1 & 2 (Ex 5–6 & Ex 4.2 #1–10)',
+        'label':
+        'Compound Interest & Amount — Method 1 & 2 (Ex 5–6 & Ex 4.2 #1–10)',
         'icon': Icons.trending_up,
       },
       {
@@ -357,7 +356,8 @@ class _CompoundInterestScreenState extends State<CompoundInterestScreen> {
       },
       {
         'idx': 2,
-        'label': 'Find Initial Sum of Money P Given Amount A (Exercise 4.2 #12a–c)',
+        'label':
+        'Find Initial Sum of Money P Given Amount A (Exercise 4.2 #12a–c)',
         'icon': Icons.find_replace,
       },
       {
@@ -396,9 +396,8 @@ class _CompoundInterestScreenState extends State<CompoundInterestScreen> {
               selectedColor: Colors.deepPurple,
               backgroundColor: Colors.deepPurple.shade50,
               side: BorderSide(
-                color: isSelected
-                    ? Colors.deepPurple
-                    : Colors.deepPurple.shade200,
+                color:
+                isSelected ? Colors.deepPurple : Colors.deepPurple.shade200,
               ),
               showCheckmark: false,
               onSelected: (_) => setState(() => _mode = idx),

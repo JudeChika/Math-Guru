@@ -30,6 +30,7 @@ import '../features/senior_secondary/sss2/sss2_topic_detail_screen.dart';
 import '../features/senior_secondary/sss2/sss2_topics_screen.dart';
 import '../features/senior_secondary/sss3/sss3_topic_detail_screen.dart';
 import '../features/senior_secondary/sss3/sss3_topics_screen.dart';
+import '../features/settings/settings_screen.dart';
 import '../features/subscription/subscription_paywall_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -92,6 +93,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/edit-profile',
         builder: (_, __) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (_, __) => const SettingsScreen(),
       ),
       GoRoute(
         path: '/',
