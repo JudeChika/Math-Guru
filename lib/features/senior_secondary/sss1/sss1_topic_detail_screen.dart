@@ -12,6 +12,12 @@ class Sss1TopicDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    if (subtopic == 'Conversion of Binary to Base 10') {
+      //return const BinaryToBase10Screen();
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('$topic - $subtopic'),
